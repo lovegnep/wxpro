@@ -1,0 +1,49 @@
+<!--home.wxml-->
+<view class="container">
+    <form bindsubmit="formSubmit" bindreset="formReset">
+
+      <view class="section">
+        <view class="section__title">industry</view>
+        <input name="industry" placeholder="please input here" />
+      </view>
+      <view class="section">
+        <view class="section__title">location</view>
+        <input name="location" placeholder="please input here" />
+      </view>
+      <view class="section">
+        <view class="section__title">groupname</view>
+        <input name="groupname" placeholder="please input here" />
+      </view>
+      <view class="section">
+        <view class="section__title">abstract</view>
+        <input name="abstract" placeholder="please input here" />
+      </view>
+      <view class="section">
+        <view class="section__title">grouptag</view>
+        <input name="grouptag" placeholder="please input here" />
+      </view>
+      <view class="section">
+        <view class="section__title">请上传群头像</view>
+        <input id="1" name="groupavatar" value="{{groupavatar}}" bindtap="handleImg" />
+        <image wx:if="{{groupavatar !== ''}}" src="{{groupavatar}}"></image>
+      </view>
+      <view class="section">
+        <view class="section__title">请上传群二维码</view>
+        <input id="2" name="groupQR" value="{{groupQR}}" bindtap="handleImg" />
+        <image wx:if="{{groupQR !== ''}}" src="{{groupQR}}"></image>
+      </view>
+      <view class="section">
+        <view class="section__title">请上传本人二维码</view>
+        <input id="3" name="masterQR" value="{{masterQR}}" bindtap="handleImg" />
+        <image wx:if="{{masterQR !== ''}}" src="{{masterQR}}"></image>
+      </view>
+      <view class="section">
+        <view class="section__title">本人微信号</view>
+        <input name="masterwx" placeholder="please input here" />
+      </view>
+      <view class="btn-area">
+        <button formType="submit">Submit</button>
+        <button formType="reset">Reset</button>
+      </view>
+    </form>
+</view>
