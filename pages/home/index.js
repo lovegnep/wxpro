@@ -11,9 +11,16 @@ Page({
         groupavatar:'',
         groupQR:'',
         masterQR:'',
-        location:[],
-        industry:[],
-        index:0
+        location:['全部'],
+        industry:['请选择'],
+        index:0,
+        region:['中国']
+    },
+    bindRegionChange: function (e) {
+        console.log('picker发送选择改变，携带值为', e.detail.value)
+        this.setData({
+            region: e.detail.value
+        })
     },
     bindPickerChange: function(e) {
         console.log('picker发送选择改变，携带值为', e.detail.value)
@@ -22,7 +29,17 @@ Page({
         })
     },
     formSubmit: function (e) {
-        console.log('form发生了submit事件，携带数据为：', e.detail.value)
+        console.log('form发生了submit事件，携带数据为：', e.detail.value);
+        let data = e.detail.value;
+        Api.uploadGroup(data).then(function(res){
+            let resdata = JSON.parse(res.data);
+            if(resdata.status === 1){
+                console.log("上传成功");
+            }
+            console.log("上传后的数据：", resdata.data);
+        }).catch(function(err){
+            console.log("上传失败");
+        })
     },
     formReset: function () {
         console.log('form发生了reset事件')
@@ -37,10 +54,10 @@ Page({
         let self = this;
         Api.getIndustry().then(function(types){
             if(types && types.data && types.data.length > 0){
-                let res = [];
+                let res = ['请选择'];
                 types.data.forEach(function(item){
                     res.push(item["name"]);
-                })
+                });
                 self.setData({industry:res});
                 console.log('getIndustry:success:',types);
             }
@@ -49,7 +66,8 @@ Page({
         });
         Api.getLocation(1).then(function(locations){
             if(locations && locations.data &&locations.data.length > 0){
-                self.setData({location:locations.data});
+                let res = ['全部',...locations.data];
+                self.setData({location:res});
                 console.log('getLocation:success:',locations);
             }
         }).catch(function(err){
@@ -66,16 +84,17 @@ Page({
                     filePath: tempFilePaths[0],
                     name: "imgFile",
                     success: function(res){
-                        let filename = res.data.filename;
+                        let data = JSON.parse(res.data);
+                        let filename = data.filename;
                         switch(type){
                             case '1':
-                                self.setData({groupavatar:Config.apihead+"/"+filename});
+                                self.setData({groupavatar:Config.apihead+filename});
                                 break;
                             case '2':
-                                self.setData({groupQR:Config.apihead+"/"+filename});
+                                self.setData({groupQR:Config.apihead+filename});
                                 break;
                             case '3':
-                                self.setData({masterQR:Config.apihead+"/"+filename});
+                                self.setData({masterQR:Config.apihead+filename});
                                 break;
                         }
                     }

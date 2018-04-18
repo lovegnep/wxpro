@@ -18,33 +18,55 @@ const formatNumber = n => {
 /**
  * 封封微信的的request
  */
-function request(url, data = {}, method = "GET") {
-    return new Promise(function (resolve, reject) {
-        wx.request({
-            url: url,
-            data: data,
-            method: method,
-            header: {
-                'Content-Type': 'application/json'
-                //'X-Nideshop-Token': wx.getStorageSync('token')
-            },
-            success: function (res) {
-                console.log("success");
-
-                if (res.statusCode == 200) {
-
+function request(url, data = {}, method = "GET", needlogin) {
+    if(needlogin){
+        let sessionkey = wx.getStorageSync('sessionkey');
+        if(!sessionkey){
+            console.log("request: sessionkey not exist. please login first.");
+            return null;
+        }else{
+            return new Promise(function (resolve, reject) {
+                wx.request({
+                    url: url,
+                    data: data,
+                    method: method,
+                    header: {
+                        'Content-Type': 'application/json',
+                        sessionkey:sessionkey
+                    },
+                    success: function (res) {
+                        console.log("success");
+                        resolve(res.data);
+                    },
+                    fail: function (err) {
+                        reject(err)
+                        console.log("failed")
+                    }
+                })
+            });
+        }
+    }else{
+        return new Promise(function (resolve, reject) {
+            wx.request({
+                url: url,
+                data: data,
+                method: method,
+                header: {
+                    'Content-Type': 'application/json'
+                    //'X-Nideshop-Token': wx.getStorageSync('token')
+                },
+                success: function (res) {
+                    console.log("success");
                     resolve(res.data);
-                } else {
-                    reject(res.errMsg);
+                },
+                fail: function (err) {
+                    reject(err)
+                    console.log("failed")
                 }
+            })
+        });
+    }
 
-            },
-            fail: function (err) {
-                reject(err)
-                console.log("failed")
-            }
-        })
-    });
 }
 
 /**

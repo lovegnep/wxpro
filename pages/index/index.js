@@ -34,6 +34,7 @@ Page({
                       Utils.request(ApiConfig.Login,{code:self.globalData.code,userInfo:res},"POST")
                       .then(function(backUserInfo){
                         self.globalData.backUserInfo = backUserInfo.userInfo;
+                          wx.setStorageSync('sessionkey',backUserInfo.sessionkey);
                         console.log('backUserInfo:',backUserInfo);
                       }).catch(function(err){
                           console.log('req ',ApiConfig.Login, "error:",err);

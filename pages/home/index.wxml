@@ -2,54 +2,54 @@
 <view class="container">
     <form bindsubmit="formSubmit" bindreset="formReset">
 
-      <view class="section">
-        <view class="section__title">industry</view>
-        <picker bindchange="bindPickerChange" value="{{index}}" range="{{industry}}">
+      <view class=" section flex-row" style="display: flex;flex-direction: row;">
+        <view class="section__title">行业</view>
+        <picker name="industry" bindchange="bindPickerChange" value="{{index}}" range="{{industry}}">
           <view class="picker">
-            当前选择：{{array[index]}}
+            {{industry[index]}}
           </view>
         </picker>
       </view>
-      <view class="section">
-        <view class="section__title">location</view>
-        <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
+      <view class=" section flex-row" style="display: flex;flex-direction: row;">
+        <view class="section__title">位置</view>
+        <picker name="location" mode="region" bindchange="bindRegionChange" value="{{location}}" custom-item="{{location[0]}}">
           <view class="picker">
-            当前选择：{{region[0]}}，{{region[1]}}，{{region[2]}}
+            {{region[0]}}{{region[1]}}{{region[2]}}
           </view>
         </picker>
       </view>
-      <view class="section">
-        <view class="section__title">groupname</view>
+      <view class=" section flex-row" style="display: flex;flex-direction: row;">
+        <view class="section__title">群名称</view>
         <input name="groupname" placeholder="please input here" />
       </view>
-      <view class="section">
-        <view class="section__title">abstract</view>
+      <view class=" section flex-row" style="display: flex;flex-direction: row;">
+        <view class="section__title">群简介</view>
         <input name="abstract" placeholder="please input here" />
       </view>
-      <view class="section">
-        <view class="section__title">grouptag</view>
+      <view class=" section flex-row" style="display: flex;flex-direction: row;">
+        <view class="section__title">群标签</view>
         <input name="grouptag" placeholder="please input here" />
       </view>
-      <view class="section">
+      <view class=" section flex-row" style="display: flex;flex-direction: column;">
         <view class="section__title">请上传群头像</view>
         <input id="1" name="groupavatar" value="{{groupavatar}}" bindtap="handleImg" />
         <image wx:if="{{groupavatar !== ''}}" src="{{groupavatar}}"></image>
       </view>
-      <view class="section">
+      <view class=" section flex-row" style="display: flex;flex-direction: column;">
         <view class="section__title">请上传群二维码</view>
         <input id="2" name="groupQR" value="{{groupQR}}" bindtap="handleImg" />
         <image wx:if="{{groupQR !== ''}}" src="{{groupQR}}"></image>
       </view>
-      <view class="section">
+      <view class=" section flex-row" style="display: flex;flex-direction: column;">
         <view class="section__title">请上传本人二维码</view>
         <input id="3" name="masterQR" value="{{masterQR}}" bindtap="handleImg" />
         <image wx:if="{{masterQR !== ''}}" src="{{masterQR}}"></image>
       </view>
-      <view class="section">
+      <view class=" section flex-row" style="display: flex;flex-direction: row;">
         <view class="section__title">本人微信号</view>
         <input name="masterwx" placeholder="please input here" />
       </view>
-      <view class="btn-area">
+      <view class=" section flex-row" style="display: flex;flex-direction: row;">
         <button formType="submit">Submit</button>
         <button formType="reset">Reset</button>
       </view>

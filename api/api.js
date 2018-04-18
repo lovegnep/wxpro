@@ -26,11 +26,16 @@ let getLocation = function(index,first){
 
 let getIndustry = function(){
     return Utils.request(Config.Types,{},"GET");
+};
+
+let uploadGroup = function(data){
+    return Utils.request(Config.UploadGroup,data,"POST",true);
 }
 
 module.exports = {
     getAllQRList:getAllQRList,
     getAllQRListOfUser:getAllQRListOfUser,
     getIndustry:getIndustry,
-    getLocation:getLocation
+    getLocation:getLocation,
+    uploadGroup:uploadGroup
 };
