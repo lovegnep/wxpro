@@ -3,6 +3,9 @@
 const app = getApp()
 const Api = require('../../api/api');
 const Config = require('../../config');
+const Utils = require('../../utils/util');
+const ApiConfig = require('../../api/config');
+
 Page({
     data: {
         motto: 'Hello World',
@@ -18,50 +21,31 @@ Page({
         })
     },
     onLoad: function () {
-        if (app.globalData.user) {
-            this.setData({
-                userInfo: app.globalData.user,
-                hasUserInfo: true
-            });
-            Api.getAllQRList(0,"-viewCount").then(function(res){
-                res.data.forEach(function(item){
-                    if(item.groupavatar){
-                        item.groupavatar = Config.apihead+'/'+item.groupavatar;
+        let self = this;
+        wx.login({
+            success: function(res) {
+              if (res.code) {
+                self.globalData.code = res.code;
+                wx.getUserInfo({
+                    withCredentials:true,
+                    success: function(res) {
+                      self.globalData.wxuserdata = res.userInfo;
+                      console.log('wxuserinfo success:',res);
+                      Utils.request(ApiConfig.Login,{code:self.globalData.code,userInfo:res},"POST")
+                      .then(function(backUserInfo){
+                        self.globalData.backUserInfo = backUserInfo.userInfo;
+                        console.log('backUserInfo:',backUserInfo);
+                      }).catch(function(err){
+                          console.log('req ',ApiConfig.Login, "error:",err);
+                      });
                     }
-                    if(item.groupQR){
-                        item.groupQR = Config.apihead+'/'+item.groupQR;
-                    }
-                    if(item.masterQR){
-                        item.masterQR = Config.apihead+'/'+item.masterQR;
-                    }
-                });
-                this.setData({
-                    QRList:res.data
-                }).catch(function(err){
-                    console.log(err);
-                });
-            })
-        } else if (this.data.canIUse) {
-            // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-            // 所以此处加入 callback 以防止这种情况
-            app.userInfoReadyCallback = res => {
-                this.setData({
-                    userInfo: res.userInfo,
-                    hasUserInfo: true
-                })
+                  })
+                
+              } else {
+                console.log('登录失败！' + res.errMsg)
+              }
             }
-        } else {
-            // 在没有 open-type=getUserInfo 版本的兼容处理
-            wx.getUserInfo({
-                success: res => {
-                    app.globalData.userInfo = res.userInfo
-                    this.setData({
-                        userInfo: res.userInfo,
-                        hasUserInfo: true
-                    })
-                }
-            })
-        }
+          });
     },
     getUserInfo: function (e) {
         console.log(e)
@@ -70,5 +54,10 @@ Page({
             userInfo: e.detail.userInfo,
             hasUserInfo: true
         })
+    },
+    globalData:{
+        code:-1,
+        wxuserdata:null,
+        backUserInfo:null
     }
 })

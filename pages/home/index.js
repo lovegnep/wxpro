@@ -3,13 +3,23 @@
 const app = getApp()
 const ApiConfig = require('../../api/config');
 const Config = require('../../config');
+const Api = require('../../api/api');
 
 Page({
     data: {
         qrlist: [],
         groupavatar:'',
         groupQR:'',
-        masterQR:''
+        masterQR:'',
+        location:[],
+        industry:[],
+        index:0
+    },
+    bindPickerChange: function(e) {
+        console.log('picker发送选择改变，携带值为', e.detail.value)
+        this.setData({
+          index: e.detail.value
+        })
     },
     formSubmit: function (e) {
         console.log('form发生了submit事件，携带数据为：', e.detail.value)
@@ -24,7 +34,27 @@ Page({
         })
     },
     onLoad: function () {
-
+        let self = this;
+        Api.getIndustry().then(function(types){
+            if(types && types.data && types.data.length > 0){
+                let res = [];
+                types.data.forEach(function(item){
+                    res.push(item["name"]);
+                })
+                self.setData({industry:res});
+                console.log('getIndustry:success:',types);
+            }
+        }).catch(function(err){
+            console.log('onLoad:getindustry err:',err);
+        });
+        Api.getLocation(1).then(function(locations){
+            if(locations && locations.data &&locations.data.length > 0){
+                self.setData({location:locations.data});
+                console.log('getLocation:success:',locations);
+            }
+        }).catch(function(err){
+            console.log('onLoad:getLocation err:',err);
+        });
     },
     uploadImg:function(type){
         let self = this;

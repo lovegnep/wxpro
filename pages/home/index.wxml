@@ -4,11 +4,19 @@
 
       <view class="section">
         <view class="section__title">industry</view>
-        <input name="industry" placeholder="please input here" />
+        <picker bindchange="bindPickerChange" value="{{index}}" range="{{industry}}">
+          <view class="picker">
+            当前选择：{{array[index]}}
+          </view>
+        </picker>
       </view>
       <view class="section">
         <view class="section__title">location</view>
-        <input name="location" placeholder="please input here" />
+        <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
+          <view class="picker">
+            当前选择：{{region[0]}}，{{region[1]}}，{{region[2]}}
+          </view>
+        </picker>
       </view>
       <view class="section">
         <view class="section__title">groupname</view>

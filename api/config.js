@@ -9,5 +9,6 @@ module.exports = {
     UploadImg: Config.apihead + "/api/uploadImg",
     UploadGroup: Config.apihead + "/api/uploadGroup",
     Login: Config.apihead + "/api/auth",
-    Province: Config.apihead + "/api/province"
+    Province: Config.apihead + "/api/province",
+    Types:Config.apihead + "/api/getTypes"
 };
