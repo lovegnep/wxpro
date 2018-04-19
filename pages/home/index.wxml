@@ -12,7 +12,7 @@
       </view>
       <view class=" section flex-row" style="display: flex;flex-direction: row;">
         <view class="section__title">位置</view>
-        <picker name="location" mode="region" bindchange="bindRegionChange" value="{{location}}" custom-item="{{location[0]}}">
+        <picker name="location" mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{location[0]}}">
           <view class="picker">
             {{region[0]}}{{region[1]}}{{region[2]}}
           </view>
@@ -20,38 +20,38 @@
       </view>
       <view class=" section flex-row" style="display: flex;flex-direction: row;">
         <view class="section__title">群名称</view>
-        <input name="groupname" placeholder="please input here" />
+        <input name="groupname" placeholder="请输入" />
       </view>
       <view class=" section flex-row" style="display: flex;flex-direction: row;">
         <view class="section__title">群简介</view>
-        <input name="abstract" placeholder="please input here" />
+        <input name="abstract" placeholder="请输入" />
       </view>
       <view class=" section flex-row" style="display: flex;flex-direction: row;">
         <view class="section__title">群标签</view>
-        <input name="grouptag" placeholder="please input here" />
+        <input name="grouptag" placeholder="请输入" />
       </view>
-      <view class=" section flex-row" style="display: flex;flex-direction: column;">
-        <view class="section__title">请上传群头像</view>
-        <input id="1" name="groupavatar" value="{{groupavatar}}" bindtap="handleImg" />
-        <image wx:if="{{groupavatar !== ''}}" src="{{groupavatar}}"></image>
+      <view class=" section flex-row" style="display: flex;flex-direction: row;">
+        <view class="section__qr">请上传群头像</view>
+        <input hidden="true" name="groupavatar" value="{{groupavatar}}" />
+        <image id="1" wx:if="{{groupavatar !== ''}}" src="{{groupavatar}}" bindtap="handleImg"></image>
       </view>
-      <view class=" section flex-row" style="display: flex;flex-direction: column;">
-        <view class="section__title">请上传群二维码</view>
-        <input id="2" name="groupQR" value="{{groupQR}}" bindtap="handleImg" />
-        <image wx:if="{{groupQR !== ''}}" src="{{groupQR}}"></image>
+      <view class=" section flex-row" style="display: flex;flex-direction: row;">
+        <view class="section__qr">请上传群二维码</view>
+        <input hidden="true" name="groupQR" value="{{groupQR}}" />
+        <image id="2" wx:if="{{groupQR !== ''}}" src="{{groupQR}}" bindtap="handleImg"></image>
       </view>
-      <view class=" section flex-row" style="display: flex;flex-direction: column;">
-        <view class="section__title">请上传本人二维码</view>
-        <input id="3" name="masterQR" value="{{masterQR}}" bindtap="handleImg" />
-        <image wx:if="{{masterQR !== ''}}" src="{{masterQR}}"></image>
+      <view class=" section flex-row" style="display: flex;flex-direction: row;">
+        <view class="section__qr">请上传本人二维码</view>
+        <input hidden="true" name="masterQR" value="{{masterQR}}" />
+        <image id="3" wx:if="{{masterQR !== ''}}" src="{{masterQR}}" bindtap="handleImg"></image>
       </view>
       <view class=" section flex-row" style="display: flex;flex-direction: row;">
         <view class="section__title">本人微信号</view>
-        <input name="masterwx" placeholder="please input here" />
+        <input name="masterwx" placeholder="请输入" />
       </view>
-      <view class=" section flex-row" style="display: flex;flex-direction: row;">
-        <button formType="submit">Submit</button>
-        <button formType="reset">Reset</button>
+      <view class="flex-row" style="display: flex;flex-direction: row;">
+        <button formType="submit">上传</button>
+        <button formType="reset">重置</button>
       </view>
     </form>
 </view>

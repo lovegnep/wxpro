@@ -12,7 +12,8 @@ Page({
         userInfo: {},
         hasUserInfo: false,
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
-        QRList:[]
+        QRList:[],
+        Swiper_QRList:[]
     },
     //事件处理函数
     bindViewTap: function () {
@@ -36,6 +37,26 @@ Page({
                         self.globalData.backUserInfo = backUserInfo.userInfo;
                           wx.setStorageSync('sessionkey',backUserInfo.sessionkey);
                         console.log('backUserInfo:',backUserInfo);
+                        Api.getAllQRList(0,"-viewCount",5).then(function(res){
+                            if(res.status === 1){
+                                console.log('请求二维码成功');
+                                self.setData({Swiper_QRList:res.data});
+                            }else{
+                                console.log('请求二维码失败');
+                            }
+                        }).catch(function(err){
+                            console.log('ajax请求失败');
+                        });
+                          Api.getAllQRList(0,"-createTime").then(function(res){
+                              if(res.status === 1){
+                                  console.log('请求二维码成功');
+                                  self.setData({QRList:res.data});
+                              }else{
+                                  console.log('请求二维码失败');
+                              }
+                          }).catch(function(err){
+                              console.log('ajax请求失败');
+                          });
                       }).catch(function(err){
                           console.log('req ',ApiConfig.Login, "error:",err);
                       });

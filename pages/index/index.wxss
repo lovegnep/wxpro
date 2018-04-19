@@ -1,21 +1,14 @@
 /**index.wxss**/
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: left;
+.section{
+    padding:10rpx;
 }
-
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
+.section image{
+    width:150rpx;
+    height:150rpx;
 }
-
-.userinfo-nickname {
-  color: #aaa;
+.container{
+flex-wrap:wrap
 }
-
-.usermotto {
-  margin-top: 200px;
+.slide-image{
+width:100%;
 }

@@ -1,32 +1,19 @@
 <!--index.wxml-->
+<swiper indicator-dots="{{true}}"
+        autoplay="{{true}}" interval="{{5000}}" duration="{{1000}}">
+      <block wx:for="{{Swiper_QRList}}">
+        <swiper-item>
+           <navigator url="{{item.link}}" hover-class="navigator-hover">
+            <image src="{{item.groupavatar}}" class="slide-image"/>
+           </navigator>
+        </swiper-item>
+      </block>
+</swiper>
 <view class="container">
-        <view wx:for="{{QRList}}" >
-            <view>{{item.industry}}</view>
-            <view>{{item.location}}</view>
-            <view>{{item.groupname}}</view>
-            <view>{{item.abstract}}</view>
-            <view>{{item.masterwx}}</view>
-            <view>
-                <image src="{{item.groupavatarl}}"></image>
-            </view>
-            <view>
-                <image src="{{item.groupQR}}"></image>
-            </view>
-            <view>
-                <image src="{{item.masterQR}}"></image>
-            </view>
+    <view class="section" wx:for="{{QRList}}" >
+        <view class="avatarimg">
+            <image  src="{{item.groupavatar}}"></image>
         </view>
-  <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
-  </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view>
-    <view class="usermotto">
-      <navigator url="/pages/home/index?title=navigate" hover-class="navigator-hover">跳转到新页面</navigator>
+        <view>{{item.groupname}}</view>
     </view>
 </view>

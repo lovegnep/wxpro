@@ -4,8 +4,9 @@
 const Config = require('./config');
 const Utils = require('../utils/util');
 
-let getAllQRList = function(skip,sorttype){
-    return Utils.request(Config.AllQRList,{skip:skip,sorttype:sorttype},"GET");
+let getAllQRList = function(skip,sorttype,limit){
+    limit = limit || 0;
+    return Utils.request(Config.AllQRList,{skip:skip,sorttype:sorttype,limit:limit},"GET");
 };
 
 let getAllQRListOfUser = function(){

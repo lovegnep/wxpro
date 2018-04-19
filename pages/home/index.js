@@ -8,9 +8,9 @@ const Api = require('../../api/api');
 Page({
     data: {
         qrlist: [],
-        groupavatar:'',
-        groupQR:'',
-        masterQR:'',
+        groupavatar:'/icon/avatar.png',
+        groupQR:'/icon/qr.png',
+        masterQR:'/icon/qr.png',
         location:['全部'],
         industry:['请选择'],
         index:0,
@@ -31,18 +31,46 @@ Page({
     formSubmit: function (e) {
         console.log('form发生了submit事件，携带数据为：', e.detail.value);
         let data = e.detail.value;
+        data.location = data.location.join(',');
+        console.log("location:",data.location);
+        if(!data.groupname || data.groupname === '' || data.groupname.length < 2){
+            return wx.showToast({
+                title: 'groupname非法',
+                icon: 'fail',
+            });
+        }
+        if(!data.groupavatar || data.groupavatar === '' || data.groupavatar.length < 10){
+            return wx.showToast({
+                title: 'groupavatar非法',
+                icon: 'fail',
+            });
+        }
         Api.uploadGroup(data).then(function(res){
-            let resdata = JSON.parse(res.data);
+            let resdata = res;
             if(resdata.status === 1){
                 console.log("上传成功");
             }
             console.log("上传后的数据：", resdata.data);
+            wx.showToast({
+                title: '上传成功',
+                icon: 'success',
+            });
         }).catch(function(err){
             console.log("上传失败");
         })
     },
     formReset: function () {
-        console.log('form发生了reset事件')
+        console.log('form发生了reset事件');
+        this.setData({
+            qrlist: [],
+            groupavatar:'/icon/avatar.png',
+            groupQR:'/icon/qr.png',
+            masterQR:'/icon/qr.png',
+            location:['全部'],
+            industry:['请选择'],
+            index:0,
+            region:['中国']
+        });
     },
     //事件处理函数
     bindViewTap: function () {
