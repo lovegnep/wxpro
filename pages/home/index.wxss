@@ -7,6 +7,13 @@
     border-bottom:1rpx solid;
     margin-bottom:12px;
 }
+.sectionqr{
+    padding:10rpx;
+    border-bottom:1rpx solid;
+    margin-bottom:12px;
+display: flex;
+    align-items: center;
+}
 .picker{
     border: 1rpx solid;
     min-width:10rpx;
@@ -22,5 +29,4 @@ padding-right:30rpx;
 }
 .section__qr{
 padding-right:30rpx;
-padding-top:35rpx;
 }

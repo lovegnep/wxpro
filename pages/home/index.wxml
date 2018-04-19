@@ -1,6 +1,6 @@
 <!--home.wxml-->
 <view class="container">
-    <form bindsubmit="formSubmit" bindreset="formReset">
+    <form bindsubmit="formSubmit" bindreset="formReset" style="width:100%">
 
       <view class=" section flex-row" style="display: flex;flex-direction: row;">
         <view class="section__title">行业</view>
@@ -30,17 +30,17 @@
         <view class="section__title">群标签</view>
         <input name="grouptag" placeholder="请输入" />
       </view>
-      <view class=" section flex-row" style="display: flex;flex-direction: row;">
+      <view class=" sectionqr flex-row" style="display: flex;flex-direction: row;">
         <view class="section__qr">请上传群头像</view>
         <input hidden="true" name="groupavatar" value="{{groupavatar}}" />
         <image id="1" wx:if="{{groupavatar !== ''}}" src="{{groupavatar}}" bindtap="handleImg"></image>
       </view>
-      <view class=" section flex-row" style="display: flex;flex-direction: row;">
+      <view class=" sectionqr flex-row" style="display: flex;flex-direction: row;">
         <view class="section__qr">请上传群二维码</view>
         <input hidden="true" name="groupQR" value="{{groupQR}}" />
         <image id="2" wx:if="{{groupQR !== ''}}" src="{{groupQR}}" bindtap="handleImg"></image>
       </view>
-      <view class=" section flex-row" style="display: flex;flex-direction: row;">
+      <view class=" sectionqr flex-row" style="display: flex;flex-direction: row;">
         <view class="section__qr">请上传本人二维码</view>
         <input hidden="true" name="masterQR" value="{{masterQR}}" />
         <image id="3" wx:if="{{masterQR !== ''}}" src="{{masterQR}}" bindtap="handleImg"></image>
