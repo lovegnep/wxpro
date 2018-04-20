@@ -21,6 +21,19 @@ Page({
             url: '../logs/logs'
         })
     },
+    updateGlobal:function(qrlist){
+        let qrmap = app.globalData.QRList;
+        qrlist.forEach(function(qr){
+            console.log("type of _id:",typeof qr._id);
+            qrmap.set(qr._id, qr);
+        });
+    },
+    updateGlobalUser:function(guserinfo){
+        if(guserinfo){
+            app.globalData.user = guserinfo;
+        }
+
+    },
     onLoad: function () {
         let self = this;
         wx.login({
@@ -34,12 +47,17 @@ Page({
                       console.log('wxuserinfo success:',res);
                       Utils.request(ApiConfig.Login,{code:self.globalData.code,userInfo:res},"POST")
                       .then(function(backUserInfo){
+                          self.updateGlobalUser(backUserInfo);
                         self.globalData.backUserInfo = backUserInfo.userInfo;
                           wx.setStorageSync('sessionkey',backUserInfo.sessionkey);
                         console.log('backUserInfo:',backUserInfo);
                         Api.getAllQRList(0,"-viewCount",5).then(function(res){
                             if(res.status === 1){
                                 console.log('请求二维码成功');
+                                res.data.forEach(function(item){
+                                    item.link = '/pages/qr/index?_id='+item._id;
+                                })
+                                self.updateGlobal(res.data);
                                 self.setData({Swiper_QRList:res.data});
                             }else{
                                 console.log('请求二维码失败');
@@ -50,6 +68,10 @@ Page({
                           Api.getAllQRList(0,"-createTime").then(function(res){
                               if(res.status === 1){
                                   console.log('请求二维码成功');
+                                  res.data.forEach(function(item){
+                                      item.link = '/pages/qr/index?_id='+item._id;
+                                  })
+                                  self.updateGlobal(res.data);
                                   self.setData({QRList:res.data});
                               }else{
                                   console.log('请求二维码失败');

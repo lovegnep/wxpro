@@ -12,7 +12,9 @@
 <view class="container">
     <view class="section" wx:for="{{QRList}}" >
         <view class="avatarimg">
-            <image  src="{{item.groupavatar}}"></image>
+            <navigator url="{{item.link}}" hover-class="navigator-hover">
+                <image  src="{{item.groupavatar}}"></image>
+            </navigator>
         </view>
         <view>{{item.groupname}}</view>
     </view>

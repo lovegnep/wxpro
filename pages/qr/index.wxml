@@ -1,0 +1,56 @@
+<!--home.wxml-->
+<view class="container">
+    <view class="qrinfo">
+        <image src="{{qr.groupQR}}"></image>
+        <view class="section">
+            <view class="item_title">名称</view>
+            <view>{{qr.groupname}}</view>
+        </view>
+        <view class="section">
+            <view class="item_title">行业</view>
+            <view>{{qr.industry}}</view>
+        </view>
+        <view class="section">
+            <view class="item_title">位置</view>
+            <view>{{qr.location}}</view>
+        </view>
+        <view class="section">
+            <view class="item_title">简介</view>
+            <view>{{qr.groupname}}</view>
+        </view>
+        <view class="qruserinfo">
+            <view>上传者信息</view>
+            <view class="section">
+                <view class="item_title">微信号</view>
+                <view>{{qr.masterwx}}</view>
+            </view>
+            <view class="section">
+                <view class="item_title">二维码</view>
+                <view>{{qr.master}}</view>
+            </view>
+        </view>
+    </view>
+    <view class="underbar">
+        <view id="1" class="underbar_item section upclass" bindtap="handletap">
+            <image src="{{isup ? '/icon/qrup_select.png' : '/icon/qrup.png'}}"></image>
+            {{isup ? "已推荐 "+qr.ups.length : "推荐"}}
+        </view>
+        <view id="2" class="underbar_item downclass"  bindtap="handletap">
+            <image src="{{isdown ? '/icon/qrdown_select.png' : '/icon/qrdown.png'}}"></image>
+        </view>
+        <view id="3" class="underbar_item collect"  bindtap="handletap">
+            <image src="{{iscollect ? '/icon/qrcollect_select.png' : '/icon/qrcollect.png'}}"></image>
+            {{iscollect ? "已收藏" : "收藏"}}
+        </view>
+        <view class="underbar_item comment">
+            <image src="/icon/qrcomment.png"></image>
+            {{qr.commentnum}}
+        </view>
+    </view>
+    <view wx:if="{{replystatus}}" class="doreply">
+        <view>填写评论</view>
+        <view>
+            <textarea placeholder="请输入"/>
+        </view>
+    </view>
+</view>

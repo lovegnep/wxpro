@@ -31,12 +31,61 @@ let getIndustry = function(){
 
 let uploadGroup = function(data){
     return Utils.request(Config.UploadGroup,data,"POST",true);
-}
+};
 
+let upComment = function(data){
+    return Utils.request(Config.UpComment,data,"POST",true);
+};
+let cUpComment = function(data){
+    return Utils.request(Config.CUpComment,data,"POST",true);
+};
+let downComment = function(data){
+    return Utils.request(Config.DownComment,data,"POST",true);
+};
+let cDownComment = function(data){
+    return Utils.request(Config.CDownComment,data,"POST",true);
+};
+
+let upQR = function(data){
+    return Utils.request(Config.UpQR,data,"POST",true);
+};
+let cUpQR = function(data){
+    return Utils.request(Config.CUpQR,data,"POST",true);
+};
+let downQR = function(data){
+    return Utils.request(Config.DownQR,data,"POST",true);
+};
+let cDownQR = function(data){
+    return Utils.request(Config.CDownQR,data,"POST",true);
+};
+let collectQR = function(data){
+    return Utils.request(Config.CollectQR,data,"POST",true);
+};
+let cCollectQR = function(data){
+    return Utils.request(Config.CCollectQR,data,"POST",true);
+};
+
+let getQRCommentNum = function(data){
+    return Utils.request(Config.GetQRCommentNum,data,"POST",true);
+}
 module.exports = {
     getAllQRList:getAllQRList,
     getAllQRListOfUser:getAllQRListOfUser,
     getIndustry:getIndustry,
     getLocation:getLocation,
-    uploadGroup:uploadGroup
+    uploadGroup:uploadGroup,
+
+    upComment:upComment,
+    cUpComment:cUpComment,
+    downComment:downComment,
+    cDownComment:cDownComment,
+
+    upQR:upQR,
+    cUpQR:cUpQR,
+    downQR:downQR,
+    cDownQR:cDownQR,
+    collectQR:collectQR,
+    cCollectQR:cCollectQR,
+
+    getQRCommentNum:getQRCommentNum,
 };
