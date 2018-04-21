@@ -30,7 +30,7 @@ Page({
     },
     updateGlobalUser:function(guserinfo){
         if(guserinfo){
-            app.globalData.user = guserinfo;
+            app.globalData.user = guserinfo.userInfo;
         }
 
     },

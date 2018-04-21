@@ -1,36 +1,43 @@
 <!--home.wxml-->
 <view class="container">
-    <view class="qrinfo">
-        <image src="{{qr.groupQR}}"></image>
-        <view class="section">
-            <view class="item_title">名称</view>
-            <view>{{qr.groupname}}</view>
+    <view class="qrinfo" bindtap="handletapinfo">
+        <view class="groupnq">
+            <view class="groupname">{{qr.groupname}}</view>
+            <image src="{{qr.groupQR}}" class="groupqr" mode="widthFix"></image>
         </view>
-        <view class="section">
-            <view class="item_title">行业</view>
-            <view>{{qr.industry}}</view>
-        </view>
-        <view class="section">
-            <view class="item_title">位置</view>
-            <view>{{qr.location}}</view>
-        </view>
-        <view class="section">
-            <view class="item_title">简介</view>
-            <view>{{qr.groupname}}</view>
-        </view>
-        <view class="qruserinfo">
-            <view>上传者信息</view>
-            <view class="section">
-                <view class="item_title">微信号</view>
-                <view>{{qr.masterwx}}</view>
+        <view class="groupqrinfo">
+            <view class="groupqq">
+                <view class="section">
+                    <image src="/icon/industry.png" class="groupinfoimg"></image>
+                    <view class="item_title">行业</view>
+                    <view>{{qr.industry}}</view>
+                </view>
+                <view class="section">
+                    <image src="/icon/status.png" class="groupinfoimg"></image>
+                    <view class="item_title">状态</view>
+                    <view>{{qr.groupname}}</view>
+                </view>
             </view>
             <view class="section">
-                <view class="item_title">二维码</view>
-                <view>{{qr.master}}</view>
+                <image src="/icon/location.png" class="groupinfoimg"></image>
+                <view class="item_title">位置</view>
+                <view>{{qr.location}}</view>
+            </view>
+            <view class="section">
+                <image src="/icon/tag.png" class="groupinfoimg"></image>
+                <view class="item_title">标签</view>
+                <view>{{qr.grouptag}}</view>
             </view>
         </view>
     </view>
-    <view class="underbar">
+    <view class="abstractbut" bindtap="tapabstract">简介</view>
+    <view wx:if="{{abstractstatus}}" class="abstractwrap">
+        <view class="abstract">
+            <image class="close" src="/icon/close.png" bindtap="closeabstract"/>
+            {{qr.abstract}}
+        </view>
+    </view>
+    <view wx:if="{{underbarstatus}}" class="underbar">
         <view id="1" class="underbar_item section upclass" bindtap="handletap">
             <image src="{{isup ? '/icon/qrup_select.png' : '/icon/qrup.png'}}"></image>
             {{isup ? "已推荐 "+qr.ups.length : "推荐"}}
@@ -42,15 +49,50 @@
             <image src="{{iscollect ? '/icon/qrcollect_select.png' : '/icon/qrcollect.png'}}"></image>
             {{iscollect ? "已收藏" : "收藏"}}
         </view>
-        <view class="underbar_item comment">
+        <view class="underbar_item comment" bindtap="doreplyqr">
             <image src="/icon/qrcomment.png"></image>
-            {{qr.commentnum}}
+            {{comments.length}}
         </view>
     </view>
     <view wx:if="{{replystatus}}" class="doreply">
-        <view>填写评论</view>
+        <scroll-view scroll-y class="commentscroll">
+            <view wx:for="{{comments}}" class="commentitem">
+                <image class="commentavatar" src="{{item.userid.avatar}}" />
+                <view class="commentuoc">
+                    <view class="commentnameandopt">
+                        <view>{{item.userid.nickname}}</view>
+                        <view class="commentopt">
+                            <view>
+                                <image bindtap="handlecommentopt"
+                                data-opttype="{{commentupdowninfo[item._id] === 1 ? '1' : '2'}}"
+                                data-optid="{{item._id}}"
+                                src="{{commentupdowninfo[item._id] === 1 ? '/icon/commentup_select.png' : '/icon/commentup.png'}}" />
+                            </view>
+                            <view>
+                                <image bindtap="handlecommentopt"
+                                data-opttype="{{commentupdowninfo[item._id] === 2 ? '3' : '4'}}"
+                                data-optid="{{item._id}}"
+                                src="{{commentupdowninfo[item._id] === 2 ? '/icon/commentdown_select.png' : '/icon/commentdown.png'}}" />
+                            </view>
+                            <view>
+                                <image id="{{item._id}}" src="/icon/commentreply.png"  bindtap="doreplycomment" />
+                            </view>
+                        </view>
+                    </view>
+                    <view class="commentcontent">{{item.content}}</view>
+                </view>
+            </view>
+        </scroll-view>
         <view>
-            <textarea placeholder="请输入"/>
+            <view class="sendreplybar">
+                <view>填写评论{{replyto}}</view>
+                <view>
+                    <image class="sendreply" src="/icon/send_select.png" bindtap="tapsendbutton" />
+                </view>
+            </view>
+            <view>
+                <textarea value="{{replycontent}}" class="replyinput" placeholder="请输入" bindinput="handleinput"  class="replyarea"/>
+            </view>
         </view>
     </view>
 </view>

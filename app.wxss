@@ -1,4 +1,4 @@
 /**app.wxss**/
 .container {
-    display:flex
+    display:flex;
 } 

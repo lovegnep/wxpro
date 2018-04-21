@@ -68,6 +68,14 @@ let cCollectQR = function(data){
 let getQRCommentNum = function(data){
     return Utils.request(Config.GetQRCommentNum,data,"POST",true);
 }
+
+let getQRComment = function(data){
+    return Utils.request(Config.GetQRComment,data,"POST",true);
+}
+
+let newComment = function(data){
+    return Utils.request(Config.NewComment,data,"POST",true);
+}
 module.exports = {
     getAllQRList:getAllQRList,
     getAllQRListOfUser:getAllQRListOfUser,
@@ -79,6 +87,7 @@ module.exports = {
     cUpComment:cUpComment,
     downComment:downComment,
     cDownComment:cDownComment,
+    newComment:newComment,
 
     upQR:upQR,
     cUpQR:cUpQR,
@@ -88,4 +97,5 @@ module.exports = {
     cCollectQR:cCollectQR,
 
     getQRCommentNum:getQRCommentNum,
+    getQRComment:getQRComment,
 };

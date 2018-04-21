@@ -25,4 +25,6 @@ module.exports = {
     CollectQR:Config.apihead + "/api/collectqr",
     CCollectQR:Config.apihead + "/api/ccollectqr",
     GetQRCommentNum:Config.apihead + "/api/getqrcommentnum",
+    GetQRComment:Config.apihead + "/api/getqrcomment",
+    NewComment:Config.apihead + "/api/newcomment",
 };

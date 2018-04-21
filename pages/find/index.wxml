@@ -1,0 +1,11 @@
+<!--index.wxml-->
+<view class="head">
+    <view class="flex-view-item">微信群</view>
+    <view class="flex-view-item">个人微信</view>
+    <view class="flex-view-item">公众号</view>
+    <view class="flex-view-item">附近</view>
+</view>
+<view class="search">
+    <input class="sinput" placeholder="搜索" confirm-type="search" bindconfirm="" />
+</view>
+

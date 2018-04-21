@@ -1,0 +1,187 @@
+/**index.wxss**/
+.container{
+    padding:10rpx;
+}
+.qrinfo{
+    display: flex;
+    flex-direction: column;
+    width:100%;
+}
+.groupname{
+    font-size:100rpx;
+    padding-bottom:10rpx;
+    padding-bottom:10rpx;
+}
+.groupqr{
+    width:300rpx;
+}
+.groupnq{
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    width:100%;
+}
+.item_title{
+    padding-right:20rpx;
+}
+.section{
+    display: flex;
+    flex-direction: row;
+    align-items: center
+}
+.qruserinfo{
+    display: flex;
+    flex-direction: column;
+}
+.underbar_item{
+}
+.upclass{
+    background-color:#bbbbbb;
+    border-radius: 15rpx;
+    align-items:center;
+}
+.downclass{
+    background-color:#bbbbbb;
+    border-radius: 15rpx;
+    align-items:center;
+    display: flex;
+    flex-direction: row;
+}
+.collect{
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+}
+.comment{
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+}
+.underbar{
+    z-index:10;
+    position:fixed;
+    left:0rpx;
+    bottom:0rpx;
+    background-color:#ffffff;
+    border-top:1rpx solid;
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    min-height:100rpx;
+    border-top-left-radius:20rpx;
+    border-top-right-radius:20rpx;
+    padding-top:20rpx;
+    padding-bottom:20rpx;
+    justify-content:space-around;
+}
+.underbar image{
+    width:40rpx;
+    height:40rpx;
+}
+.doreply{
+    z-index:10;
+    position:fixed;
+    left:0rpx;
+    bottom:0rpx;
+    background-color:#ffffff;
+    border-top:1rpx solid;
+    width:100%;
+    border-top-left-radius:20rpx;
+    border-top-right-radius:20rpx;
+}
+.replyinput{
+    border: 1rpx solid;
+}
+.sendreply{
+    width:40rpx;
+    height:40rpx;
+}
+.sendreplybar{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    padding-right:40rpx;
+}
+.commentopt{
+    display: flex;
+    flex-direction: row;
+}
+.commentopt image{
+    width:40rpx;
+    height:40rpx;
+}
+.commentavatar{
+    width:100rpx;
+    height:100rpx;
+    padding-right:10rpx;
+}
+.commentitem{
+    display: flex;
+    flex-direction: row;
+    border-bottom:1rpx solid;
+    padding:10rpx;
+}
+.commentnameandopt{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+}
+.commentuoc{
+    display: flex;
+    flex-direction: column;
+    width:100%;
+}
+.commentscroll{
+    height:500rpx;
+}
+.replyarea{
+    height:200rpx;
+}
+.commentcontent{
+word-break:break-all;
+}
+.groupqrinfo{
+    display: flex;
+    flex-direction: column;
+    padding-top:40rpx;
+    align-items: flex-start;
+}
+.groupinfoimg{
+    width:40rpx;
+    height:40rpx;
+    padding-right:5rpx;
+}
+.groupqq{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-around;
+}
+.abstractbut{
+    z-index:10;
+    position:fixed;
+    right:0rpx;
+    top:0rpx;
+    padding:10rpx;
+}
+.abstractwrap{
+    z-index:20;
+    position:fixed;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    background-color:#000000;
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    align-items: center;
+    opacity:0.5;
+}
+.abstract{
+    background-color:#ffffff;
+    opacity:1;
+}
+.close{
+    width:40rpx;
+    height:40rpx;
+}

@@ -1,4 +1,11 @@
 <!--index.wxml-->
+<view class="head">
+    <view class="flex-view-item">微信群</view>
+    <view class="flex-view-item">个人微信</view>
+    <view class="flex-view-item">公众号</view>
+    <view class="flex-view-item">附近</view>
+    <view class="flex-view-item">排行榜</view>
+</view>
 <swiper indicator-dots="{{true}}"
         autoplay="{{true}}" interval="{{5000}}" duration="{{1000}}">
       <block wx:for="{{Swiper_QRList}}">
@@ -9,6 +16,16 @@
         </swiper-item>
       </block>
 </swiper>
+<view class="head">
+    <view class="flex-view-item">同城群</view>
+    <view class="flex-view-item">创业群</view>
+    <view class="flex-view-item">运动群</view>
+</view>
+<view class="head">
+    <view class="flex-view-item">兼职群</view>
+    <view class="flex-view-item">红包群</view>
+    <view class="flex-view-item">年代群</view>
+</view>
 <view class="container">
     <view class="section" wx:for="{{QRList}}" >
         <view class="avatarimg">

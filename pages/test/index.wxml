@@ -1,0 +1,8 @@
+<!--home.wxml-->
+<view class="head">
+    <view class="flex-view-item">微信群</view>
+    <view class="flex-view-item">个人微信</view>
+    <view class="flex-view-item">公众号</view>
+    <view class="flex-view-item">附近</view>
+    <view class="flex-view-item">排行榜</view>
+</view>

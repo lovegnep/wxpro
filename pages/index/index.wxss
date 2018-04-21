@@ -1,4 +1,24 @@
 /**index.wxss**/
+.head{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-around;
+    padding-bottom:10rpx;
+}
+.hotindustry{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    padding-bottom:10rpx;
+    flex-wrap:wrap;
+}
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-around;
+    padding-bottom:10rpx;
+    flex-wrap:wrap;
+}
 .section{
     padding:10rpx;
 }
@@ -6,9 +26,7 @@
     width:150rpx;
     height:150rpx;
 }
-.container{
-flex-wrap:wrap
-}
+
 .slide-image{
-width:100%;
+    width:100%;
 }

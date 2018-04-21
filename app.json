@@ -3,7 +3,9 @@
     "pages/index/index",
     "pages/home/index",
     "pages/logs/logs",
-    "pages/qr/index"
+    "pages/qr/index",
+    "pages/test/index",
+    "pages/find/index"
   ],
   "window":{
     "backgroundTextStyle":"light",
@@ -20,16 +22,21 @@
       "iconPath": "icon/home.png",
       "pagePath": "pages/index/index",
       "text": "首页"
-    }, {
-      "selectedIconPath": "icon/upload_select.png",
-      "iconPath": "icon/upload.png",
+    },{
+      "selectedIconPath": "icon/find_select.png",
+      "iconPath": "icon/find.png",
+      "pagePath": "pages/find/index",
+      "text": "查找"
+    },{
+      "selectedIconPath": "icon/message_select.png",
+      "iconPath": "icon/message.png",
       "pagePath": "pages/home/index",
-      "text": "上传"
-    }, {
+      "text": "消息"
+    },{
       "selectedIconPath": "icon/person_select.png",
       "iconPath": "icon/person.png",
-      "pagePath": "pages/home/index",
-      "text": "个人中心"
+      "pagePath": "pages/test/index",
+      "text": "我的"
     }]
   }
 }
