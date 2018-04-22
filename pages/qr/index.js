@@ -24,6 +24,14 @@ Page({
     tapabstract:function(){
         this.setData({abstractstatus:true});
     },
+    catchtape:function(e){
+        console.log('捕获点击abstract事件，该事件不会向上冒泡');
+    },
+    handleglobale:function(e){
+        console.log('根结点捕获点击事件');
+        this.setData({abstractstatus:false,replystatus:false,underbarstatus:!this.data.underbarstatus});
+        //this.setData({replystatus:false,underbarstatus:!this.data.underbarstatus})
+    },
     doreplyqr:function(){
         this.setData({
             replystatus:true,
@@ -56,7 +64,13 @@ Page({
         this.setData({replycontent:value});
     },
     handletapinfo:function(e){
-        this.setData({replystatus:false,underbarstatus:!this.data.underbarstatus})
+
+    },
+    tapdoreply:function(e){//reply界面的点击事件，暂时不用
+
+    },
+    tapunderbar:function(e){//底部underbar的点击事件，暂时不用
+
     },
     tapsendbutton:function(){
         let self = this;
