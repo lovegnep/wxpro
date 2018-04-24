@@ -105,6 +105,20 @@ Page({
     },
     uploadImg:function(type){
         let self = this;
+        let imgtype = 0;
+        switch(type){
+            case '1':
+                imgtype = MsgType.ImgType.EAvatar;
+                break;
+            case '2':
+                imgtype = MsgType.ImgType.EGQR;
+                break;
+            case '3':
+                imgtype = MsgType.ImgType.EUploaderQR;
+                break;
+            default:
+                return console.log('invalid type');
+        }
         wx.chooseImage({
             success: function(res) {
                 var tempFilePaths = res.tempFilePaths;
@@ -113,10 +127,15 @@ Page({
                     filePath: tempFilePaths[0],
                     name: "imgFile",
                     formData:{
-                        type:MsgType.ImgType.EAvatar
+                        type:imgtype
                     },
                     success: function(res){
                         let data = JSON.parse(res.data);
+                        if(parseInt(data.status) === MsgType.EErrorType.EInvalidQR){
+                            return wx.showToast({
+                                title:'请上传二维码'
+                            })
+                        }
                         let filename = data.filename;
                         switch(type){
                             case '1':

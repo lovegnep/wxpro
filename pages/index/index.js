@@ -36,6 +36,10 @@ Page({
     },
     onLoad: function () {
         let self = this;
+        wx.showLoading({
+            title:'登陆中',
+            mask:true
+        });
         wx.login({
             success: function(res) {
               if (res.code) {
@@ -51,6 +55,7 @@ Page({
                         self.globalData.backUserInfo = backUserInfo.userInfo;
                           wx.setStorageSync('sessionkey',backUserInfo.sessionkey);
                         console.log('backUserInfo:',backUserInfo);
+                        wx.hideLoading();
                         Api.getAllQRList(0,"-viewCount",5).then(function(res){
                             if(res.status === 1){
                                 console.log('请求二维码成功');

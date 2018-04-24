@@ -21,6 +21,21 @@ Page({
         replycontent:'',
         abstractstatus:false
     },
+    previewQR: function(){//预览二维码
+        let self = this;
+        if(!self.data.qr || !self.data.qr.groupQR){
+            return console.log('invalid qr.');
+        }
+        wx.scanCode({
+            success: (res) => {
+                console.log(res)
+            }
+        })
+        /*wx.previewImage({
+            current: '', // 当前显示图片的http链接
+            urls: [self.data.qr.groupQR] // 需要预览的图片http链接列表
+        })*/
+    },
     tapabstract:function(){
         this.setData({abstractstatus:true});
     },

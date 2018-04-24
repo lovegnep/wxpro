@@ -3,7 +3,7 @@
     <view class="qrinfo" bindtap="handletapinfo">
         <view class="groupnq">
             <view class="groupname">{{qr.groupname}}</view>
-            <image src="{{qr.groupQR}}" class="groupqr" mode="widthFix"></image>
+            <image src="{{qr.groupQR}}" class="groupqr" mode="widthFix" catchtap="previewQR"></image>
         </view>
         <view class="groupqrinfo">
             <view class="groupqq">
