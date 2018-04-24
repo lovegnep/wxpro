@@ -4,6 +4,7 @@ const app = getApp()
 const ApiConfig = require('../../api/config');
 const Config = require('../../config');
 const Api = require('../../api/api');
+const MsgType = require('../../common/msgtype');
 
 Page({
     data: {
@@ -108,9 +109,12 @@ Page({
             success: function(res) {
                 var tempFilePaths = res.tempFilePaths;
                 wx.uploadFile({
-                    url: ApiConfig.UploadImg, //仅为示例，非真实的接口地址
+                    url: ApiConfig.UploadImg, //
                     filePath: tempFilePaths[0],
                     name: "imgFile",
+                    formData:{
+                        type:MsgType.ImgType.EAvatar
+                    },
                     success: function(res){
                         let data = JSON.parse(res.data);
                         let filename = data.filename;
