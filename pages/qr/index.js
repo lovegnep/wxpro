@@ -21,20 +21,45 @@ Page({
         replycontent:'',
         abstractstatus:false
     },
+    onShareAppMessage:function(options){
+        if (options.from === 'button') {
+            // 来自页面内转发按钮
+            console.log(options.target);
+        }else if(options.from === 'menu'){
+            //来自右上角转发
+            console.log('来自右上角转发');
+        }
+        if(!this.data.qr || !this.data.qr._id){
+            return wx.showToast({
+                title:'qr不存在'
+            });
+        }
+        let path = '/pages/qr/index?' + 'qrid='+this.data.qr._id+'&isshare=1';
+        return {
+            title: '测试转发',
+            path: path,
+            success: function(res) {
+                // 转发成功
+            },
+            fail: function(res) {
+                // 转发失败
+            }
+        }
+    },
     previewQR: function(){//预览二维码
         let self = this;
         if(!self.data.qr || !self.data.qr.groupQR){
             return console.log('invalid qr.');
         }
-        wx.scanCode({
+        /*wx.scanCode({
             success: (res) => {
                 console.log(res)
             }
-        })
-        /*wx.previewImage({
+        })*/
+        wx.previewImage({
             current: '', // 当前显示图片的http链接
             urls: [self.data.qr.groupQR] // 需要预览的图片http链接列表
-        })*/
+        })
     },
     tapabstract:function(){
         this.setData({abstractstatus:true});
@@ -317,15 +342,8 @@ Page({
             this.setData({iscollect:true});
         }
     },
-    onLoad: function (options) {
+    initdata:function(qrid){
         let self = this;
-        let qrid = options._id;
-        if(!qrid || qrid === ''){
-            return wx.showToast({
-                title: '二维码ID非法',
-                icon: 'success',
-            });
-        }
         let qrtmp = app.globalData.QRList.get(qrid);
         if(qrtmp){
             self.setData({qr:qrtmp});
@@ -360,5 +378,81 @@ Page({
         }).catch(function(err){
             console.log('getQRComment:err:',err);
         });
+    },
+    initdatafromserver:function(qrid){
+        let self = this;
+        return function(){
+            Api.getQR(qrid).then(function(res){
+                if(res.status === 1){
+                    console.log('initdatafromserver:get qr success.');
+                    let qrtmp = res.data;
+                    if(qrtmp){
+                        self.setData({qr:qrtmp});
+                    }else{
+                        return wx.showToast({
+                            title: '找不到该二维码',
+                            icon: 'success',
+                        });
+                    }
+                    self.getUpDownInfo(qrtmp);
+                    self.getCollectInfo(qrtmp);
+                    Api.getQRComment({_id:qrid}).then(function(res){
+                        let guser = app.globalData.user;
+                        if(res.status === 1){
+                            res.data.sort(function(a,b){
+                                let bups = b.ups||[];
+                                let aups = a.ups||[];
+                                return bups.length - aups.length;
+                            });
+                            let tmpupdowninfo = {};
+                            res.data.forEach(function(item){
+                                if(item.ups && item.ups.indexOf(guser._id) !== -1){
+                                    tmpupdowninfo[item._id] = 1;
+                                }else if(item.downs && item.downs.indexOf(guser._id) !== -1){
+                                    tmpupdowninfo[item._id] = 2;
+                                }
+                            })
+                            self.setData({commentupdowninfo:tmpupdowninfo,comments:res.data});
+                        }else{
+                            console.log('getQRComment:error:');
+                        }
+                    }).catch(function(err){
+                        console.log('getQRComment:err:',err);
+                    });
+                }else{
+                    console.log('initdatafromserver:get qr failed.');
+                }
+            }).catch(function(err){
+                console.log('initdatafromserver:get qr err:.',err);
+            })
+        }
+    },
+    onLoad: function (options) {
+        console.log('QR开始初始化...');
+        console.log('QR参数：',options);
+        let self = this;
+        if(options.isshare && parseInt(options.isshare) === 1){
+            // 通过分享进入该页面
+            if(!options.qrid){
+                return wx.showToast({
+                    title:'qrid不存在'
+                });
+            }
+            if(!app.globalData.user){
+                app.globalData.cb = self.initdatafromserver(options.qrid);
+            }else{
+                (self.initdatafromserver(options.qrid))();
+            }
+        }
+        let qrid = options._id;
+        if(!qrid || qrid === ''){
+            return wx.showToast({
+                title: '二维码ID非法',
+                icon: 'success',
+            });
+        }else{
+            self.initdata(qrid);
+        }
+
     }
 });

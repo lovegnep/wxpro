@@ -2,50 +2,78 @@ const Utils = require('./utils/util');
 const Apiconfig = require('./api/config');
 //app.js
 App({
-  onLaunch: function () {
-    let self = this;
-
-    // 登录
-    /*wx.login({
-      success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-          self.globalData.code = res.code;
-
-      }
-    })*/
-    // 获取用户信息
-    /*wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              // 可以将 res 发送给后台解码出 unionId
-              self.globalData.userInfo = res.userInfo
-
-              // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-              // 所以此处加入 callback 以防止这种情况
-              if (code !== -1) {
-                  Utils.request(Apiconfig.Login,{code:res.code,userInfo:res.userInfo},"POST").then(function(userinfo){
-                    self.globalData.user = userinfo;
-                    console.log('app get back user success: ',userinfo);
-                  }).catch(function(err){
-
-                      console.log('app get back user failed: ',err);
-                  })
-              }else{
-                  console.log('app get back user faile because of code not exist.');
-              }
-            }
-          })
+    updateGlobalUser: function (guserinfo) {
+        if (guserinfo) {
+            this.globalData.user = guserinfo.userInfo;
         }
-      }
-    })*/
-  },
-  globalData: {
-    userInfo: null,
-      code:-1,
-      user:null,
-      QRList:new Map()
-  }
+
+    },
+    processShareIn:function(options){
+        if(options.scene === 1007){
+            //单人
+
+        }else if(options.scene === 1008){
+            //群聊
+
+        }
+    },
+    onPageNotFound:function(res){
+        wx.showToast({
+            title:'页面不存在，2s后中转到主页'
+        });
+        setTimeout(function(){
+            wx.switchTab({
+                url: '/"pages/index/index'
+            });
+        },2000);
+
+    },
+    onLaunch: function (options) {
+        console.log('APP开始初始化...');
+        let self = this;
+        console.log('APP参数：',options);
+        self.processShareIn(options);
+        wx.showLoading({
+            title: '登陆中',
+            mask: true
+        });
+        wx.login({
+            success: function (res) {
+                if (res.code) {
+                    self.globalData.code = res.code;
+                    wx.getUserInfo({
+                        withCredentials: true,
+                        success: function (res) {
+                            self.globalData.wxuserdata = res.userInfo;
+                            console.log('wxuserinfo success:', res);
+                            Utils.request(Apiconfig.Login, {code: self.globalData.code, userInfo: res}, "POST")
+                                .then(function (backUserInfo) {
+                                    self.updateGlobalUser(backUserInfo);
+                                    //self.globalData.backUserInfo = backUserInfo.userInfo;
+                                    wx.setStorageSync('sessionkey', backUserInfo.sessionkey);
+                                    console.log('backUserInfo:', backUserInfo);
+                                    wx.hideLoading();
+                                    if(self.globalData.cb){
+                                        self.globalData.cb();
+                                    }
+                                }).catch(function (err) {
+                                console.log('req ', ApiConfig.Login, "error:", err);
+                            });
+                        }
+                    })
+
+                } else {
+                    console.log('登录失败！' + res.errMsg)
+                }
+            }
+        });
+    },
+    globalData: {
+        userInfo: null,
+        code: -1,
+        user: null,
+        QRList: new Map(),
+        wxuserdata: null,
+        cb:null
+    }
 })

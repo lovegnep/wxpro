@@ -12,8 +12,8 @@ Page({
         userInfo: {},
         hasUserInfo: false,
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
-        QRList:[],
-        Swiper_QRList:[]
+        QRList: [],
+        Swiper_QRList: []
     },
     //事件处理函数
     bindViewTap: function () {
@@ -21,80 +21,51 @@ Page({
             url: '../logs/logs'
         })
     },
-    updateGlobal:function(qrlist){
+    updateGlobal: function (qrlist) {
         let qrmap = app.globalData.QRList;
-        qrlist.forEach(function(qr){
-            console.log("type of _id:",typeof qr._id);
+        qrlist.forEach(function (qr) {
+            console.log("type of _id:", typeof qr._id);
             qrmap.set(qr._id, qr);
         });
     },
-    updateGlobalUser:function(guserinfo){
-        if(guserinfo){
-            app.globalData.user = guserinfo.userInfo;
-        }
-
+    initdata: function(){
+        let self = this;
+        Api.getAllQRList(0, "-viewCount", 5).then(function (res) {
+            if (res.status === 1) {
+                console.log('请求二维码成功');
+                res.data.forEach(function (item) {
+                    item.link = '/pages/qr/index?_id=' + item._id;
+                })
+                self.updateGlobal(res.data);
+                self.setData({Swiper_QRList: res.data});
+            } else {
+                console.log('请求二维码失败');
+            }
+        }).catch(function (err) {
+            console.log('ajax请求失败');
+        });
+        Api.getAllQRList(0, "-createTime").then(function (res) {
+            if (res.status === 1) {
+                console.log('请求二维码成功');
+                res.data.forEach(function (item) {
+                    item.link = '/pages/qr/index?_id=' + item._id;
+                })
+                self.updateGlobal(res.data);
+                self.setData({QRList: res.data});
+            } else {
+                console.log('请求二维码失败');
+            }
+        }).catch(function (err) {
+            console.log('ajax请求失败');
+        });
     },
     onLoad: function () {
         let self = this;
-        wx.showLoading({
-            title:'登陆中',
-            mask:true
-        });
-        wx.login({
-            success: function(res) {
-              if (res.code) {
-                self.globalData.code = res.code;
-                wx.getUserInfo({
-                    withCredentials:true,
-                    success: function(res) {
-                      self.globalData.wxuserdata = res.userInfo;
-                      console.log('wxuserinfo success:',res);
-                      Utils.request(ApiConfig.Login,{code:self.globalData.code,userInfo:res},"POST")
-                      .then(function(backUserInfo){
-                          self.updateGlobalUser(backUserInfo);
-                        self.globalData.backUserInfo = backUserInfo.userInfo;
-                          wx.setStorageSync('sessionkey',backUserInfo.sessionkey);
-                        console.log('backUserInfo:',backUserInfo);
-                        wx.hideLoading();
-                        Api.getAllQRList(0,"-viewCount",5).then(function(res){
-                            if(res.status === 1){
-                                console.log('请求二维码成功');
-                                res.data.forEach(function(item){
-                                    item.link = '/pages/qr/index?_id='+item._id;
-                                })
-                                self.updateGlobal(res.data);
-                                self.setData({Swiper_QRList:res.data});
-                            }else{
-                                console.log('请求二维码失败');
-                            }
-                        }).catch(function(err){
-                            console.log('ajax请求失败');
-                        });
-                          Api.getAllQRList(0,"-createTime").then(function(res){
-                              if(res.status === 1){
-                                  console.log('请求二维码成功');
-                                  res.data.forEach(function(item){
-                                      item.link = '/pages/qr/index?_id='+item._id;
-                                  })
-                                  self.updateGlobal(res.data);
-                                  self.setData({QRList:res.data});
-                              }else{
-                                  console.log('请求二维码失败');
-                              }
-                          }).catch(function(err){
-                              console.log('ajax请求失败');
-                          });
-                      }).catch(function(err){
-                          console.log('req ',ApiConfig.Login, "error:",err);
-                      });
-                    }
-                  })
-                
-              } else {
-                console.log('登录失败！' + res.errMsg)
-              }
-            }
-          });
+        if(!app.globalData.user){
+            return app.globalData.cb = self.initdata;
+        }
+        self.initdata();
+
     },
     getUserInfo: function (e) {
         console.log(e)
@@ -104,9 +75,9 @@ Page({
             hasUserInfo: true
         })
     },
-    globalData:{
-        code:-1,
-        wxuserdata:null,
-        backUserInfo:null
+    globalData: {
+        code: -1,
+        wxuserdata: null,
+        backUserInfo: null
     }
 })

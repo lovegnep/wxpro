@@ -8,7 +8,9 @@ let getAllQRList = function(skip,sorttype,limit){
     limit = limit || 0;
     return Utils.request(Config.AllQRList,{skip:skip,sorttype:sorttype,limit:limit},"GET");
 };
-
+let getQR = function(_id){
+    return Utils.request(Config.TheQR,{_id:_id},"GET");
+}
 let getAllQRListOfUser = function(){
     return Utils.request(Config.AllQRListOfUser,{},"GET");
 };
@@ -77,6 +79,7 @@ let newComment = function(data){
     return Utils.request(Config.NewComment,data,"POST",true);
 }
 module.exports = {
+    getQR:getQR,
     getAllQRList:getAllQRList,
     getAllQRListOfUser:getAllQRListOfUser,
     getIndustry:getIndustry,
