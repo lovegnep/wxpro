@@ -443,6 +443,7 @@ Page({
             }else{
                 (self.initdatafromserver(options.qrid))();
             }
+            return;
         }
         let qrid = options._id;
         if(!qrid || qrid === ''){
