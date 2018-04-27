@@ -4,6 +4,7 @@
 const Config = require('../config');
 
 module.exports = {
+    ViewQR:Config.apihead + '/api/viewqr',
     TheQR: Config.apihead + "/api/getqr",
     AllQRList: Config.apihead + "/api/getallqrlist",
     AllQRListOfUser: Config.apihead + "/api/getqrlist",

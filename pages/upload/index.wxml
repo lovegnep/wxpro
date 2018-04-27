@@ -1,0 +1,95 @@
+<!--home.wxml-->
+<view class="container">
+    <view wx:if="{{tab === -1}}" class="abstractwrap">
+        <view class="abstract">
+            <view id="1" bindtap="selecttab">微信群</view><view id="2" bindtap="selecttab">个人微信</view><view id="3" bindtap="selecttab">公众号</view>
+        </view>
+    </view>
+    <view wx:if="{{tab!==-1}}" class="opthead">
+        <view catchtap="selectUorR" data-type="1" class="{{record ? 'headtype' : 'headtype_select'}}">{{tab===1 ? '微信群发布' : (tab===2 ? '个人微信发布' : '公众号发布')}}</view>
+        <view catchtap="selectUorR" data-type="2" class="{{!record ? 'headtype' : 'headtype_select'}}">发布记录</view>
+    </view>
+    <view wx:if="{{tab!==-1 && record}}">
+          <scroll-view class="record" scroll-y style="height: 100%;" bindscrolltoupper="upper" bindscrolltolower="lower">
+            <view wx:for="{{tab===1?grecord:(tab===2?perrecord:pubrecord)}}" wx:key="_id" class="record_item">
+                <image src="{{item.groupavatar}}" />
+                <view class="recorditeminfo">
+                    <view>{{item.groupname}}</view>
+                    <view>{{item.abstract}}</view>
+                </view>
+                <view class="recorditemopt">
+                    <view data-_id="{{item._id}}">刷新</view>
+                    <view data-_id="{{item._id}}">更新</view>
+                    <view data-_id="{{item._id}}">下架</view>
+                    <view data-_id="{{item._id}}">删除</view>
+                </view>
+            </view>
+          </scroll-view>
+    </view>
+    <form wx:if="{{tab!==-1 && !record}}" bindsubmit="formSubmit" bindreset="formReset" style="width:100%">
+        <view wx:if="{{tab===2}}">
+              <view class=" section flex-row" style="display: flex;flex-direction: row;">
+                <view class="section__title">微信号</view>
+                <input data-type="1" bindinput="processInput" name="masterwx" value="{{masterwx}}" placeholder="请输入" />
+              </view>
+        </view>
+        <view wx:if="{{tab===3}}">
+              <view class=" section flex-row" style="display: flex;flex-direction: row;">
+                <view class="section__title">公众号ID</view>
+                <input data-type="1" bindinput="processInput" name="masterwx" value="{{masterwx}}"  placeholder="请输入" />
+              </view>
+        </view>
+      <view class=" section flex-row" style="display: flex;flex-direction: row;">
+        <view class="section__title">行业</view>
+        <picker name="industry" bindchange="bindPickerChange" value="{{index}}" range="{{industry}}">
+          <view class="picker">
+            {{industry[index]}}
+          </view>
+        </picker>
+      </view>
+      <view class=" section flex-row" style="display: flex;flex-direction: row;">
+        <view class="section__title">位置</view>
+        <picker name="location" mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{location[0]}}">
+          <view class="picker">
+            {{region[0]}}{{region[1]}}{{region[2]}}
+          </view>
+        </picker>
+      </view>
+      <view class=" section flex-row" style="display: flex;flex-direction: row;">
+        <view class="section__title">{{ tab===1 ?  '群名称' : (tab===2 ? '昵称' : '公众号名称')}}</view>
+        <input data-type="2" bindinput="processInput" name="groupname" value="{{groupname}}"  placeholder="请输入" />
+      </view>
+      <view class=" section flex-row" style="display: flex;flex-direction: row;">
+        <view class="section__title">{{ tab===1 ?  '群简介' : (tab===2 ? '个人简介' : '公众号简介')}}</view>
+        <input data-type="3" bindinput="processInput" name="abstract" value="{{abstract}}" placeholder="请输入" />
+      </view>
+      <view class=" section flex-row" style="display: flex;flex-direction: row;">
+        <view class="section__title">{{ tab===1 ?  '群标签' : (tab===2 ? '个人标签' : '公众号标签')}}</view>
+        <input data-type="4" bindinput="processInput" name="grouptag" value="{{grouptag}}" placeholder="请输入" />
+      </view>
+      <view class=" sectionqr flex-row" style="display: flex;flex-direction: row;">
+        <view class="section__qr">{{ tab===1 ?  '请上传群头像' : (tab===2 ? '请上传个人头像' : '请上传公众号头像')}}</view>
+        <input hidden="true" name="groupavatar" value="{{groupavatar}}" />
+        <image id="1" wx:if="{{groupavatar !== ''}}" src="{{groupavatar}}" bindtap="handleImg"></image>
+      </view>
+      <view class=" sectionqr flex-row" style="display: flex;flex-direction: row;">
+        <view class="section__qr">{{ tab===1 ?  '请上传群二维码' : (tab===2 ? '请上传个人二维码' : '请上传公众号二维码')}}</view>
+        <input hidden="true" name="groupQR" value="{{groupQR}}" />
+        <image id="2" wx:if="{{groupQR !== ''}}" src="{{groupQR}}" bindtap="handleImg"></image>
+      </view>
+      <view wx:if="{{tab === 1}}" class=" sectionqr flex-row" style="display: flex;flex-direction: row;">
+        <view class="section__qr">请上传本人二维码</view>
+        <input hidden="true" name="masterQR" value="{{masterQR}}" />
+        <image id="3" wx:if="{{masterQR !== ''}}" src="{{masterQR}}" bindtap="handleImg"></image>
+      </view>
+      <view wx:if="{{tab === 1}}" class=" section flex-row" style="display: flex;flex-direction: row;">
+        <view class="section__title">本人微信号</view>
+        <input data-type="1" bindinput="processInput" name="masterwx" value="{{masterwx}}" placeholder="请输入" />
+      </view>
+      <view class="flex-row" style="display: flex;flex-direction: row;">
+        <button formType="submit">上传</button>
+        <button bindtap="initselect">重选</button>
+        <button formType="reset">重置</button>
+      </view>
+    </form>
+</view>

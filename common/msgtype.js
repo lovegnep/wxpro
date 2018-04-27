@@ -14,7 +14,9 @@ const EErrorType = {
     ENotLogin:10001,//未登陆
     EInterError:10002,//服务器内部错误
     ENoHandle:10003,//没有对应的请求处理函数
+    EInvalidReq:10004,//非法请求，不是从appid过来的请求都是非法请求
     EInvalidQR:11000,//上传的二维码非法
+    ENoWeibi:11001,//微币不够
 };
 
 const ImgType = {
@@ -23,10 +25,23 @@ const ImgType = {
     EUploaderQR:3,//上传者二维码
 };
 
+const QRType = {
+    EGroup:1,
+    EPerson:2,
+    EPublic:3
+}
+
+const QRSource = {
+    EUpload:1,
+    EPython:2
+}
+
 exports = {
     EMessageStatus:EMessageStatus,
     EMessageType:EMessageType,
     EErrorType:EErrorType,
     ImgType:ImgType,
+    QRType:QRType,
+    QRSource:QRSource,
 };
 Object.assign(module.exports, exports);

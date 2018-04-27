@@ -8,11 +8,20 @@ let getAllQRList = function(skip,sorttype,limit){
     limit = limit || 0;
     return Utils.request(Config.AllQRList,{skip:skip,sorttype:sorttype,limit:limit},"GET");
 };
+let getQRListNew = function(type,limit){
+    limit = limit || 0;
+    return Utils.request(Config.AllQRList,{type:type,limit:limit},"GET",true);
+};
+
+let viewQR = function(qrid){
+    return Utils.request(Config.ViewQR,{_id:qrid},'POST',true);
+}
+
 let getQR = function(_id){
     return Utils.request(Config.TheQR,{_id:_id},"GET");
 }
-let getAllQRListOfUser = function(){
-    return Utils.request(Config.AllQRListOfUser,{},"GET");
+let getAllQRListOfUser = function(data){
+    return Utils.request(Config.AllQRListOfUser,data,"GET",true);
 };
 
 let getLocation = function(index,first){
@@ -79,6 +88,8 @@ let newComment = function(data){
     return Utils.request(Config.NewComment,data,"POST",true);
 }
 module.exports = {
+    viewQR:viewQR,
+    getQRListNew:getQRListNew,
     getQR:getQR,
     getAllQRList:getAllQRList,
     getAllQRListOfUser:getAllQRListOfUser,

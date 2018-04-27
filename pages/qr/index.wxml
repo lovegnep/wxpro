@@ -1,11 +1,27 @@
 <!--home.wxml-->
-<view class="container" bindtap="handleglobale">
+<view class="container" bindtap="handleglobale" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
+    <view class="headqr">
+        <view class="{{tab===0 ? 'headqr_itemselect' : 'headqr_item'}}">微信群</view>
+        <view class="{{tab===1 ? 'headqr_itemselect' : 'headqr_item'}}">个人微信</view>
+        <view class="{{tab===2 ? 'headqr_itemselect' : 'headqr_item'}}">公众号</view>
+    </view>
     <view class="qrinfo" bindtap="handletapinfo">
         <view class="groupnq">
             <view class="groupname">{{qr.groupname}}</view>
-            <image src="{{qr.groupQR}}" class="groupqr" mode="widthFix" catchtap="previewQR"></image>
+            <view wx:if="{{tab===0}}" class="qrgorm">
+                <view data-optm="1" catchtap="changegorm">群主二维码</view>
+                <view data-optm="0" catchtap="changegorm">群二维码</view>
+            </view>
+            <image src="{{poor ? '/icon/lock.png' :( (tab===0&&gtab===1)? qr.masterQR : qr.groupQR)}}" class="groupqr" mode="widthFix" catchtap="previewQR"></image>
         </view>
-        <view class="groupqrinfo">
+        <view wx:if="{{tab===0&&gtab===1}}" class="groupqrinfo">
+            <view class="section">
+                <image src="/icon/location.png" class="groupinfoimg"></image>
+                <view class="item_title">微信号</view>
+                <view>{{qr.masterwx}}</view>
+            </view>
+        </view>
+        <view wx:else class="groupqrinfo">
             <view class="groupqq">
                 <view class="section">
                     <image src="/icon/industry.png" class="groupinfoimg"></image>
@@ -28,6 +44,28 @@
                 <view class="item_title">标签</view>
                 <view>{{qr.grouptag}}</view>
             </view>
+            <view wx:if="{{tab===2}}" class="section">
+                <image src="/icon/tag.png" class="groupinfoimg"></image>
+                <view class="item_title">公众号ID</view>
+                <view>{{qr.masterwx}}</view>
+            </view>
+            <view wx:if="{{tab===1}}" class="groupqq">
+                <view class="section">
+                    <image src="/icon/industry.png" class="groupinfoimg"></image>
+                    <view class="item_title">性别</view>
+                    <view>{{qr.gender}}</view>
+                </view>
+                <view class="section">
+                    <image src="/icon/status.png" class="groupinfoimg"></image>
+                    <view class="item_title">生日</view>
+                    <view>{{qr.birthday}}</view>
+                </view>
+                <view class="section">
+                    <image src="/icon/status.png" class="groupinfoimg"></image>
+                    <view class="item_title">微信号</view>
+                    <view>{{qr.masterwx}}</view>
+                </view>
+            </view>
         </view>
     </view>
     <view class="abstractbut" catchtap="tapabstract">简介</view>
@@ -37,21 +75,22 @@
             {{qr.abstract}}
         </view>
     </view>
-    <view wx:if="{{underbarstatus}}" class="underbar" catchtap="tapunderbar">
-        <view id="1" class="underbar_item section upclass" catchtap="handletap">
+    <view class="underbar" catchtap="tapunderbar">
+        <!-- <view id="1" class="underbar_item section upclass" catchtap="handletap">
             <image src="{{isup ? '/icon/qrup_select.png' : '/icon/qrup.png'}}"></image>
             {{isup ? "已推荐 "+qr.ups.length : "推荐"}}
         </view>
         <view id="2" class="underbar_item downclass"  catchtap="handletap">
             <image src="{{isdown ? '/icon/qrdown_select.png' : '/icon/qrdown.png'}}"></image>
-        </view>
+        </view> -->
         <view id="3" class="underbar_item collect"  catchtap="handletap">
             <image src="{{iscollect ? '/icon/qrcollect_select.png' : '/icon/qrcollect.png'}}"></image>
-            {{iscollect ? "已收藏" : "收藏"}}
         </view>
         <view class="underbar_item comment" catchtap="doreplyqr">
             <image src="/icon/qrcomment.png"></image>
-            {{comments.length}}
+        </view>
+        <view class="underbar_item trans" catchtap="dotransqr">
+            <image src="/icon/trans.png"></image>
         </view>
     </view>
     <view wx:if="{{replystatus}}" class="doreply" catchtap="tapdoreply">

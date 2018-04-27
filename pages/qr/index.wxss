@@ -1,6 +1,19 @@
 /**index.wxss**/
 .container{
     padding:10rpx;
+    display: flex;
+    flex-direction: column;
+}
+.headqr{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-around;
+}
+.headqr_itemselect{
+    border-bottom:1rpx solid;
+}
+.headqr_item{
+
 }
 .qrinfo{
     display: flex;
@@ -8,7 +21,6 @@
     width:100%;
 }
 .groupname{
-    font-size:100rpx;
     padding-bottom:10rpx;
     padding-bottom:10rpx;
 }
@@ -48,35 +60,24 @@
     flex-direction: row;
 }
 .collect{
-    display: flex;
-    flex-direction: column;
-    align-items:center;
+    padding-bottom:20rpx;
 }
 .comment{
-    display: flex;
-    flex-direction: column;
-    align-items:center;
+    padding-bottom:20rpx;
 }
 .underbar{
     z-index:10;
     position:fixed;
-    left:0rpx;
-    bottom:0rpx;
-    background-color:#ffffff;
-    border-top:1rpx solid;
-    width:100%;
+    right:0rpx;
+    bottom:30%;
+    width:10%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     min-height:100rpx;
-    border-top-left-radius:20rpx;
-    border-top-right-radius:20rpx;
-    padding-top:20rpx;
-    padding-bottom:20rpx;
-    justify-content:space-around;
 }
 .underbar image{
-    width:40rpx;
-    height:40rpx;
+    width:60rpx;
+    height:60rpx;
 }
 .doreply{
     z-index:10;
@@ -160,7 +161,7 @@ word-break:break-all;
     z-index:10;
     position:fixed;
     right:0rpx;
-    top:0rpx;
+    top:45rpx;
     padding:10rpx;
 }
 .abstractwrap{
@@ -189,4 +190,9 @@ word-break:break-all;
     position:absolute;
     top:-38rpx;
     right:8rpx;
+}
+.qrgorm{
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
 }

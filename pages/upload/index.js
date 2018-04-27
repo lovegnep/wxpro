@@ -14,8 +14,79 @@ Page({
         masterQR:'/icon/qr.png',
         location:['全部'],
         industry:['请选择'],
+        birthday:'',
+        groupname:'',
+        abstract:'',
+        grouptag:'',
+        masterwx:'',//上传都微信号，个人微信号，公众呈ID
         index:0,
-        region:['中国']
+        region:['中国'],
+        tab:-1,
+        record:false,
+        grecord:[],
+        perrecord:[],
+        pubrecord:[]
+    },
+    selecttab:function(e){
+        let id = e.target.id;
+        switch(id){
+            case '1' :
+                this.setData({tab:1});
+                break;
+            case '2':
+                this.setData({tab:2});
+                break;
+            case '3':
+                this.setData({tab:3});
+                break;
+            default:
+        }
+    },
+    processSelectRecord:function(){
+        let self = this;
+        if(self.data.tab === 1){//群
+            if(self.data.grecord.length < 1){
+                return Api.getAllQRListOfUser({type:MsgType.QRType.EGroup}).then(function(res){
+                    if(res.status === MsgType.EErrorType.EOK){
+                        self.setData({grecord:res.data,record:true});
+                    }
+                })
+            }
+        }else if(self.data.tab === 2){
+            if(self.data.perrecord.length < 1){
+                return Api.getAllQRListOfUser({type:MsgType.QRType.EPerson}).then(function(res){
+                    if(res.status === MsgType.EErrorType.EOK){
+                        self.setData({perrecord:res.data,record:true});
+                    }
+                })
+            }
+        }else if(self.data.tab === 3){
+            if(self.data.pubrecord.length < 1){
+                return Api.getAllQRListOfUser({type:MsgType.QRType.EPublic}).then(function(res){
+                    if(res.status === MsgType.EErrorType.EOK){
+                        self.setData({pubrecord:res.data,record:true});
+                    }
+                })
+            }
+        }
+        self.setData({record:true});
+    },
+    selectUorR:function(e){
+        let type =  e.currentTarget.dataset.type;
+        switch(type){
+            case '1':
+                this.setData({record:false});
+                break;
+            case '2':
+                this.processSelectRecord();
+                break;
+        }
+    },
+    upper:function(e){
+
+    },
+    lower:function(e){
+
     },
     bindRegionChange: function (e) {
         console.log('picker发送选择改变，携带值为', e.detail.value)
@@ -34,6 +105,13 @@ Page({
         let data = e.detail.value;
         data.location = data.location.join(',');
         console.log("location:",data.location);
+        if(this.data.tab === -1){
+            return wx.showToast({
+                title: '未知错误',
+                icon: 'fail',
+            });
+        }
+        data.type = parseInt(this.data.tab);
         if(!data.groupname || data.groupname === '' || data.groupname.length < 2){
             return wx.showToast({
                 title: 'groupname非法',
@@ -78,6 +156,32 @@ Page({
         wx.navigateTo({
             url: ''
         })
+    },
+    processInput:function(e){
+        let type = e.currentTarget.dataset.type;
+        let value = e.detail.value;
+        console.log('processInput:',type,value);
+        switch(type){
+            case '1':
+                this.setData({masterwx:value});
+                break;
+            case '2':
+                this.setData({groupname:value});
+                break;
+            case '3':
+                this.setData({abstract:value});
+                break;
+            case '4':
+                this.setData({grouptag:value});
+                break;
+            default:
+        }
+    },
+    onShow:function(){
+        //this.setData({tab:-1});
+    },
+    initselect:function(){
+        this.setData({tab:-1});
     },
     onLoad: function () {
         let self = this;

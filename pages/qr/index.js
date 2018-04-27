@@ -4,6 +4,17 @@ const app = getApp()
 const ApiConfig = require('../../api/config');
 const Config = require('../../config');
 const Api = require('../../api/api');
+const MsgType = require('../../common/msgtype');
+
+let touchDotx = 0;//触摸时的原点
+let touchDoty = 0;//触摸时的原点
+let time = 0;// 时间记录，用于滑动时且时间小于1s则执行左右滑动
+let interval = "";// 记录/清理时间记录
+let moveflag = false;
+
+let gloadingflag = false;
+let perloadingflag = false;
+let publoadingflag = false;
 
 Page({
     data: {
@@ -16,10 +27,260 @@ Page({
         replyto:'',
         replytoid:'',
         comments:[],
+        gindex:-1,
+        perindex:-1,
+        pubindex:-1,
+        tab:0,//0群，1个人微信，2公众号
+        gtab:0,//0显示群二难码，1显示群主二维码
         commentupdowninfo:{},
         underbarstatus:true,
         replycontent:'',
-        abstractstatus:false
+        abstractstatus:false,
+        gqrlist:[],
+        perqrlist:[],
+        pubqrlist:[],
+        poorflag:false
+    },
+    changegorm:function(e){
+        let id = e.currentTarget.dataset.optm;
+        if(id === '1'){
+            this.setData({gtab:1});
+        }else if(id === '0'){
+            this.setData({gtab:0});
+        }
+    },
+    changeLoadingFlag:function(is){
+        if(this.data.tab === 0){
+            gloadingflag = is;
+        }else if(this.data.tab === 1){
+            perloadingflag = is;
+        }else {
+            publoadingflag = is;
+        }
+    },
+    changeIndexAndQR:function(data){
+        let self = this;
+        Api.viewQR(data[0]._id).then(function(res){
+            if(res.status === MsgType.EErrorType.EOK){
+                if(self.data.tab === 0){
+                    self.setData({gqrlist:data,gindex:0, qr:data[0]});
+                }else if(self.data.tab === 1){
+                    self.setData({perqrlist:data,perindex:0, qr:data[0]});
+                }else if(self.data.tab === 2){
+                    self.setData({pubqrlist:data,pubindex:0, qr:data[0]});
+                }
+            }else{
+                if(self.data.tab === 0){
+                    self.setData({gqrlist:data,gindex:0, qr:data[0],poorflag:true});
+                }else if(self.data.tab === 1){
+                    self.setData({perqrlist:data,perindex:0, qr:data[0],poorflag:true});
+                }else if(self.data.tab === 2){
+                    self.setData({pubqrlist:data,pubindex:0, qr:data[0],poorflag:true});
+                }
+            }
+            self.changeLoadingFlag(false);
+        });
+
+    },
+    // 触摸开始事件
+    touchStart: function (e) {
+        touchDotx = e.touches[0].pageX; // 获取触摸时的原点
+        touchDoty = e.touches[0].pageY; // 获取触摸时的原点
+        // 使用js计时器记录时间
+        interval = setInterval(function () {
+            time++;
+        }, 100);
+    },
+    // 触摸移动事件
+    touchMove: function (e) {
+        let self = this;
+        let touchMovex = e.touches[0].pageX;
+        let touchMovey = e.touches[0].pageY;
+        //console.log("touchMovex:" + touchMovex + " touchDot:" + touchDotx + " diff:" + (touchMovex - touchDotx));
+        //console.log("touchMovey:" + touchMovey + " touchDot:" + touchDoty + " diff:" + (touchMovey - touchDoty));
+        if(moveflag){
+            return;
+        }
+        // 向左滑动
+        if (touchMovex - touchDotx <= -40 && time < 10) {
+            console.log('向左滑动');
+            moveflag = true;
+            let newtab = (this.data.tab+1)%3;
+            let tmpindex = (newtab === 0 ? this.data.gindex :(newtab === 1 ? this.data.perindex : this.data.pubindex));
+            let tmpqrlist = (newtab === 0 ? this.data.gqrlist : (newtab === 1 ? this.data.perqrlist : this.data.pubqrlist));
+            if(tmpqrlist.length < 1){
+                this.setData({tab:newtab,qr:{}});
+                return wx.showToast({title:'没有更多的内容'});
+            }
+            if(tmpindex === -1){//第一次切换到该标签
+                Api.viewQR(tmpqrlist[0]._id).then(function(res){
+                    if(res.status === MsgType.EErrorType.EOK){
+                        if((self.data.tab+1)%3 === 0){
+                            self.setData({tab:(self.data.tab+1)%3,qr:self.data.gqrlist[0],gindex:0});
+                        }else if((self.data.tab+1)%3 === 1){
+                            self.setData({tab:(self.data.tab+1)%3,qr:self.data.perqrlist[0],perindex:0});
+                        }else if((self.data.tab+1)%3 === 2){
+                            self.setData({tab:(self.data.tab+1)%3,qr:self.data.pubqrlist[0],pubindex:0});
+                        }
+                    }else{
+                        if((self.data.tab+1)%3 === 0){
+                            self.setData({tab:(self.data.tab+1)%3,qr:self.data.gqrlist[0],gindex:0,poorflag:true});
+                        }else if((self.data.tab+1)%3 === 1){
+                            self.setData({tab:(self.data.tab+1)%3,qr:self.data.perqrlist[0],perindex:0,poorflag:true});
+                        }else if((self.data.tab+1)%3 === 2){
+                            self.setData({tab:(self.data.tab+1)%3,qr:self.data.pubqrlist[0],pubindex:0,poorflag:true});
+                        }
+                    }
+                }).catch(function(err){
+                    console.log('left move:err:',err);
+                    return wx.showToast({title:'内部错误'});
+                })
+            }else{
+                if((this.data.tab+1)%3 === 0){
+                    this.setData({tab:(this.data.tab+1)%3,qr:this.data.gqrlist[this.data.gindex]});
+                }else if((this.data.tab+1)%3 === 1){
+                    this.setData({tab:(this.data.tab+1)%3,qr:this.data.perqrlist[this.data.perindex]});
+                }else if((this.data.tab+1)%3 === 2){
+                    this.setData({tab:(this.data.tab+1)%3,qr:this.data.pubqrlist[this.data.pubindex]});
+                }
+            }
+
+            return;
+        }
+        // 向右滑动
+        if (touchMovex - touchDotx >= 40 && time < 10) {
+            console.log('向右滑动');
+            moveflag = true;
+            let newtab = (this.data.tab-1+3)%3;
+            let tmpindex = (newtab === 0 ? this.data.gindex :(newtab === 1 ? this.data.perindex : this.data.pubindex));
+            let tmpqrlist = (newtab === 0 ? this.data.gqrlist : (newtab === 1 ? this.data.perqrlist : this.data.pubqrlist));
+            if(tmpqrlist.length < 1){
+                this.setData({tab:newtab,qr:{}});
+                return wx.showToast({title:'没有更多的内容'});
+            }
+            if(tmpindex === -1){//第一次切换到该标签
+                Api.viewQR(tmpqrlist[0]._id).then(function(res){
+                    if(res.status === MsgType.EErrorType.EOK){
+                        if(newtab === 0){
+                            self.setData({tab:newtab,qr:self.data.gqrlist[0],gindex:0});
+                        }else if(newtab === 1){
+                            self.setData({tab:newtab,qr:self.data.perqrlist[0],perindex:0});
+                        }else if(newtab === 2){
+                            self.setData({tab:newtab,qr:self.data.pubqrlist[0],pubindex:0});
+                        }
+                    }else{
+                        if(newtab === 0){
+                            self.setData({tab:newtab,qr:self.data.gqrlist[0],gindex:0,poorflag:true});
+                        }else if(newtab === 1){
+                            self.setData({tab:newtab,qr:self.data.perqrlist[0],perindex:0,poorflag:true});
+                        }else if(newtab === 2){
+                            self.setData({tab:newtab,qr:self.data.pubqrlist[0],pubindex:0,poorflag:true});
+                        }
+                        wx.showToast({title:'积分不够请充值'})
+                    }
+                }).catch(function(err){
+                    console.log('left move:err:',err);
+                    return wx.showToast({title:'内部错误'});
+                })
+            }else{
+                if((this.data.tab-1+3)%3 === 0){
+                    this.setData({tab:(this.data.tab-1+3)%3,qr:this.data.gqrlist[this.data.gindex]});
+                }else if((this.data.tab-1+3)%3 === 1){
+                    this.setData({tab:(this.data.tab-1+3)%3,qr:this.data.perqrlist[this.data.perindex]});
+                }else if((this.data.tab-1+3)%3 === 2){
+                    this.setData({tab:(this.data.tab-1+3)%3,qr:this.data.pubqrlist[this.data.pubindex]});
+                }
+            }
+
+            return;
+        }
+
+        // 向上滑动
+        if (touchMovey - touchDoty <= -40 && time < 10) {
+            if(this.data.poorflag){
+                return wx.showToast({title:'积分不够，请先充值'});
+            }
+            console.log('向上滑动');
+            moveflag = true;
+            let tmpqrlist = (this.data.tab === 0 ? this.data.gqrlist :(this.data.tab === 1 ? this.data.perqrlist : this.data.pubqrlist));
+            let tmpindex = (this.data.tab === 0 ? this.data.gindex :(this.data.tab === 1 ? this.data.perindex : this.data.pubindex));
+            if(tmpqrlist.length < 1){
+                return wx.showToast({title:'没有更多内容'});
+            }
+            if(tmpqrlist.length > 0 && tmpindex < tmpqrlist.length-1){
+                Api.viewQR(tmpqrlist[tmpindex+1]).then(function(res){
+                    if(res.status === MsgType.EErrorType.EOK){
+                        if(self.data.tab === 0){
+                            self.setData({gindex:self.data.gindex+1, qr:self.data.gqrlist[self.data.gindex+1]});
+                        }else if(self.data.tab === 1){
+                            self.setData({perindex:self.data.perindex+1, qr:self.data.perqrlist[self.data.perindex+1]});
+                        }else if(self.data.tab === 2){
+                            self.setData({pubindex:self.data.pubindex+1, qr:self.data.pubqrlist[self.data.pubindex+1]});
+                        }
+                    }else{
+                        if(self.data.tab === 0){
+                            self.setData({gindex:self.data.gindex+1, qr:self.data.gqrlist[self.data.gindex+1],poorflag:true});
+                        }else if(self.data.tab === 1){
+                            self.setData({perindex:self.data.perindex+1, qr:self.data.perqrlist[self.data.perindex+1],poorflag:true});
+                        }else if(self.data.tab === 2){
+                            self.setData({pubindex:self.data.pubindex+1, qr:self.data.pubqrlist[self.data.pubindex+1],poorflag:true});
+                        }
+                        wx.showToast({title:'积分不够请充值'})
+                    }
+
+                })
+
+
+            }
+            let tmploadingflag = this.data.tab === 0 ? gloadingflag : (this.data.tab === 1 ? perloadingflag : publoadingflag);
+            if(tmpqrlist.length > 0 && tmpindex === tmpqrlist.length-1 && !tmploadingflag){//已到达最后重新加载更多
+                this.changeLoadingFlag(true);
+                Api.getQRListNew(this.data.tab+1,20).then(function(res){
+                    if(res.status === MsgType.EErrorType.EOK){
+                        console.log('请求成功：',res.data);
+                        if(res.data.length < 1){
+                            wx.showToast({title:'没有更多内容'});
+                            return self.changeLoadingFlag(false);
+                        }else{
+                            return self.changeIndexAndQR(res.data);
+                        }
+                    }
+                })
+            }
+            return;
+        }
+        // 向下滑动
+        if (touchMovey - touchDoty >= 40 && time < 10) {
+            if(this.data.poorflag){
+                return wx.showToast({title:'积分不够，请先充值'});
+            }
+            console.log('向下滑动');
+            moveflag = true;
+            let tmpqrlist = (this.data.tab === 0 ? this.data.gqrlist :(this.data.tab === 1 ? this.data.perqrlist : this.data.pubqrlist));
+            let tmpindex = (this.data.tab === 0 ? this.data.gindex :(this.data.tab === 1 ? this.data.perindex : this.data.pubindex));
+            if(tmpindex === -1){
+                return wx.showToast({title:'没有更多内容'});
+            }
+            if(tmpindex === 0){
+                return wx.showToast({title:'已到顶部'});
+            }
+            if(tmpqrlist.length > 0 && tmpindex > 0){
+                if(this.data.tab === 0){
+                    this.setData({gindex:this.data.gindex-1, qr:this.data.gqrlist[this.data.gindex-1]});
+                }else if(this.data.tab === 1){
+                    this.setData({perindex:this.data.perindex-1, qr:this.data.perqrlist[this.data.perindex-1]});
+                }else if(this.data.tab === 2){
+                    this.setData({pubindex:this.data.pubindex-1, qr:this.data.pubqrlist[this.data.pubindex-1]});
+                }
+            }
+            return;
+        }
+    },
+    // 触摸结束事件
+    touchEnd: function (e) {
+        clearInterval(interval); // 清除setInterval
+        time = 0;
+        moveflag=false;
     },
     onShareAppMessage:function(options){
         if (options.from === 'button') {
@@ -427,6 +688,45 @@ Page({
             })
         }
     },
+    initdatanew:function(){
+        let self = this;
+        let promises = [Api.getQRListNew(1,20),Api.getQRListNew(2,20),Api.getQRListNew(3,20)];
+        Promise.all(promises).then(function(res){
+            console.log('initdatanew:res:',res);
+            let gqr = res[0], perqr = res[1], pubqr = res[2];
+            if(perqr.status === MsgType.EErrorType.EOK){
+                if(perqr.data.length > 0){
+                    self.setData({perqrlist:perqr.data});
+                }
+            }
+            if(pubqr.status === MsgType.EErrorType.EOK){
+                if(pubqr.data.length > 0){
+                    self.setData({pubqrlist:pubqr.data});
+                }
+            }
+            if(gqr.status === MsgType.EErrorType.EOK){
+                if(gqr.data.length < 1){
+                    return wx.showToast({title:'没有更多微信群'});
+                }
+                console.log('initdatanew:success:',gqr.data);
+                self.setData({gqrlist:gqr.data});
+                if(app.globalData.user.weibi > 0){
+
+                    Api.viewQR(gqr.data[self.data.gindex+1]._id).then(function(res){
+                        if(res.status === MsgType.EErrorType.EOK){
+                            self.setData({gindex:self.data.gindex+1,qr:self.data.gqrlist[self.data.gindex+1]});
+                        }else{
+                            self.setData({poor:true});
+                        }
+                    })
+                }else{
+                    self.setData({poor:true});
+                }
+            }
+        }).catch(function (err) {
+            console.log('initdatanew:err:',err);
+        })
+    },
     onLoad: function (options) {
         console.log('QR开始初始化...');
         console.log('QR参数：',options);
@@ -445,15 +745,10 @@ Page({
             }
             return;
         }
-        let qrid = options._id;
-        if(!qrid || qrid === ''){
-            return wx.showToast({
-                title: '二维码ID非法',
-                icon: 'success',
-            });
+        if(!app.globalData.user){
+            app.globalData.cb = self.initdatanew;
         }else{
-            self.initdata(qrid);
+            self.initdatanew()
         }
-
     }
 });
