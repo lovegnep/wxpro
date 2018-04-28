@@ -1,0 +1,41 @@
+/**index.wxss**/
+.container{
+    display: flex;
+    flex-direction: column;
+}
+.userinfo{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    width:100%;
+}
+.uin{
+    display: flex;
+    flex-direction: column;
+}
+.uinb{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+}
+.uinu{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+}
+.uiavatar{
+    display: flex;
+    flex-direction: column;
+}
+.operate{
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    width:100%;
+    border-bottom:1rpx solid;
+}
+.option{
+    display: flex;
+    flex-direction: column;
+    width:100%;
+}

@@ -1,0 +1,31 @@
+<!--person.wxml-->
+<view class="container">
+    <view class="userinfo">
+        <view class="uin">
+            <view class="uinb">
+                <view>{{userinfo.nickname}}</view>
+                <image src="{{!!userinfo.vipstart ? '/icon/vip_select.png' : '/icon/vip.png'}}" />
+                <image src="{{!!userinfo.monthstart ? '/icon/month_select.png' : '/icon/month.png'}}" />
+            </view>
+            <view class="uinu">
+                <view>{{uploadCount}}</view>
+                <view>{{userinfo.weibi}}</view>
+            </view>
+        </view>
+        <view class="uiavatar">
+            <image src="{{userinfo.avatar}}" />
+            <view>编辑个人资料</view>
+        </view>
+    </view>
+    <view class="operate">
+        <view>充值</view>
+        <view>收藏</view>
+        <view>消息</view>
+    </view>
+    <view class="option">
+        <view>浏览记录</view>
+        <view>邀请奖励</view>
+        <view>输入推广码</view>
+        <view>联系我们</view>
+    </view>
+</view>

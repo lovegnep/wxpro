@@ -87,7 +87,34 @@ let getQRComment = function(data){
 let newComment = function(data){
     return Utils.request(Config.NewComment,data,"POST",true);
 }
+
+let getviews = function(data){
+    return Utils.request(Config.GetViews,data,"POST",true);
+}
+let getcollections = function(data){
+    return Utils.request(Config.GetCollections,data,"POST",true);
+}
+
+let doSign = function(){
+    return Utils.request(Config.Sign,data,"GET",true);
+}
+let getUserInfo = function(){
+    return Utils.request(Config.GetUserInfo,data,"GET",true);
+}
+let getWeiBi = function(){
+    return Utils.request(Config.GetWeibi,data,"GET",true);
+}
+let getUploadCount = function(){
+    return Utils.request(Config.GetUploadCount,{},'GET',true);
+}
 module.exports = {
+    getviews:getviews,
+    getcollections:getcollections,
+    doSign:doSign,
+    getUserInfo:getUserInfo,
+    getWeiBi:getWeiBi,
+    getUploadCount:getUploadCount,
+
     viewQR:viewQR,
     getQRListNew:getQRListNew,
     getQR:getQR,

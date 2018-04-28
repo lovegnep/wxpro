@@ -29,4 +29,11 @@ module.exports = {
     GetQRCommentNum:Config.apihead + "/api/getqrcommentnum",
     GetQRComment:Config.apihead + "/api/getqrcomment",
     NewComment:Config.apihead + "/api/newcomment",
+
+    GetViews:Config.apihead + "/api/getviews",
+    GetCollections:Config.apihead + "/api/getcollections",
+    GetUserInfo:Config.apihead + "/api/getuserinfo",
+    GetWeibi:Config.apihead + "/api/getweibi",
+    Sign:Config.apihead + "/api/sign",
+    GetUploadCount:Config.apihead + "/api/getuploadcount",
 };

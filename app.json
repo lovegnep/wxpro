@@ -40,7 +40,7 @@
     },{
       "selectedIconPath": "icon/person_select.png",
       "iconPath": "icon/person.png",
-      "pagePath": "pages/test/index",
+      "pagePath": "pages/person/index",
       "text": "我的"
     }]
   }
