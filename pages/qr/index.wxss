@@ -1,6 +1,8 @@
 /**index.wxss**/
+page{
+    height: 100%;
+}
 .container{
-    padding:10rpx;
     display: flex;
     flex-direction: column;
     height:100%;
@@ -137,7 +139,6 @@
     height:500rpx;
 }
 .replyarea{
-    height:200rpx;
 }
 .commentcontent{
 word-break:break-all;

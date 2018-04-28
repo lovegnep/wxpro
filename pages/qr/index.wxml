@@ -83,8 +83,8 @@
         <view id="2" class="underbar_item downclass"  catchtap="handletap">
             <image src="{{isdown ? '/icon/qrdown_select.png' : '/icon/qrdown.png'}}"></image>
         </view> -->
-        <view id="3" class="underbar_item collect"  catchtap="handletap">
-            <image src="{{iscollect ? '/icon/qrcollect_select.png' : '/icon/qrcollect.png'}}"></image>
+        <view class="underbar_item collect"  catchtap="handletap">
+            <image id="3"  src="{{iscollect ? '/icon/qrcollect_select.png' : '/icon/qrcollect.png'}}"></image>
         </view>
         <view class="underbar_item comment" catchtap="doreplyqr">
             <image src="/icon/qrcomment.png"></image>
@@ -94,7 +94,7 @@
         </view>
     </view>
     <view wx:if="{{replystatus}}" class="doreply" catchtap="tapdoreply">
-        <scroll-view scroll-y class="commentscroll">
+        <scroll-view wx:if="{{comments.length > 0}}" scroll-y class="commentscroll">
             <view wx:for="{{comments}}" class="commentitem">
                 <image class="commentavatar" src="{{item.userid.avatar}}" />
                 <view class="commentuoc">
@@ -130,7 +130,7 @@
                 </view>
             </view>
             <view>
-                <textarea value="{{replycontent}}" class="replyinput" placeholder="请输入" bindinput="handleinput"  class="replyarea"/>
+                <textarea auto-height value="{{replycontent}}" class="replyinput" placeholder="请输入" bindinput="handleinput"  class="replyarea"/>
             </view>
         </view>
     </view>

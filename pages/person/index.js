@@ -17,6 +17,7 @@ Page({
             if(res.status === MsgType.EErrorType.EOK){
                 let tmp = Object.assign({},self.data.userinfo,{weibi:res.data});
                 self.setData({userinfo:tmp});
+                app.globalData.user.weibi = res.data;
             }
         })
     },
@@ -37,6 +38,7 @@ Page({
             if(res.status === MsgType.EErrorType.EOK){
                 console.log('pages/person: get userinfo success:',res.data);
                 self.setData({userinfo:res.data});
+                app.globalData.user = res.data;
             }else{
                 console.log('pages/person: get userinfo failed:',res);
             }

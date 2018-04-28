@@ -41,6 +41,21 @@ Page({
         pubqrlist:[],
         poorflag:false
     },
+    updateTabData:function(){
+        let self = this;
+        this.changeLoadingFlag(true);
+        Api.getQRListNew(this.data.tab+1,20).then(function(res){
+            if(res.status === MsgType.EErrorType.EOK){
+                console.log('请求成功：',res.data);
+                if(res.data.length < 1){
+                    wx.showToast({title:'没有更多内容'});
+                    return self.changeLoadingFlag(false);
+                }else{
+                    return self.changeIndexAndQR(res.data);
+                }
+            }
+        })
+    },
     changegorm:function(e){
         let id = e.currentTarget.dataset.optm;
         if(id === '1'){
@@ -60,6 +75,7 @@ Page({
     },
     changeIndexAndQR:function(data){
         let self = this;
+        self.getCollectInfo(data[0]);
         Api.viewQR(data[0]._id).then(function(res){
             if(res.status === MsgType.EErrorType.EOK){
                 if(self.data.tab === 0){
@@ -102,7 +118,7 @@ Page({
             return;
         }
         // 向左滑动
-        if (touchMovex - touchDotx <= -40 && time < 10) {
+        if (touchMovex - touchDotx <= -40) {
             console.log('向左滑动');
             moveflag = true;
             let newtab = (this.data.tab+1)%3;
@@ -113,6 +129,7 @@ Page({
                 return wx.showToast({title:'没有更多的内容'});
             }
             if(tmpindex === -1){//第一次切换到该标签
+                self.getCollectInfo(tmpqrlist[0]);
                 Api.viewQR(tmpqrlist[0]._id).then(function(res){
                     if(res.status === MsgType.EErrorType.EOK){
                         if((self.data.tab+1)%3 === 0){
@@ -148,7 +165,7 @@ Page({
             return;
         }
         // 向右滑动
-        if (touchMovex - touchDotx >= 40 && time < 10) {
+        if (touchMovex - touchDotx >= 40) {
             console.log('向右滑动');
             moveflag = true;
             let newtab = (this.data.tab-1+3)%3;
@@ -159,6 +176,7 @@ Page({
                 return wx.showToast({title:'没有更多的内容'});
             }
             if(tmpindex === -1){//第一次切换到该标签
+                self.getCollectInfo(tmpqrlist[0]);
                 Api.viewQR(tmpqrlist[0]._id).then(function(res){
                     if(res.status === MsgType.EErrorType.EOK){
                         if(newtab === 0){
@@ -196,7 +214,7 @@ Page({
         }
 
         // 向上滑动
-        if (touchMovey - touchDoty <= -40 && time < 10) {
+        if (touchMovey - touchDoty <= -40) {
             if(this.data.poorflag){
                 return wx.showToast({title:'积分不够，请先充值'});
             }
@@ -205,9 +223,10 @@ Page({
             let tmpqrlist = (this.data.tab === 0 ? this.data.gqrlist :(this.data.tab === 1 ? this.data.perqrlist : this.data.pubqrlist));
             let tmpindex = (this.data.tab === 0 ? this.data.gindex :(this.data.tab === 1 ? this.data.perindex : this.data.pubindex));
             if(tmpqrlist.length < 1){
-                return wx.showToast({title:'没有更多内容'});
+                return self.updateTabData();
             }
             if(tmpqrlist.length > 0 && tmpindex < tmpqrlist.length-1){
+                self.getCollectInfo(tmpqrlist[tmpindex+1])
                 Api.viewQR(tmpqrlist[tmpindex+1]).then(function(res){
                     if(res.status === MsgType.EErrorType.EOK){
                         if(self.data.tab === 0){
@@ -234,23 +253,12 @@ Page({
             }
             let tmploadingflag = this.data.tab === 0 ? gloadingflag : (this.data.tab === 1 ? perloadingflag : publoadingflag);
             if(tmpqrlist.length > 0 && tmpindex === tmpqrlist.length-1 && !tmploadingflag){//已到达最后重新加载更多
-                this.changeLoadingFlag(true);
-                Api.getQRListNew(this.data.tab+1,20).then(function(res){
-                    if(res.status === MsgType.EErrorType.EOK){
-                        console.log('请求成功：',res.data);
-                        if(res.data.length < 1){
-                            wx.showToast({title:'没有更多内容'});
-                            return self.changeLoadingFlag(false);
-                        }else{
-                            return self.changeIndexAndQR(res.data);
-                        }
-                    }
-                })
+                self.updateTabData();
             }
             return;
         }
         // 向下滑动
-        if (touchMovey - touchDoty >= 40 && time < 10) {
+        if (touchMovey - touchDoty >= 40) {
             if(this.data.poorflag){
                 return wx.showToast({title:'积分不够，请先充值'});
             }
@@ -317,6 +325,9 @@ Page({
                 console.log(res)
             }
         })*/
+        if(self.data.poorflag){
+            return;
+        }
         wx.previewImage({
             current: '', // 当前显示图片的http链接
             urls: [self.data.qr.groupQR] // 需要预览的图片http链接列表
@@ -386,8 +397,13 @@ Page({
             if(res.status === 1){
                 console.log('tapsendbutton: new comment success.');
                 wx.showToast({title:'评论成功.'});
+                res.data.userid = {
+                    nickname:app.globalData.user.nickname,
+                    avatar:app.globalData.user.avatar
+                };
+                let newcomments = [res.data,...self.data.comments];
                 self.setData({
-                    replystatus:false,
+                    comments:newcomments,
                     underbarstatus:false,
                     replyto:'',
                     replytoid:'',
@@ -715,6 +731,7 @@ Page({
                     Api.viewQR(gqr.data[self.data.gindex+1]._id).then(function(res){
                         if(res.status === MsgType.EErrorType.EOK){
                             self.setData({gindex:self.data.gindex+1,qr:self.data.gqrlist[self.data.gindex+1]});
+                            self.getCollectInfo(self.data.gqrlist[self.data.gindex+1]);
                         }else{
                             self.setData({poor:true});
                         }
@@ -749,6 +766,17 @@ Page({
             app.globalData.cb = self.initdatanew;
         }else{
             self.initdatanew()
+        }
+    },
+    onShow:function(){
+        let self = this;
+        if(self.data.poorflag){
+            if(app.globalData.user.weibi > 0){
+                self.setData({poorflag:false});
+            }
+        }
+        if(self.data.tab === 0 &&self.data.gqrlist.length < 1){
+
         }
     }
 });
