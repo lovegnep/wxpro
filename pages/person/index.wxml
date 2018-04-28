@@ -8,8 +8,8 @@
                 <image src="{{!!userinfo.monthstart ? '/icon/month_select.png' : '/icon/month.png'}}" />
             </view>
             <view class="uinu">
-                <view>{{uploadCount}}</view>
-                <view>{{userinfo.weibi}}</view>
+                <view>上传{{uploadCount}}</view>
+                <view>微币{{userinfo.weibi}}</view>
             </view>
         </view>
         <view class="uiavatar">
@@ -23,9 +23,10 @@
         <view>消息</view>
     </view>
     <view class="option">
-        <view>浏览记录</view>
-        <view>邀请奖励</view>
-        <view>输入推广码</view>
-        <view>联系我们</view>
+        <view class="option_item" bindtap="doSign">签到</view>
+        <view class="option_item">浏览记录</view>
+        <view class="option_item">邀请奖励</view>
+        <view class="option_item">输入推广码</view>
+        <view class="option_item">联系我们</view>
     </view>
 </view>

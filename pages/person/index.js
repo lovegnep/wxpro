@@ -11,7 +11,27 @@ Page({
         userinfo:{},
         uploadCount:0
     },
-    onLoad: function (options) {
+    getWeiBi:function(){
+        let self = this;
+        Api.getWeiBi().then(function(res){
+            if(res.status === MsgType.EErrorType.EOK){
+                let tmp = Object.assign({},self.data.userinfo,{weibi:res.data});
+                self.setData({userinfo:tmp});
+            }
+        })
+    },
+    doSign:function(){
+        let self = this;
+        Api.doSign().then(function(res){
+            if(res.status === MsgType.EErrorType.EOK){
+                wx.showToast({title:'签到成功'});
+                self.getWeiBi();
+            }else{
+                wx.showToast({title:'今天已签到过'});
+            }
+        })
+    },
+    initData:function(){
         let self = this;
         Api.getUserInfo().then(function(res){
             if(res.status === MsgType.EErrorType.EOK){
@@ -26,5 +46,11 @@ Page({
                 self.setData({uploadCount:res.data});
             }
         });
+    },
+    onLoad: function (options) {
+        this.initData();
+    },
+    onShow:function(){
+        this.initData();
     }
 });

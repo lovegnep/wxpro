@@ -3,6 +3,7 @@
     padding:10rpx;
     display: flex;
     flex-direction: column;
+    height:100%;
 }
 .headqr{
     display: flex;

@@ -96,13 +96,13 @@ let getcollections = function(data){
 }
 
 let doSign = function(){
-    return Utils.request(Config.Sign,data,"GET",true);
+    return Utils.request(Config.Sign,{},"GET",true);
 }
 let getUserInfo = function(){
-    return Utils.request(Config.GetUserInfo,data,"GET",true);
+    return Utils.request(Config.GetUserInfo,{},"GET",true);
 }
 let getWeiBi = function(){
-    return Utils.request(Config.GetWeibi,data,"GET",true);
+    return Utils.request(Config.GetWeibi,{},"GET",true);
 }
 let getUploadCount = function(){
     return Utils.request(Config.GetUploadCount,{},'GET',true);
