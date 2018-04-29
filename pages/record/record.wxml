@@ -1,0 +1,23 @@
+<!--home.wxml-->
+<view class="container">
+    <view class="headqr">
+        <view bindtap="taphead" data-tab="1" class="{{tab===1 ? 'headqr_itemselect' : 'headqr_item'}}">微信群</view>
+        <view bindtap="taphead" data-tab="2" class="{{tab===2 ? 'headqr_itemselect' : 'headqr_item'}}">个人微信</view>
+        <view bindtap="taphead" data-tab="3" class="{{tab===3 ? 'headqr_itemselect' : 'headqr_item'}}">公众号</view>
+    </view>
+    <view wx:if="{{type===1}}" class="collection">
+        <view wx:for="{{tab===1? gcollections : (tab===2 ? percollections : pubcollections)}}" wx:key="_id" class="citem">
+            <image data-_id="{{item._id}}" bindtap="gotoqr" src="{{(item.groupavatar===''||item.groupavatar===undefined)?'/icon/image.png':item.groupavatar}}" />
+            <view>{{item.groupname}}</view>
+        </view>
+    </view>
+    <view wx:if="{{type===2}}" class="record" >
+        <view wx:for="{{tab===1? gcollections : (tab===2 ? percollections : pubcollections)}}" wx:key="_id" class="ritem">
+            <image data-_id="{{item._id}}" bindtap="gotoqr" src="{{(item.groupavatar===''||item.groupavatar===undefined)?'/icon/image.png':item.groupavatar}}" />
+            <view class="abstract">
+                <view>{{item.groupname}}</view>
+                <view>{{item.abstract}}</view>
+            </view>
+        </view>
+    </view>
+</view>
