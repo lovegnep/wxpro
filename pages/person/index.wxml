@@ -19,12 +19,12 @@
     </view>
     <view class="operate">
         <view>充值</view>
-        <view>收藏</view>
+        <view bindtap="tapcollection">收藏</view>
         <view>消息</view>
     </view>
     <view class="option">
         <view class="option_item" bindtap="doSign">签到</view>
-        <view class="option_item">浏览记录</view>
+        <view bindtap="tapview" class="option_item">浏览记录</view>
         <view class="option_item">邀请奖励</view>
         <view class="option_item">输入推广码</view>
         <view class="option_item">联系我们</view>

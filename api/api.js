@@ -107,7 +107,13 @@ let getWeiBi = function(){
 let getUploadCount = function(){
     return Utils.request(Config.GetUploadCount,{},'GET',true);
 }
+
+let decodeData = function(data){
+    return Utils.request(Config.DecodeData,data,'POST',true);
+};
 module.exports = {
+    decodeData:decodeData,
+
     getviews:getviews,
     getcollections:getcollections,
     doSign:doSign,

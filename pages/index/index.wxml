@@ -1,38 +1,131 @@
-<!--index.wxml-->
-<view class="head">
-    <view class="flex-view-item">微信群</view>
-    <view class="flex-view-item">个人微信</view>
-    <view class="flex-view-item">公众号</view>
-    <view class="flex-view-item">附近</view>
-    <view class="flex-view-item">排行榜</view>
-</view>
-<swiper indicator-dots="{{true}}"
-        autoplay="{{true}}" interval="{{5000}}" duration="{{1000}}">
-      <block wx:for="{{Swiper_QRList}}">
-        <swiper-item>
-           <navigator url="{{item.link}}" hover-class="navigator-hover">
-            <image src="{{item.groupavatar}}" class="slide-image"/>
-           </navigator>
-        </swiper-item>
-      </block>
-</swiper>
-<view class="head">
-    <view class="flex-view-item">同城群</view>
-    <view class="flex-view-item">创业群</view>
-    <view class="flex-view-item">运动群</view>
-</view>
-<view class="head">
-    <view class="flex-view-item">兼职群</view>
-    <view class="flex-view-item">红包群</view>
-    <view class="flex-view-item">年代群</view>
-</view>
-<view class="container">
-    <view class="section" wx:for="{{QRList}}" >
-        <view class="avatarimg">
-            <navigator url="{{item.link}}" hover-class="navigator-hover">
-                <image  src="{{item.groupavatar}}"></image>
-            </navigator>
+<!--home.wxml-->
+<view class="container" bindtap="handleglobale" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
+    <view class="headqr">
+        <view class="{{tab===0 ? 'headqr_itemselect' : 'headqr_item'}}">微信群</view>
+        <view class="{{tab===1 ? 'headqr_itemselect' : 'headqr_item'}}">个人微信</view>
+        <view class="{{tab===2 ? 'headqr_itemselect' : 'headqr_item'}}">公众号</view>
+    </view>
+    <view class="qrinfo" bindtap="handletapinfo">
+        <view class="groupnq">
+            <view class="groupname">{{qr.groupname}}</view>
+            <view wx:if="{{tab===0}}" class="qrgorm">
+                <view data-optm="1" catchtap="changegorm" class="qrgorm_m">群主二维码</view>
+                <view data-optm="0" catchtap="changegorm">群二维码</view>
+            </view>
+            <image src="{{poor ? '/icon/lock.png' :( (tab===0&&gtab===1)? (qr.masterQR?qr.masterQR:'/icon/fail.png') : qr.groupQR)}}" class="groupqr" mode="widthFix" catchtap="previewQR"></image>
         </view>
-        <view>{{item.groupname}}</view>
+        <view wx:if="{{tab===0&&gtab===1}}" class="groupqrinfo">
+            <view wx:if="{{qr.masterwx!==undefined && qr.masterwx!==''}}" class="section">
+                <image src="/icon/location.png" class="groupinfoimg"></image>
+                <view class="item_title">微信号</view>
+                <view>{{qr.masterwx}}</view>
+            </view>
+        </view>
+        <view wx:else class="groupqrinfo">
+            <view wx:if="{{qr.industry!==undefined}}" class="section">
+                <image src="/icon/industry.png" class="groupinfoimg"></image>
+                <view class="item_title">行业</view>
+                <view>{{qr.industry}}</view>
+            </view>
+            <view wx:if="{{qr.location!==undefined}}" class="section">
+                <image src="/icon/location.png" class="groupinfoimg"></image>
+                <view class="item_title">位置</view>
+                <view>{{qr.location}}</view>
+            </view>
+            <view wx:if="{{qr.grouptag!==undefined}}" class="section">
+                <image src="/icon/tag.png" class="groupinfoimg"></image>
+                <view class="item_title">标签</view>
+                <view>{{qr.grouptag}}</view>
+            </view>
+            <view wx:if="{{tab===2 && qr.masterwx!==undefined}}" class="section">
+                <image src="/icon/tag.png" class="groupinfoimg"></image>
+                <view class="item_title">公众号ID</view>
+                <view>{{qr.masterwx}}</view>
+            </view>
+            <view wx:if="{{tab===1}}" class="groupqq">
+                <view wx:if="{{qr.gender!==undefined}}" class="section">
+                    <image src="/icon/industry.png" class="groupinfoimg"></image>
+                    <view class="item_title">性别</view>
+                    <view>{{qr.gender}}</view>
+                </view>
+                <view wx:if="{{qr.birthday!==undefined}}" class="section">
+                    <image src="/icon/status.png" class="groupinfoimg"></image>
+                    <view class="item_title">生日</view>
+                    <view>{{qr.birthday}}</view>
+                </view>
+                <view wx:if="{{qr.masterwx!==undefined}}" class="section">
+                    <image src="/icon/status.png" class="groupinfoimg"></image>
+                    <view class="item_title">微信号</view>
+                    <view>{{qr.masterwx}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view wx:if="{{qr.abstract!==undefined&&qr.abstract!==''}}" class="abstractbut" catchtap="tapabstract">简介</view>
+    <view wx:if="{{abstractstatus}}" class="abstractwrap">
+        <view class="abstract" catchtap="catchtape">
+            <image class="close" src="/icon/close.png" bindtap="closeabstract"/>
+            {{qr.abstract}}
+        </view>
+    </view>
+    <view wx:if="{{qr._id !== undefined}}" class="underbar" catchtap="tapunderbar">
+        <!-- <view id="1" class="underbar_item section upclass" catchtap="handletap">
+            <image src="{{isup ? '/icon/qrup_select.png' : '/icon/qrup.png'}}"></image>
+            {{isup ? "已推荐 "+qr.ups.length : "推荐"}}
+        </view>
+        <view id="2" class="underbar_item downclass"  catchtap="handletap">
+            <image src="{{isdown ? '/icon/qrdown_select.png' : '/icon/qrdown.png'}}"></image>
+        </view> -->
+        <view class="underbar_item collect"  catchtap="handletap">
+            <image id="3"  src="{{iscollect ? '/icon/qrcollect_select.png' : '/icon/qrcollect.png'}}"></image>
+        </view>
+        <view class="underbar_item comment" catchtap="doreplyqr">
+            <image src="/icon/qrcomment.png"></image>
+        </view>
+        <view class="underbar_item trans_v" catchtap="dotransqr">
+            <image src="/icon/trans.png"></image>
+            <button open-type="share" class="trans_r"></button>
+        </view>
+    </view>
+    <view wx:if="{{replystatus}}" class="doreply" catchtap="tapdoreply">
+        <scroll-view wx:if="{{(tab===0&&gcomments.length > 0)||(tab===1&&percomments.length > 0)||(tab===2&&pubcomments.length > 0)}}" scroll-y class="commentscroll">
+            <view wx:for="{{tab===0?gcomments:(tab===1?percomments:pubcomments)}}" class="commentitem">
+                <image class="commentavatar" src="{{item.userid.avatar}}" />
+                <view class="commentuoc">
+                    <view class="commentnameandopt">
+                        <view>{{item.userid.nickname}}</view>
+                        <view class="commentopt">
+                            <view>
+                                <image catchtap="handlecommentopt"
+                                data-opttype="{{commentupdowninfo[item._id] === 1 ? '1' : '2'}}"
+                                data-optid="{{item._id}}"
+                                src="{{commentupdowninfo[item._id] === 1 ? '/icon/commentup_select.png' : '/icon/commentup.png'}}" />
+                            </view>
+                            <view>
+                                <image catchtap="handlecommentopt"
+                                data-opttype="{{commentupdowninfo[item._id] === 2 ? '3' : '4'}}"
+                                data-optid="{{item._id}}"
+                                src="{{commentupdowninfo[item._id] === 2 ? '/icon/commentdown_select.png' : '/icon/commentdown.png'}}" />
+                            </view>
+                            <view>
+                                <image id="{{item._id}}" src="/icon/commentreply.png"  catchtap="doreplycomment" />
+                            </view>
+                        </view>
+                    </view>
+                    <view class="commentcontent">{{item.content}}</view>
+                </view>
+            </view>
+        </scroll-view>
+        <view>
+            <view class="sendreplybar">
+                <view>填写评论{{replyto}}</view>
+                <view>
+                    <image class="sendreply" src="/icon/send_select.png" bindtap="tapsendbutton" />
+                </view>
+            </view>
+            <view>
+                <textarea auto-height value="{{replycontent}}" class="replyinput" placeholder="请输入" bindinput="handleinput"  class="replyarea"/>
+            </view>
+        </view>
     </view>
 </view>

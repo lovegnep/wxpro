@@ -11,6 +11,14 @@ Page({
         userinfo:{},
         uploadCount:0
     },
+    tapcollection:function(){
+        let path = '/pages/record/record?type=1';
+        wx.navigateTo({url:path});
+    },
+    tapview:function(){
+        let path = '/pages/record/record?type=2';
+        wx.navigateTo({url:path});
+    },
     getWeiBi:function(){
         let self = this;
         Api.getWeiBi().then(function(res){

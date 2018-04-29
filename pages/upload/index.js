@@ -45,29 +45,23 @@ Page({
     processSelectRecord:function(){
         let self = this;
         if(self.data.tab === 1){//群
-            if(self.data.grecord.length < 1){
-                return Api.getAllQRListOfUser({type:MsgType.QRType.EGroup}).then(function(res){
-                    if(res.status === MsgType.EErrorType.EOK){
-                        self.setData({grecord:res.data,record:true});
-                    }
-                })
-            }
+            return Api.getAllQRListOfUser({type:MsgType.QRType.EGroup,skip:self.data.grecord.length}).then(function(res){
+                if(res.status === MsgType.EErrorType.EOK){
+                    self.setData({grecord:[...self.data.grecord,...res.data],record:true});
+                }
+            })
         }else if(self.data.tab === 2){
-            if(self.data.perrecord.length < 1){
-                return Api.getAllQRListOfUser({type:MsgType.QRType.EPerson}).then(function(res){
-                    if(res.status === MsgType.EErrorType.EOK){
-                        self.setData({perrecord:res.data,record:true});
-                    }
-                })
-            }
+            return Api.getAllQRListOfUser({type:MsgType.QRType.EPerson,skip:self.data.grecord.length}).then(function(res){
+                if(res.status === MsgType.EErrorType.EOK){
+                    self.setData({perrecord:[...self.data.grecord,...res.data],record:true});
+                }
+            })
         }else if(self.data.tab === 3){
-            if(self.data.pubrecord.length < 1){
-                return Api.getAllQRListOfUser({type:MsgType.QRType.EPublic}).then(function(res){
-                    if(res.status === MsgType.EErrorType.EOK){
-                        self.setData({pubrecord:res.data,record:true});
-                    }
-                })
-            }
+            return Api.getAllQRListOfUser({type:MsgType.QRType.EPublic,skip:self.data.grecord.length}).then(function(res){
+                if(res.status === MsgType.EErrorType.EOK){
+                    self.setData({pubrecord:[...self.data.grecord,...res.data],record:true});
+                }
+            })
         }
         self.setData({record:true});
     },
@@ -86,7 +80,9 @@ Page({
 
     },
     lower:function(e){
+        console.log('滑到底部重新加载');
 
+        this.processSelectRecord();
     },
     bindRegionChange: function (e) {
         console.log('picker发送选择改变，携带值为', e.detail.value)

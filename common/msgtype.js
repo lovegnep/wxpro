@@ -17,6 +17,12 @@ const EErrorType = {
     EInvalidReq:10004,//非法请求，不是从appid过来的请求都是非法请求
     EInvalidQR:11000,//上传的二维码非法
     ENoWeibi:11001,//微币不够
+    EHasSign:11002,//已经签到
+    ENoSessionKey:11003,//sessionkey不存在
+    ENoEncryptedData:11004,//sessionkey不存在
+    ENoIV:11005,//sessionkey不存在
+    EDecodeFail:11006,//解密用户数据失败
+    EHasShareTo:11007,//当天已经分享到该群组
 };
 
 const ImgType = {

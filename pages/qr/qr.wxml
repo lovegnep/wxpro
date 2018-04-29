@@ -1,66 +1,54 @@
 <!--home.wxml-->
-<view class="container" bindtap="handleglobale" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
-    <view class="headqr">
-        <view class="{{tab===0 ? 'headqr_itemselect' : 'headqr_item'}}">微信群</view>
-        <view class="{{tab===1 ? 'headqr_itemselect' : 'headqr_item'}}">个人微信</view>
-        <view class="{{tab===2 ? 'headqr_itemselect' : 'headqr_item'}}">公众号</view>
-    </view>
+<view class="container" bindtap="handleglobale">
     <view class="qrinfo" bindtap="handletapinfo">
         <view class="groupnq">
             <view class="groupname">{{qr.groupname}}</view>
-            <view wx:if="{{tab===0}}" class="qrgorm">
-                <view data-optm="1" catchtap="changegorm">群主二维码</view>
+            <view wx:if="{{qr.type===1}}" class="qrgorm">
+                <view data-optm="1" catchtap="changegorm" class="qrgorm_m">群主二维码</view>
                 <view data-optm="0" catchtap="changegorm">群二维码</view>
             </view>
-            <image src="{{poor ? '/icon/lock.png' :( (tab===0&&gtab===1)? qr.masterQR : qr.groupQR)}}" class="groupqr" mode="widthFix" catchtap="previewQR"></image>
+            <image src="{{poor ? '/icon/lock.png' :( (qr.type===1&&gtab===1)? (qr.masterQR?qr.masterQR:'/icon/fail.png') : qr.groupQR)}}" class="groupqr" mode="widthFix" catchtap="previewQR"></image>
         </view>
-        <view wx:if="{{tab===0&&gtab===1}}" class="groupqrinfo">
-            <view class="section">
+        <view wx:if="{{qr.type===1&&gtab===1}}" class="groupqrinfo">
+            <view wx:if="{{qr.masterwx!==undefined && qr.masterwx!==''}}" class="section">
                 <image src="/icon/location.png" class="groupinfoimg"></image>
                 <view class="item_title">微信号</view>
                 <view>{{qr.masterwx}}</view>
             </view>
         </view>
         <view wx:else class="groupqrinfo">
-            <view class="groupqq">
-                <view class="section">
-                    <image src="/icon/industry.png" class="groupinfoimg"></image>
-                    <view class="item_title">行业</view>
-                    <view>{{qr.industry}}</view>
-                </view>
-                <view class="section">
-                    <image src="/icon/status.png" class="groupinfoimg"></image>
-                    <view class="item_title">状态</view>
-                    <view>{{qr.groupname}}</view>
-                </view>
+            <view wx:if="{{qr.industry!==undefined&&qr.industry!==''}}" class="section">
+                <image src="/icon/industry.png" class="groupinfoimg"></image>
+                <view class="item_title">行业</view>
+                <view>{{qr.industry}}</view>
             </view>
-            <view class="section">
+            <view wx:if="{{qr.location!==undefined&&qr.location!==''}}" class="section">
                 <image src="/icon/location.png" class="groupinfoimg"></image>
                 <view class="item_title">位置</view>
                 <view>{{qr.location}}</view>
             </view>
-            <view class="section">
+            <view wx:if="{{qr.grouptag!==undefined&&qr.grouptag!==''}}" class="section">
                 <image src="/icon/tag.png" class="groupinfoimg"></image>
                 <view class="item_title">标签</view>
                 <view>{{qr.grouptag}}</view>
             </view>
-            <view wx:if="{{tab===2}}" class="section">
+            <view wx:if="{{qr.type===3 && qr.masterwx!==undefined&&qr.masterwx!==''}}" class="section">
                 <image src="/icon/tag.png" class="groupinfoimg"></image>
                 <view class="item_title">公众号ID</view>
                 <view>{{qr.masterwx}}</view>
             </view>
-            <view wx:if="{{tab===1}}" class="groupqq">
-                <view class="section">
+            <view wx:if="{{qr.type===2}}" class="groupqq">
+                <view wx:if="{{qr.gender!==undefined}}" class="section">
                     <image src="/icon/industry.png" class="groupinfoimg"></image>
                     <view class="item_title">性别</view>
                     <view>{{qr.gender}}</view>
                 </view>
-                <view class="section">
+                <view wx:if="{{qr.birthday!==undefined}}" class="section">
                     <image src="/icon/status.png" class="groupinfoimg"></image>
                     <view class="item_title">生日</view>
                     <view>{{qr.birthday}}</view>
                 </view>
-                <view class="section">
+                <view wx:if="{{qr.masterwx!==undefined}}" class="section">
                     <image src="/icon/status.png" class="groupinfoimg"></image>
                     <view class="item_title">微信号</view>
                     <view>{{qr.masterwx}}</view>
@@ -68,14 +56,14 @@
             </view>
         </view>
     </view>
-    <view class="abstractbut" catchtap="tapabstract">简介</view>
+    <view wx:if="{{qr.abstract!==undefined&&qr.abstract!==''}}" class="abstractbut" catchtap="tapabstract">简介</view>
     <view wx:if="{{abstractstatus}}" class="abstractwrap">
         <view class="abstract" catchtap="catchtape">
             <image class="close" src="/icon/close.png" bindtap="closeabstract"/>
             {{qr.abstract}}
         </view>
     </view>
-    <view class="underbar" catchtap="tapunderbar">
+    <view wx:if="{{qr._id !== undefined}}" class="underbar" catchtap="tapunderbar">
         <!-- <view id="1" class="underbar_item section upclass" catchtap="handletap">
             <image src="{{isup ? '/icon/qrup_select.png' : '/icon/qrup.png'}}"></image>
             {{isup ? "已推荐 "+qr.ups.length : "推荐"}}
@@ -89,8 +77,9 @@
         <view class="underbar_item comment" catchtap="doreplyqr">
             <image src="/icon/qrcomment.png"></image>
         </view>
-        <view class="underbar_item trans" catchtap="dotransqr">
+        <view class="underbar_item trans_v" catchtap="doShare">
             <image src="/icon/trans.png"></image>
+            <button open-type="share" class="trans_r"></button>
         </view>
     </view>
     <view wx:if="{{replystatus}}" class="doreply" catchtap="tapdoreply">

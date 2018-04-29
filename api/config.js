@@ -36,4 +36,6 @@ module.exports = {
     GetWeibi:Config.apihead + "/api/getweibi",
     Sign:Config.apihead + "/api/sign",
     GetUploadCount:Config.apihead + "/api/getuploadcount",
+
+    DecodeData:Config.apihead+"/api/decode",
 };
