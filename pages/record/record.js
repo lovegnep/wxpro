@@ -15,11 +15,81 @@ Page({
         pubcollections:[],
         tab:1,//1群2个人微信3公众号
     },
+    onReachBottom:function(e){//收藏页面
+        console.log('上拉触底：',e);
+        let self = this;
+        let type = this.data.tab;
+        let qrlist = this.data.tab===1?this.data.gcollections:(this.data.tab===2?this.data.percollections:this.data.pubcollections);
+        Api.getcollections({type:type,skip:qrlist.length}).then(function(res){
+            if(res.status === MsgType.EErrorType.EOK && res.data.length > 0){
+                if(type===1){
+                    self.setData({gcollections:[...self.data.gcollections,...res.data]});
+                }else if(type===2){
+                    self.setData({percollections:[...self.data.percollections,...res.data]})
+                }else if(type===3){
+                    self.setData({pubcollections:[...self.data.pubcollections,...res.data]})
+                }
+            }
+        })
+    },
+    upper:function(){
+        console.log('顶部');
+    },
+    lower:function(){//浏览记录页面
+        console.log('底部');
+        let self = this;
+        let type = this.data.tab;
+        let qrlist = this.data.tab===1?this.data.gcollections:(this.data.tab===2?this.data.percollections:this.data.pubcollections);
+        Api.getviews({type:this.data.tab,skip:qrlist.length}).then(function(res){
+            if(res.status === MsgType.EErrorType.EOK && res.data.length > 0){
+                if(type===1){
+                    self.setData({gcollections:[...self.data.gcollections,...res.data]})
+                }else if(type===2){
+                    self.setData({percollections:[...self.data.percollections,...res.data]})
+                }else if(type===3){
+                    self.setData({pubcollections:[...self.data.pubcollections,...res.data]})
+                }
+            }
+        })
+    },
+    getqr:function(type){
+        let self = this;
+        let qrlist = type===1?this.data.gcollections:(type===2?this.data.percollections:this.data.pubcollections);
+        if(this.data.type === 1){
+            Api.getcollections({type:type,skip:qrlist.length}).then(function(res){
+                if(res.status === MsgType.EErrorType.EOK && res.data.length > 0){
+                    if(type===1){
+                        self.setData({gcollections:[...self.data.gcollections,...res.data]});
+                    }else if(type===2){
+                        self.setData({percollections:[...self.data.percollections,...res.data]})
+                    }else if(type===3){
+                        self.setData({pubcollections:[...self.data.pubcollections,...res.data]})
+                    }
+                }
+            })
+        }else if(this.data.type === 2){
+            Api.getviews({type:type,skip:qrlist.length}).then(function(res){
+                if(res.status === MsgType.EErrorType.EOK && res.data.length > 0){
+                    if(type===1){
+                        self.setData({gcollections:[...self.data.gcollections,...res.data]})
+                    }else if(type===2){
+                        self.setData({percollections:[...self.data.percollections,...res.data]})
+                    }else if(type===3){
+                        self.setData({pubcollections:[...self.data.pubcollections,...res.data]})
+                    }
+                }
+            })
+        }
+    },
     taphead:function(e){
         let type = e.currentTarget.dataset.tab;
         this.setData({tab:parseInt(type)});
-        if(parseInt(type) === 1){
-            if()
+        if(parseInt(type) === 1 && this.data.gcollections.length < 20){//1群
+            this.getqr(parseInt(type));
+        }else if(parseInt(type) === 2 && this.data.percollections.length < 20){
+            this.getqr(parseInt(type));
+        }else if(parseInt(type) === 3 && this.data.pubcollections.length < 20){
+            this.getqr(parseInt(type));
         }
     },
     gotoqr:function(e){
