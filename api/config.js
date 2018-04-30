@@ -38,4 +38,5 @@ module.exports = {
     GetUploadCount:Config.apihead + "/api/getuploadcount",
 
     DecodeData:Config.apihead+"/api/decode",
+    ShareIn:Config.apihead+"/api/sharein",
 };

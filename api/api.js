@@ -111,8 +111,12 @@ let getUploadCount = function(){
 let decodeData = function(data){
     return Utils.request(Config.DecodeData,data,'POST',true);
 };
+let shareIn = function(data){
+    return Utils.request(Config.ShareIn,data,'POST',true);
+};
 module.exports = {
     decodeData:decodeData,
+    shareIn:shareIn,
 
     getviews:getviews,
     getcollections:getcollections,

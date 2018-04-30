@@ -1,10 +1,12 @@
 //index.js
 //获取应用实例
-const app = getApp()
+const app = getApp();
 const ApiConfig = require('../../api/config');
 const Config = require('../../config');
 const Api = require('../../api/api');
 const MsgType = require('../../common/msgtype');
+const Uuidv1 = require('../../utils/lib/uuid/we-uuidv1');
+const Utils = require('../../utils/util');
 
 let touchDotx = 0;//触摸时的原点
 let touchDoty = 0;//触摸时的原点
@@ -317,12 +319,18 @@ Page({
             });
         }
         let path = '/pages/index/index?' + 'qrid='+this.data.qr._id+'&isshare=1';
+        let index = Uuidv1();
+        let url = Utils.generatePath('/pages/index/index',{index:index,userid:app.globalData.user._id,qrid:this.data.qr._id,isshare:1});
+        console.log('share url:',url);
         return {
             title: '测试转发',
-            path: path,
+            path: url,
             success: function(res) {
                 // 转发成功
                 if(!res.shareTickets || res.shareTickets.length < 1){
+                    Api.decodeData({path:path,index:index,type:1}).then(function(res){
+                        console.log('创建分享到个人实例成功');
+                    });
                     return wx.showToast({
                         title:'请转发到群'
                     });
@@ -331,7 +339,7 @@ Page({
                 wx.getShareInfo({
                     shareTicket:res.shareTickets[0],
                     success:function(data){
-                        Api.decodeData({path:path,encryptedData:data.encryptedData,iv:data.iv}).then(function(serveres){
+                        Api.decodeData({type:2,path:path,encryptedData:data.encryptedData,iv:data.iv}).then(function(serveres){
                             if(serveres.status === MsgType.EErrorType.EOK){
                                 console.log('解密成功：',serveres.data);
                                 return wx.showToast({title:'分享成功，增加微币'});
@@ -807,10 +815,12 @@ Page({
     onLoad: function (options) {
         console.log('QR开始初始化...');
         console.log('QR参数：',options);
+        console.log('uuidv1:',Uuidv1());
         wx.showShareMenu({
             withShareTicket: true
         });
         let self = this;
+        let arrFuns = [];
         if(options.isshare && parseInt(options.isshare) === 1){
             // 通过分享进入该页面
             if(!options.qrid){
@@ -818,10 +828,31 @@ Page({
                     title:'qrid不存在'
                 });
             }
+            let index = options.index;
+            let scene = 0;
+            if(options.scene === 1007 ){//单人聊天会话中的小程序消息卡片
+                scene=1;
+            }else if(options.scene === 1008){//群聊会话中的小程序消息卡片
+                scene = 2;
+            }
+            if(index&&index.length > 0){
+                arrFuns.push(function(){
+                    Api.shareIn({scene:scene,index:index}).then(function(res){
+                        if(res.status === MsgType.EErrorType.EOK){
+                            console.log('将用户添加到share son成功:',index);
+                        }else{
+                            console.log('将用户添加到share son失败:',index,res);
+                        }
+                    }).catch(function(err){
+                        console.log('将用户添加到share son失败,err:',err,index);
+                    })
+                })
+            }
+            arrFuns.push(self.initdatafromserver(options.qrid));
             if(!app.globalData.user){
-                app.globalData.cb = self.initdatafromserver(options.qrid);
+                app.globalData.cb = Utils.combineFuns(arrFuns);
             }else{
-                (self.initdatafromserver(options.qrid))();
+                (Utils.combineFuns(arrFuns))();
             }
             return;
         }

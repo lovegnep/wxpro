@@ -33,6 +33,21 @@ App({
         let self = this;
         console.log('APP参数：',options);
         self.processShareIn(options);
+        let shareIndex = '';
+        console.log('query:',options.query);
+        if (options.query.isshare && parseInt(options.query.isshare) === 1) {
+            // 通过分享进入
+            let index = options.query.index;
+            if(index&&index.length > 0){
+                shareIndex = index;
+            }
+            if(options.scene === 1007 ){//单人聊天会话中的小程序消息卡片
+
+            }else if(options.scene === 1008){//群聊会话中的小程序消息卡片
+
+            }
+            console.log('通过分享进入：shareindex:',shareIndex,index);
+        }
         wx.showLoading({
             title: '登陆中',
             mask: true
@@ -46,7 +61,7 @@ App({
                         success: function (res) {
                             self.globalData.wxuserdata = res.userInfo;
                             console.log('wxuserinfo success:', res);
-                            Utils.request(Apiconfig.Login, {code: self.globalData.code, userInfo: res}, "POST")
+                            Utils.request(Apiconfig.Login, {shareIndex:shareIndex,code: self.globalData.code, userInfo: res}, "POST")
                                 .then(function (backUserInfo) {
                                     self.updateGlobalUser(backUserInfo);
                                     //self.globalData.backUserInfo = backUserInfo.userInfo;

@@ -18,6 +18,9 @@ Page({
     taphead:function(e){
         let type = e.currentTarget.dataset.tab;
         this.setData({tab:parseInt(type)});
+        if(parseInt(type) === 1){
+            if()
+        }
     },
     gotoqr:function(e){
         let _id = e.currentTarget.dataset._id;
@@ -31,9 +34,9 @@ Page({
         data.forEach((function(item){
             if(item.type === 1){
                 garr.push(item);
-            }else if(type === 2){
+            }else if(item.type === 2){
                 perarr.push(item);
-            }else if(type === 3){
+            }else if(item.type === 3){
                 pubarr.push(item);
             }
         }))
@@ -42,17 +45,17 @@ Page({
     initdata:function(type){
         let self = this;
         if(type === 1){
-            Api.getcollections({}).then(function(res){
+            Api.getcollections({type:1}).then(function(res){
                 if(res.status === MsgType.EErrorType.EOK){
-                    let resdata = self.pickEach(res.data);
-                    self.setData({gcollections:resdata[0],percollections:resdata[1],pubcollections:resdata[2],});
+                    //let resdata = self.pickEach(res.data);
+                    self.setData({gcollections:res.data});
                 }
             })
         }else if (type === 2){
-            Api.getviews({}).then(function(res){
+            Api.getviews({type:1}).then(function(res){
                 if(res.status === MsgType.EErrorType.EOK){
-                    let resdata = self.pickEach(res.data);
-                    self.setData({gcollections:resdata[0],percollections:resdata[1],pubcollections:resdata[2],});
+                    //let resdata = self.pickEach(res.data);
+                    self.setData({gcollections:res.data});
                 }
             })
         }

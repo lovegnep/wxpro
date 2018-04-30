@@ -1,17 +1,19 @@
-const formatTime = date => {
-  const year = date.getFullYear()
-  const month = date.getMonth() + 1
-  const day = date.getDate()
-  const hour = date.getHours()
-  const minute = date.getMinutes()
-  const second = date.getSeconds()
 
-  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+
+const formatTime = date => {
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+    const day = date.getDate()
+    const hour = date.getHours()
+    const minute = date.getMinutes()
+    const second = date.getSeconds()
+
+    return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
 
 const formatNumber = n => {
-  n = n.toString()
-  return n[1] ? n : '0' + n
+    n = n.toString()
+    return n[1] ? n : '0' + n
 }
 
 
@@ -19,12 +21,12 @@ const formatNumber = n => {
  * 封封微信的的request
  */
 function request(url, data = {}, method = "GET", needlogin) {
-    if(needlogin){
+    if (needlogin) {
         let sessionkey = wx.getStorageSync('sessionkey');
-        if(!sessionkey){
+        if (!sessionkey) {
             console.log("request: sessionkey not exist. please login first.");
             return null;
-        }else{
+        } else {
             return new Promise(function (resolve, reject) {
                 wx.request({
                     url: url,
@@ -32,7 +34,7 @@ function request(url, data = {}, method = "GET", needlogin) {
                     method: method,
                     header: {
                         'Content-Type': 'application/json',
-                        sessionkey:sessionkey
+                        sessionkey: sessionkey
                     },
                     success: function (res) {
                         console.log("success");
@@ -45,7 +47,7 @@ function request(url, data = {}, method = "GET", needlogin) {
                 })
             });
         }
-    }else{
+    } else {
         return new Promise(function (resolve, reject) {
             wx.request({
                 url: url,
@@ -122,10 +124,47 @@ function getUserInfo() {
     });
 }
 
+function generatePath(path, obj) {
+    if (!path || path.length < 1) {
+        return null;
+    }
+    let keys = Object.keys(obj);
+    let len = keys.length;
+    let respath = path + '?';
+    let reskv = '';
+    for (let i = 0; i < len; i++) {
+        if(i!==len-1){
+            reskv += keys[i] + '=' + obj[keys[i]] + '&';
+        }else{
+            reskv += keys[i] + '=' + obj[keys[i]];
+        }
+
+    }
+    if (reskv.length < 1) {
+        return path;
+    } else {
+        return respath + reskv;
+    }
+}
+function combineFuns(arr){
+    let tmpfun = function(){};
+    if(!arr || arr.length <1){
+        return tmpfun;
+    }
+    return function(){
+        let len = arr.length;
+        for(let i = 0; i < len; i++){
+            arr[i]();
+        }
+    }
+
+}
 module.exports = {
-  formatTime: formatTime,
-    request:request,
-    checkSession:checkSession,
-    login:login,
-    getUserInfo:getUserInfo
+    formatTime: formatTime,
+    request: request,
+    checkSession: checkSession,
+    login: login,
+    getUserInfo: getUserInfo,
+    generatePath: generatePath,
+    combineFuns:combineFuns
 };
