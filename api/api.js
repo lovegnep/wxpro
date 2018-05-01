@@ -126,9 +126,13 @@ let search = function(data){
 let groupNameSearch = function(data){
     return Utils.request(Config.GroupNameSearch,data,'POST',true);
 }
+let getHotQrList = function(data){
+    return Utils.request(Config.GetHotQR,data,'POST',true);
+}
 module.exports = {
     getRecord:getRecord,
     getHotRecord:getHotRecord,
+    getHotQrList:getHotQrList,
     search:search,
     groupNameSearch:groupNameSearch,
 

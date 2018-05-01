@@ -41,6 +41,7 @@ module.exports = {
     ShareIn:Config.apihead+"/api/sharein",
     GetRecord:Config.apihead+"/api/getsearchrecords",
     GetHotRecord:Config.apihead+"/api/gethotrecords",
+    GetHotQR:Config.apihead+"/api/gethotqr",
     Search:Config.apihead+"/api/search",
     GroupNameSearch:Config.apihead+"/api/groupnamesearch",
 };
