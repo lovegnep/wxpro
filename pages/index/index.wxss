@@ -11,6 +11,11 @@ page{
     display: flex;
     flex-direction: row;
     justify-content:space-around;
+    align-items:center;
+}
+.headqr image{
+    width: 40rpx;
+    height:40rpx;
 }
 .headqr_itemselect{
     border-bottom:1rpx solid;

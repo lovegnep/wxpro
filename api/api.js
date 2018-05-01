@@ -114,7 +114,20 @@ let decodeData = function(data){
 let shareIn = function(data){
     return Utils.request(Config.ShareIn,data,'POST',true);
 };
+let getRecord = function(data){
+    return Utils.request(Config.GetRecord,data,'POST',true);
+}
+let search = function(data){
+    return Utils.request(Config.Search,data,'POST',true);
+}
+let groupNameSearch = function(data){
+    return Utils.request(Config.GroupNameSearch,data,'POST',true);
+}
 module.exports = {
+    getRecord:getRecord,
+    search:search,
+    groupNameSearch:groupNameSearch,
+
     decodeData:decodeData,
     shareIn:shareIn,
 

@@ -39,4 +39,7 @@ module.exports = {
 
     DecodeData:Config.apihead+"/api/decode",
     ShareIn:Config.apihead+"/api/sharein",
+    GetRecord:Config.apihead+"/api/getsearchrecords",
+    Search:Config.apihead+"/api/search",
+    GroupNameSearch:Config.apihead+"/api/groupnamesearch",
 };

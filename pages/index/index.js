@@ -45,6 +45,14 @@ Page({
         pubqrlist:[],
         poorflag:false
     },
+    gotorank:function(){
+        let path = '/pages/rank/rank';
+        wx.navigateTo({url:path});
+    },
+    gotofind:function(){
+        let path = '/pages/find/find';
+        wx.navigateTo({url:path});
+    },
     updateTabData:function(){
         let self = this;
         this.changeLoadingFlag(true);

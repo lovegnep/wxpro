@@ -1,0 +1,42 @@
+<!--index.wxml-->
+<view class="container">
+    <view class="search">
+        <input value="{{value}}" class="sinput" placeholder="搜索" confirm-type="search" bindinput="handlesearchchange" bindconfirm="handleconfirm" />
+    </view>
+    <view wx:if="{{showflag!==2}}" class="head">
+        <view data-id="0" bindtap="taptab" class="{{ tab===0? 'finditem_select' : 'finditem'}}">全部</view>
+        <view data-id="1" bindtap="taptab" class="{{ tab===1? 'finditem_select' : 'finditem'}}">微信群</view>
+        <view data-id="2" bindtap="taptab" class="{{ tab===2? 'finditem_select' : 'finditem'}}">个人微信</view>
+        <view data-id="3" bindtap="taptab" class="{{ tab===3? 'finditem_select' : 'finditem'}}">公众号</view>
+    </view>
+    <view wx:if="{{showflag===0 && history.length > 0}}">
+        <view>历史搜索</view>
+        <view>
+            <view wx:if="{{history.length < 1}}">无搜索记录</view>
+            <view wx:for="{{history}}">
+                {{item.record}}
+            </view>
+        </view>
+    </view>
+    <view wx:if="{{showflag===1}}" class="searchgroupname">
+        <view wx:if="{{groupname.length < 1}}">无匹配字段</view>
+        <view wx:for="{{groupname}}" class="gnitem">
+            <view>{{item.groupname}}</view>
+            <image data-name="{{item.groupname}}" bindtap="tapgroupname" src="/icon/uparrow.png" />
+        </view>
+    </view>
+    <view wx:if="{{showflag===2}}" class="resscroll">
+        <view wx:if="{{res.length < 1}}">暂无搜索结果</view>
+        <scroll-view scroll-y bindscrolltoupper="upper" bindscrolltolower="lower" class="rscroll">
+            <view wx:for="{{res}}" class="resitem">
+                <image data-_id="{{item._id}}" bindtap="gotoqr" src="{{(item.groupavatar===''||item.groupavatar===undefined)?'/icon/image.png':item.groupavatar}}" />
+                <view class="abstract">
+                    <view>{{item.groupname}}</view>
+                    <view>{{item.abstract}}</view>
+                </view>
+            </view>
+        </scroll-view>
+    </view>
+</view>
+
+
