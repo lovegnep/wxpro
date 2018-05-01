@@ -2,7 +2,7 @@
   "pages":[
     "pages/index/index",
     "pages/find/find",
-    "pages/logs/logs",
+    "pages/rank/rank",
     "pages/person/index",
     "pages/qr/qr",
     "pages/upload/index",

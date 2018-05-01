@@ -364,7 +364,15 @@ Page({
                     console.log('initdata:get qr success.');
                     let qrtmp = res.data;
                     if (qrtmp) {
-                        self.setData({qr: qrtmp});
+                        Api.viewQR(qrid).then(function(dres){
+                            if(dres.status === MsgType.EErrorType.EOK){
+                                self.setData({qr: qrtmp});
+                            }else if(dres.status === MsgType.EErrorType.ENoWeibi){
+                                self.setData({qr: qrtmp,poorflag:true});
+                                wx.showToast({title:'微币不足'});
+                            }
+                        })
+
                     } else {
                         return wx.showToast({
                             title: '找不到该二维码',

@@ -16,7 +16,24 @@ Page({
     taptab:function(e){
         let self = this;
         let id = parseInt(e.currentTarget.dataset.id);
-        self.setData({tab:id});
+        let tmpqrlist = id===1?self.data.gres:(id === 2 ? self.data.perres :self.data.pubres);
+        if(id !== self.data.tab && tmpqrlist.length < 1){
+            Api.getHotQrList({tab:id}).then(function(res){
+                if(res.status === MsgType.EErrorType.EOK){
+                    if(id === 1){
+                        self.setData({gres:res.data,tab:id});
+                    }else if(id === 2){
+                        self.setData({perres:res.data,tab:id});
+                    }else if(id === 3){
+                        self.setData({pubres:res.data,tab:id});
+                    }
+
+                }
+            })
+        }else if(id !== self.data.tab && tmpqrlist.length > 0){
+            self.setData({tab:id});
+        }
+        //self.setData({tab:id});
     },
     gotoqr:function(e){
         let _id = e.currentTarget.dataset._id;
@@ -25,7 +42,7 @@ Page({
     },
     onLoad: function () {
         let self = this;
-        Api.getHotQrList({}).then(function(res){
+        Api.getHotQrList({tab:self.data.tab}).then(function(res){
             if(res.status === MsgType.EErrorType.EOK){
                 self.setData({gres:res.data});
             }
