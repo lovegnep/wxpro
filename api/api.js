@@ -129,7 +129,12 @@ let groupNameSearch = function(data){
 let getHotQrList = function(data){
     return Utils.request(Config.GetHotQR,data,'POST',true);
 }
+let getWBLog = function(data){
+    return Utils.request(Config.GetWBLog,data,'POST',true);
+}
 module.exports = {
+    getWBLog:getWBLog,
+
     getRecord:getRecord,
     getHotRecord:getHotRecord,
     getHotQrList:getHotQrList,

@@ -15,6 +15,10 @@ Page({
         let path = '/pages/record/record?type=1';
         wx.navigateTo({url:path});
     },
+    tapwb:function(){
+        let path = '/pages/weibi/wb';
+        wx.navigateTo({url:path});
+    },
     tapview:function(){
         let path = '/pages/record/record?type=2';
         wx.navigateTo({url:path});

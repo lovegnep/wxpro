@@ -1,0 +1,28 @@
+<!--index.wxml-->
+<view class="table">
+  <view class="tr bg-w">
+    <view class="th">来源</view>
+    <view class="th">说明</view>
+    <view class="th">时间</view>
+    <view class="th">变化量</view>
+    <view class="th ">变化后</view>
+  </view>
+  <block wx:for="{{wblog}}" wx:key="{{_id}}">
+    <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
+      <view class="td">{{item.chinese}}</view>
+      <view class="td name">{{item.name}}</view>
+      <view class="td time">{{item.createTime}}</view>
+      <view class="td">{{item.change}}</view>
+      <view class="td">{{item.after}}</view>
+    </view>
+    <view class="tr" wx:else>
+      <view class="td">{{item.chinese}}</view>
+      <view class="td name">{{item.name}}</view>
+      <view class="td time">{{item.createTime}}</view>
+      <view class="td">{{item.change}}</view>
+      <view class="td">{{item.after}}</view>
+    </view>
+  </block>
+</view>
+
+

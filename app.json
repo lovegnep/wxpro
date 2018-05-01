@@ -6,7 +6,8 @@
     "pages/person/index",
     "pages/qr/qr",
     "pages/upload/index",
-    "pages/record/record"
+    "pages/record/record",
+    "pages/weibi/wb"
   ],
   "window":{
     "backgroundTextStyle":"light",

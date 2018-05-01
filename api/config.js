@@ -44,4 +44,6 @@ module.exports = {
     GetHotQR:Config.apihead+"/api/gethotqr",
     Search:Config.apihead+"/api/search",
     GroupNameSearch:Config.apihead+"/api/groupnamesearch",
+
+    GetWBLog:Config.apihead+"/api/getweibilog",
 };

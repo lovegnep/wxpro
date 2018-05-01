@@ -22,7 +22,12 @@ const EErrorType = {
     ENoEncryptedData:11004,//sessionkey不存在
     ENoIV:11005,//sessionkey不存在
     EDecodeFail:11006,//解密用户数据失败
-    EHasShareTo:11007,//当天已经分享到该群组
+    EHasShareTo:11007,//当天已经分享到该群组,
+    EShareIndexInvalid:11008,//shareindex不合法
+    ENoShare:11009,//找不到该share
+
+    EInvalidTab:11010,//查询tab非法
+    EInvalidContent:11011,//查询内容非法
 };
 
 const ImgType = {
@@ -42,6 +47,23 @@ const QRSource = {
     EPython:2
 }
 
+const WeiBiSource = {
+    EShare2Group:1,//每天第一次分享到该群
+    EView:2,//看二维码
+    ESign:3,//签到
+    EVip:4,//会员每天领奖
+    EInit:5,//新用户初始
+    EPay:6,//充值
+}
+const WBChinese = {
+    '1':'分享',
+    '2':'浏览',
+    '3':'签到',
+    '4':'会员领奖',
+    '5':'初始',
+    '6':'充值',
+}
+
 exports = {
     EMessageStatus:EMessageStatus,
     EMessageType:EMessageType,
@@ -49,5 +71,7 @@ exports = {
     ImgType:ImgType,
     QRType:QRType,
     QRSource:QRSource,
+    WeiBiSource:WeiBiSource,
+    WBChinese:WBChinese,
 };
 Object.assign(module.exports, exports);

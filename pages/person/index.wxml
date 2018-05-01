@@ -9,7 +9,7 @@
             </view>
             <view class="uinu">
                 <view>上传{{uploadCount}}</view>
-                <view>微币{{userinfo.weibi}}</view>
+                <view bindtap="tapwb">微币{{userinfo.weibi}}</view>
             </view>
         </view>
         <view class="uiavatar">
