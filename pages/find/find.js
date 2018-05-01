@@ -10,10 +10,24 @@ Page({
     data: {
         tab:0,//0全部，1微信群，2个人微信，3公众号
         history:[],//搜索记录
+        hotHistory:[],//最热门搜索记录
         value:'',
         groupname:[],//匹配到的groupname
         showflag:0,//0显示历史搜索，1显示搜索提示，2显示搜索结果
         res:[]//搜索到的结果
+    },
+    taphis:function(e){
+        let self = this;
+        let value = e.currentTarget.dataset.name;
+        if(value.length < 2){
+            return wx.showToast({title:'内容太短'});
+        }
+        this.setData({value:value});
+        Api.search({content:value,tab:this.data.tab}).then(function(res){
+            if(res.status === MsgType.EErrorType.EOK){
+                self.setData({res:res.data,showflag:2});
+            }
+        })
     },
     taptab:function(e){
         let self = this;
@@ -47,6 +61,15 @@ Page({
     },
     upper:function(){
         console.log('顶部');
+    },
+    sxlower:function(){
+        console.log('右边');
+        let self = this;
+        Api.getRecord({skip:self.data.history.length}).then(function(res){
+            if(res.status === MsgType.EErrorType.EOK){
+                self.setData({history:[...self.data.history,...res.data]});
+            }
+        })
     },
     lower:function(){
         console.log('底部');
@@ -100,7 +123,12 @@ Page({
             if(res.status === MsgType.EErrorType.EOK){
                 self.setData({history:res.data});
             }
-        })
+        });
+        Api.getHotRecord({}).then(function(res){
+            if(res.status === MsgType.EErrorType.EOK){
+                self.setData({hotHistory:res.data});
+            }
+        });
     },
 
 });

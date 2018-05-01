@@ -68,3 +68,22 @@ page{
     flex-direction: column;
     width:50%;
 }
+.hitem{
+height: auto;
+margin-right: 23rpx;
+display: inline-block;
+}
+.scrollbox{
+width: 100%;
+height:100rpx;
+overflow: hidden;
+padding: 20rpx;
+background: #fff;
+white-space: nowrap;
+}
+.hothistory{
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
+}

@@ -9,13 +9,20 @@
         <view data-id="2" bindtap="taptab" class="{{ tab===2? 'finditem_select' : 'finditem'}}">个人微信</view>
         <view data-id="3" bindtap="taptab" class="{{ tab===3? 'finditem_select' : 'finditem'}}">公众号</view>
     </view>
-    <view wx:if="{{showflag===0 && history.length > 0}}">
+    <view wx:if="{{showflag===0 && history.length > 0}}" class="scrollbox">
         <view>历史搜索</view>
-        <view>
+        <scroll-view class="searchhistory" class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;" bindscrolltolower="sxlower">
             <view wx:if="{{history.length < 1}}">无搜索记录</view>
-            <view wx:for="{{history}}">
-                {{item.record}}
+            <view data-name="{{item._id}}" bindtap="taphis" class="hitem" wx:for="{{history}}">
+                {{item._id}}
             </view>
+        </scroll-view>
+    </view>
+    <view wx:if="{{showflag===0 && hotHistory.length > 0}}" class="hothistory">
+        <view>热门搜索</view>
+        <view wx:if="{{hotHistory.length < 1}}">无搜索记录</view>
+        <view data-name="{{item._id}}" bindtap="taphis" class="hitem" wx:for="{{hotHistory}}">
+            {{item._id}}
         </view>
     </view>
     <view wx:if="{{showflag===1}}" class="searchgroupname">

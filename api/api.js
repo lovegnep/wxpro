@@ -117,6 +117,9 @@ let shareIn = function(data){
 let getRecord = function(data){
     return Utils.request(Config.GetRecord,data,'POST',true);
 }
+let getHotRecord = function(data){
+    return Utils.request(Config.GetHotRecord,data,'POST',true);
+}
 let search = function(data){
     return Utils.request(Config.Search,data,'POST',true);
 }
@@ -125,6 +128,7 @@ let groupNameSearch = function(data){
 }
 module.exports = {
     getRecord:getRecord,
+    getHotRecord:getHotRecord,
     search:search,
     groupNameSearch:groupNameSearch,
 
