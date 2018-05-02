@@ -8,7 +8,7 @@
                 <image src="{{!!userinfo.monthstart ? '/icon/month_select.png' : '/icon/month.png'}}" />
             </view>
             <view class="uinu">
-                <view>上传{{uploadCount}}</view>
+                <view bindtap="tapupload">上传{{uploadCount}}</view>
                 <view bindtap="tapwb">微币{{userinfo.weibi}}</view>
             </view>
         </view>

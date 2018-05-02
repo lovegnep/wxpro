@@ -46,4 +46,10 @@ module.exports = {
     GroupNameSearch:Config.apihead+"/api/groupnamesearch",
 
     GetWBLog:Config.apihead+"/api/getweibilog",
+
+    UpdateQR:Config.apihead+"/api/updateGroup",
+    DelQR:Config.apihead+"/api/deleteqr",
+    CDelQR:Config.apihead+"/api/cdeleteqr",
+    QRUp:Config.apihead+"/api/qrup",
+    QRDown:Config.apihead+"/api/qrdown",
 };

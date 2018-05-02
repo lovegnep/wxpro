@@ -19,13 +19,15 @@ Page({
         abstract:'',
         grouptag:'',
         masterwx:'',//上传都微信号，个人微信号，公众呈ID
+        gender:0,
         index:0,
         region:['中国'],
         tab:-1,
         record:false,
         grecord:[],
         perrecord:[],
-        pubrecord:[]
+        pubrecord:[],
+        qr:{}
     },
     selecttab:function(e){
         let id = e.target.id;
@@ -96,7 +98,45 @@ Page({
           index: e.detail.value
         })
     },
+    cmpobj:function(old,newobj){
+        let flag = true;
+        if(old.groupavatar !== newobj.groupavatar){
+            flag = false;
+        }
+        if(old.groupQR !== newobj.groupQR){
+            flag = false;
+        }
+        if(old.masterQR !== newobj.masterQR){
+            flag = false;
+        }
+        if(old.location !== newobj.location){
+            flag = false;
+        }
+        if(old.industry !== newobj.industry){
+            flag = false;
+        }
+        if(old.birthday !== newobj.birthday){
+            flag = false;
+        }
+        if(old.groupname !== newobj.groupname){
+            flag = false;
+        }
+        if(old.abstract !== newobj.abstract){
+            flag = false;
+        }
+        if(old.grouptag !== newobj.grouptag){
+            flag = false;
+        }
+        if(old.masterwx !== newobj.masterwx){
+            flag = false;
+        }
+        if(old.gender !== newobj.gender){
+            flag = false;
+        }
+        return flag;
+    },
     formSubmit: function (e) {
+        let self = this;
         console.log('form发生了submit事件，携带数据为：', e.detail.value);
         let data = e.detail.value;
         data.location = data.location.join(',');
@@ -120,18 +160,24 @@ Page({
                 icon: 'fail',
             });
         }
-        Api.uploadGroup(data).then(function(res){
-            let resdata = res;
-            if(resdata.status === 1){
-                console.log("上传成功");
+        if(this.cmpobj(this.data.qr,data)){
+            return wx.showToast({title:'没有修改'});
+        }
+        data.qrid = this.data.qr._id;
+        Api.updateQR(data).then(function(res){
+            if(res.status === MsgType.EErrorType.EOK){
+                wx.showToast({
+                    title: '上传成功',
+                    icon: 'success',
+                });
+                let path = '/pages/qr/qr?qrid='+self.data.qr._id;
+                wx.navigateTo({url:path});
             }
-            console.log("上传后的数据：", resdata.data);
-            wx.showToast({
-                title: '上传成功',
-                icon: 'success',
-            });
         }).catch(function(err){
-            console.log("上传失败");
+            console.log("上传失败",err);
+            wx.showToast({
+                title: '上传失败',
+            });
         })
     },
     formReset: function () {
@@ -170,6 +216,12 @@ Page({
             case '4':
                 this.setData({grouptag:value});
                 break;
+            case '5':
+                this.setData({birthday:value});
+                break;
+            case '6':
+                this.setData({gender:value});
+                break;
             default:
         }
     },
@@ -179,8 +231,72 @@ Page({
     initselect:function(){
         this.setData({tab:-1});
     },
-    onLoad: function () {
+    onLoad: function (options) {
         let self = this;
+        let qrid = options.query.qrid;
+        let tab = parseInt(options.query.type);
+        if(tab !== 1 && tab !== 2 && tab !== 3){
+            return wx.showToast({title:'初始化失败'});
+        }
+        let cb = function(indus,ind){
+            let index = indus.indexOf(ind);
+            if(index > -1){
+                self.setData({index:index});
+            }
+        };
+        let cbtmp = null;
+        Api.getQR(qrid).then(function(res){
+            if(res.status === MsgType.EErrorType.EOK){
+                let [groupavatar,groupQR,masterQR,location,industry,birthday,groupname,abstract,grouptag,masterwx,gender] = res.data;
+                let query = {};
+                if(groupavatar&&groupavatar!==''){
+                    query.groupavatar = groupavatar;
+                }
+                if(groupQR&&groupQR!==''){
+                    query.groupQR = groupQR;
+                }
+                if(masterQR&&masterQR!==''){
+                    query.masterQR = masterQR;
+                }
+                if(location&&location!==''){
+                    query.location = location;
+                }
+                if(industry&&industry!==''){
+                    //query.industry = industry;
+                    if(self.data.industry.length > 1){
+                        cb(self.data.industry,industry);
+                    }else{
+                        cbtmp = function(indus){
+                            let index = indus.indexOf(industry);
+                            if(index > -1){
+                                self.setData({index:index});
+                            }
+                        }
+                    }
+                }
+                if(birthday&&birthday!==''){
+                    query.birthday = birthday;
+                }
+                if(groupname&&groupname!==''){
+                    query.groupname = groupname;
+                }
+                if(abstract&&abstract!==''){
+                    query.abstract = abstract;
+                }
+                if(grouptag&&grouptag!==''){
+                    query.grouptag = grouptag;
+                }
+                if(masterwx&&masterwx!==''){
+                    query.masterwx = masterwx;
+                }
+                if(gender){
+                    query.gender = gender;
+                }
+                query.qr = res.data;
+                query.tab = tab;
+                self.setData(query);
+            }
+        })
         Api.getIndustry().then(function(types){
             if(types && types.data && types.data.length > 0){
                 let res = ['请选择'];
@@ -188,6 +304,9 @@ Page({
                     res.push(item["name"]);
                 });
                 self.setData({industry:res});
+                if(cbtmp){
+                    cbtmp(res);
+                }
                 console.log('getIndustry:success:',types);
             }
         }).catch(function(err){

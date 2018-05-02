@@ -11,13 +11,30 @@
                 <view>{{item.groupname}}</view>
         </view>
     </view>
-    <view wx:if="{{type===2}}" class="record" >
+    <view wx:elif="{{type===2}}" class="record" >
         <scroll-view scroll-y bindscrolltoupper="upper" bindscrolltolower="lower" class="rscroll">
             <view wx:for="{{tab===1? gcollections : (tab===2 ? percollections : pubcollections)}}" wx:key="_id" class="ritem">
                 <image data-_id="{{item._id}}" bindtap="gotoqr" src="{{(item.groupavatar===''||item.groupavatar===undefined)?'/icon/image.png':item.groupavatar}}" />
                 <view class="abstract">
                     <view>{{item.groupname}}</view>
                     <view>{{item.abstract}}</view>
+                </view>
+            </view>
+        </scroll-view>
+    </view>
+    <view wx:elif="{{type===3}}" class="upload">
+        <scroll-view scroll-y bindscrolltoupper="upper" bindscrolltolower="lower" class="rscroll">
+            <view wx:for="{{tab===1? gcollections : (tab===2 ? percollections : pubcollections)}}" wx:key="_id" class="ritem">
+                <image data-_id="{{item._id}}" bindtap="gotoqr" src="{{(item.groupavatar===''||item.groupavatar===undefined)?'/icon/image.png':item.groupavatar}}" />
+                <view class="abstract">
+                    <view>{{item.groupname}}</view>
+                    <view>{{item.abstract}}</view>
+                </view>
+                <view class="option">
+                    <view data-qrid="{{item._id}}" data-opttype="1" bindtap="qroperate" class="option_item">刷新</view>
+                    <view data-qrid="{{item._id}}" data-opttype="2" bindtap="qroperate" class="option_item">更新</view>
+                    <view data-qrid="{{item._id}}" data-opttype="3" bindtap="qroperate" class="option_item">{{item.secret ? '上架' : '下架'}}</view>
+                    <view data-qrid="{{item._id}}" data-opttype="4" bindtap="qroperate" class="option_item">删除</view>
                 </view>
             </view>
         </scroll-view>

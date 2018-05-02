@@ -336,7 +336,7 @@ Page({
             success: function(res) {
                 // 转发成功
                 if(!res.shareTickets || res.shareTickets.length < 1){
-                    Api.decodeData({path:path,index:index,type:1}).then(function(res){
+                    Api.decodeData({path:url,index:index,type:1}).then(function(res){
                         console.log('创建分享到个人实例成功');
                     });
                     return wx.showToast({
@@ -347,7 +347,7 @@ Page({
                 wx.getShareInfo({
                     shareTicket:res.shareTickets[0],
                     success:function(data){
-                        Api.decodeData({type:2,path:path,encryptedData:data.encryptedData,iv:data.iv}).then(function(serveres){
+                        Api.decodeData({type:2,path:url,encryptedData:data.encryptedData,iv:data.iv}).then(function(serveres){
                             if(serveres.status === MsgType.EErrorType.EOK){
                                 console.log('解密成功：',serveres.data);
                                 return wx.showToast({title:'分享成功，增加微币'});

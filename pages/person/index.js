@@ -23,6 +23,10 @@ Page({
         let path = '/pages/record/record?type=2';
         wx.navigateTo({url:path});
     },
+    tapupload:function(){
+        let path = '/pages/record/record?type=3';
+        wx.navigateTo({url:path});
+    },
     getWeiBi:function(){
         let self = this;
         Api.getWeiBi().then(function(res){

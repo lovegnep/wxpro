@@ -6,6 +6,7 @@
     "pages/person/index",
     "pages/qr/qr",
     "pages/upload/index",
+    "pages/updateqr/index",
     "pages/record/record",
     "pages/weibi/wb"
   ],

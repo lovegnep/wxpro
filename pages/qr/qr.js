@@ -405,7 +405,7 @@ Page({
         }
         let path = '/pages/qr/qr?' + 'qrid=' + this.data.qr._id + '&isshare=1';
         let index = Uuidv1();
-        let url = Utils.generatePath('/pages/index/index',{index:index,userid:app.globalData.user._id,qrid:this.data.qr._id,isshare:1});
+        let url = Utils.generatePath('/pages/qr/qr',{index:index,userid:app.globalData.user._id,qrid:this.data.qr._id,isshare:1});
         return {
             title: '测试转发',
             path: url,
@@ -424,7 +424,7 @@ Page({
                 wx.getShareInfo({
                     shareTicket:res.shareTickets[0],
                     success:function(data){
-                        Api.decodeData({type:2,path:path,encryptedData:data.encryptedData,iv:data.iv}).then(function(serveres){
+                        Api.decodeData({type:2,path:url,encryptedData:data.encryptedData,iv:data.iv}).then(function(serveres){
                             if(serveres.status === MsgType.EErrorType.EOK){
                                 console.log('解密成功：',serveres.data);
                                 return wx.showToast({title:'分享成功，增加微币'});

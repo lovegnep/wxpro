@@ -9,11 +9,82 @@ const MsgType = require('../../common/msgtype');
 
 Page({
     data: {
-        type:-1,//1为收藏记录,2浏览记录
+        type:-1,//1为收藏记录,2浏览记录,3为上传记录
         gcollections:[],
         percollections:[],
         pubcollections:[],
         tab:1,//1群2个人微信3公众号
+    },
+    qroperate:function(e){
+        let self = this;
+        if(this.data.type !== 3){
+            return;
+        }
+        let qrid = e.currentTarget.dataset.qrid;
+        let opttype = parseInt(e.currentTarget.dataset.opttype);
+        let tmptab = this.data.tab;
+        let tmpqrlist = this.data.tab === 1 ? this.data.gcollections : (this.data.tab === 2 ? this.data.percollections : this.data.pubcollections);
+        if(tmpqrlist.length < 1){
+            return;
+        }
+        let tmpqr = null;
+        tmpqrlist.forEach(function(item){
+            if(item._id === qrid){
+                tmpqr = item;
+            }
+        });
+        if(!tmpqr){
+            return;
+        }
+        if(opttype === 1){
+
+        }else if(opttype === 2){
+            let path = '/pages/updateqr/index?qrid='+qrid+'&type='+tmptab;
+            wx.navigateTo({url:path});
+        }else if(opttype === 3){
+            let qrfun = tmpqr.secret ? Api.upQR : Api.downQR;
+            qrfun({_id:qrid}).then(function(res){
+                if(res.status === MsgType.EErrorType.EOK){
+                    wx.showToast({title:'操作成功'});
+                    let tmparr = [...tmpqrlist];
+                    tmparr.forEach(function(item){
+                        if(item._id === qrid){
+                            item.secret = !item.secret;
+                        }
+                    });
+                    if(tmptab === 1){
+                        self.setData({gcollections:tmparr});
+                    }else if(tmptab === 2){
+                        self.setData({percollections:tmparr});
+                    }else if(tmptab === 3){
+                        self.setData({pubcollections:tmparr});
+                    }
+                }else{
+                    console.log('qrupdown:',res);
+                    wx.showToast({title:'操作失败'});
+                }
+            })
+        }else if(opttype === 4){
+            Api.deleterQr({_id:qrid}).then(function(res){
+                if(res.status === MsgType.EErrorType.EOK){
+                    console.log('删除成功');
+                    wx.showToast({title:'删除成功'});
+                    let tmparr = tmpqrlist.filter(function(item){
+                        return item._id !== qrid;
+                    });
+                    if(tmptab === 1){
+                        self.setData({gcollections:tmparr});
+                    }else if(tmptab === 2){
+                        self.setData({percollections:tmparr});
+                    }else if(tmptab === 3){
+                        self.setData({pubcollections:tmparr});
+                    }
+                }else{
+                    console.log('deleteqr:',res);
+                    wx.showToast({title:'删除失败'});
+                }
+            })
+        }
     },
     onReachBottom:function(e){//收藏页面
         console.log('上拉触底：',e);
@@ -40,17 +111,21 @@ Page({
         let self = this;
         let type = this.data.tab;
         let qrlist = this.data.tab===1?this.data.gcollections:(this.data.tab===2?this.data.percollections:this.data.pubcollections);
-        Api.getviews({type:this.data.tab,skip:qrlist.length}).then(function(res){
-            if(res.status === MsgType.EErrorType.EOK && res.data.length > 0){
-                if(type===1){
-                    self.setData({gcollections:[...self.data.gcollections,...res.data]})
-                }else if(type===2){
-                    self.setData({percollections:[...self.data.percollections,...res.data]})
-                }else if(type===3){
-                    self.setData({pubcollections:[...self.data.pubcollections,...res.data]})
+        if(self.data.type === 2){
+            Api.getviews({type:this.data.tab,skip:qrlist.length}).then(function(res){
+                if(res.status === MsgType.EErrorType.EOK && res.data.length > 0){
+                    if(type===1){
+                        self.setData({gcollections:[...self.data.gcollections,...res.data]})
+                    }else if(type===2){
+                        self.setData({percollections:[...self.data.percollections,...res.data]})
+                    }else if(type===3){
+                        self.setData({pubcollections:[...self.data.pubcollections,...res.data]})
+                    }
                 }
-            }
-        })
+            })
+        }else if (self.data.type === 3 ){
+            self.processSelectRecord();
+        }
     },
     getqr:function(type){
         let self = this;
@@ -79,6 +154,8 @@ Page({
                     }
                 }
             })
+        }else if(this.data.type === 3){
+            self.processSelectRecord();
         }
     },
     taphead:function(e){
@@ -128,10 +205,33 @@ Page({
                     self.setData({gcollections:res.data});
                 }
             })
+        }else if (type === 3){
+            self.processSelectRecord();
         }
 
     },
-
+    processSelectRecord:function(){
+        let self = this;
+        if(self.data.tab === 1){//群
+            return Api.getAllQRListOfUser({type:MsgType.QRType.EGroup,skip:self.data.gcollections.length}).then(function(res){
+                if(res.status === MsgType.EErrorType.EOK){
+                    self.setData({gcollections:[...self.data.gcollections,...res.data]});
+                }
+            })
+        }else if(self.data.tab === 2){
+            return Api.getAllQRListOfUser({type:MsgType.QRType.EPerson,skip:self.data.percollections.length}).then(function(res){
+                if(res.status === MsgType.EErrorType.EOK){
+                    self.setData({percollections:[...self.data.percollections,...res.data]});
+                }
+            })
+        }else if(self.data.tab === 3){
+            return Api.getAllQRListOfUser({type:MsgType.QRType.EPublic,skip:self.data.pubcollections.length}).then(function(res){
+                if(res.status === MsgType.EErrorType.EOK){
+                    self.setData({pubcollections:[...self.data.pubcollections,...res.data]});
+                }
+            })
+        }
+    },
     onLoad: function (options) {
         console.log('record开始初始化...');
         console.log('record参数：',options);
@@ -143,7 +243,10 @@ Page({
         }else if(type === 2){
             //浏览记录
             this.setData({type:2});
-        }else{
+        }else if(type === 3){
+            //上传记录
+            this.setData({type:3});
+        } else{
             return wx.showToast({title:'传递值非法'});
         }
         let userid = app.globalData.user._id;

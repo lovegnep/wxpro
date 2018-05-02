@@ -132,7 +132,29 @@ let getHotQrList = function(data){
 let getWBLog = function(data){
     return Utils.request(Config.GetWBLog,data,'POST',true);
 }
+
+let deleterQr = function(data){
+    return Utils.request(Config.DelQR,data,'POST',true);
+}
+let cDeleterQr = function(data){
+    return Utils.request(Config.CDelQR,data,'POST',true);
+}
+let qrUp = function(data){
+    return Utils.request(Config.QRUp,data,'POST',true);
+}
+let qrDown = function(data){
+    return Utils.request(Config.QRDown,data,'POST',true);
+}
+let updateQR = function(data){
+    return Utils.request(Config.UpdateQR,data,'POST',true);
+}
 module.exports = {
+    updateQR:updateQR,
+    qrDown:qrDown,
+    qrUp:qrUp,
+    cDeleterQr:cDeleterQr,
+    deleterQr:deleterQr,
+
     getWBLog:getWBLog,
 
     getRecord:getRecord,
