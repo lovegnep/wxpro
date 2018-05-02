@@ -42,7 +42,7 @@ Page({
             let path = '/pages/updateqr/index?qrid='+qrid+'&type='+tmptab;
             wx.navigateTo({url:path});
         }else if(opttype === 3){
-            let qrfun = tmpqr.secret ? Api.upQR : Api.downQR;
+            let qrfun = tmpqr.secret ? Api.qrUp : Api.qrDown;
             qrfun({_id:qrid}).then(function(res){
                 if(res.status === MsgType.EErrorType.EOK){
                     wx.showToast({title:'操作成功'});

@@ -233,8 +233,8 @@ Page({
     },
     onLoad: function (options) {
         let self = this;
-        let qrid = options.query.qrid;
-        let tab = parseInt(options.query.type);
+        let qrid = options.qrid;
+        let tab = parseInt(options.type);
         if(tab !== 1 && tab !== 2 && tab !== 3){
             return wx.showToast({title:'初始化失败'});
         }
@@ -247,7 +247,7 @@ Page({
         let cbtmp = null;
         Api.getQR(qrid).then(function(res){
             if(res.status === MsgType.EErrorType.EOK){
-                let [groupavatar,groupQR,masterQR,location,industry,birthday,groupname,abstract,grouptag,masterwx,gender] = res.data;
+                let {groupavatar,groupQR,masterQR,location,industry,birthday,groupname,abstract,grouptag,masterwx,gender} = res.data;
                 let query = {};
                 if(groupavatar&&groupavatar!==''){
                     query.groupavatar = groupavatar;
@@ -296,7 +296,9 @@ Page({
                 query.tab = tab;
                 self.setData(query);
             }
-        })
+        }).catch(function(err){
+            console.log('onLoad:getqr err:',err);
+        });
         Api.getIndustry().then(function(types){
             if(types && types.data && types.data.length > 0){
                 let res = ['请选择'];

@@ -70,7 +70,6 @@
       </view>
       <view class="flex-row" style="display: flex;flex-direction: row;">
         <button formType="submit">上传</button>
-        <button bindtap="initselect">重选</button>
         <button formType="reset">重置</button>
       </view>
     </form>

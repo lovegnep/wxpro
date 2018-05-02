@@ -6,6 +6,8 @@ const Config = require('../../config');
 const Api = require('../../api/api');
 const MsgType = require('../../common/msgtype');
 
+let initflag = false;
+
 Page({
     data: {
         userinfo:{},
@@ -67,8 +69,13 @@ Page({
     },
     onLoad: function (options) {
         this.initData();
+        initflag = true;
     },
     onShow:function(){
-        this.initData();
+        if(initflag){
+            initflag = false;
+        }else{
+            this.initData();
+        }
     }
 });
