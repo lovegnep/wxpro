@@ -12,11 +12,16 @@ page{
     display: flex;
     flex-direction: row;
     justify-content:space-around;
+    align-items:center;
     position:fixed;
     top:0;
     z-index:10;
     background-color:#999999;
     width:100%;
+}
+.headqr image{
+    width:40rpx;
+    height:40rpx;
 }
 .headqr_itemselect{
     color:#ddeffd;

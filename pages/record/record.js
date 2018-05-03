@@ -15,6 +15,9 @@ Page({
         pubcollections:[],
         tab:1,//1群2个人微信3公众号
     },
+    taptips:function(){
+
+    },
     qroperate:function(e){
         let self = this;
         if(this.data.type !== 3){
@@ -37,7 +40,13 @@ Page({
             return;
         }
         if(opttype === 1){
-
+            Api.f5QR({_id:qrid}).then(function(res){
+                if(res.status === MsgType.EErrorType.EOK){
+                    return wx.showToast({title:'刷新成功'});
+                }else if(res.status === MsgType.EErrorType.ENoWeibi){
+                    return wx.showToast({title:'微币不足'});
+                }
+            })
         }else if(opttype === 2){
             let path = '/pages/updateqr/index?qrid='+qrid+'&type='+tmptab;
             wx.navigateTo({url:path});

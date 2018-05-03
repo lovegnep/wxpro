@@ -148,7 +148,12 @@ let qrDown = function(data){
 let updateQR = function(data){
     return Utils.request(Config.UpdateQR,data,'POST',true);
 }
+let f5QR = function(data){
+    return Utils.request(Config.F5QR,data,'POST',true);
+}
 module.exports = {
+    f5QR:f5QR,
+
     updateQR:updateQR,
     qrDown:qrDown,
     qrUp:qrUp,

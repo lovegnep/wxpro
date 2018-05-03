@@ -28,6 +28,21 @@ const EErrorType = {
 
     EInvalidTab:11010,//查询tab非法
     EInvalidContent:11011,//查询内容非法
+    ENotFindQR:11012,//找不到qr
+    EQRNotUser:11013,//qr不属于该user
+    EQRHasDel:11014,//qr不属于该user
+    EDelQrFail:11015,//删除失败
+    EHasUnDel:11016,//没有删除
+    ECDelQrFail:11015,//取消删除失败
+
+    EQrUpFail:11016,//上架失败
+    EUnDown:11017,//没有下架
+    EUnUp:11018,//没有上架
+    EQrDownFail:11019,//下架失败
+
+    EInvalidQrid:11020,//qrid非法
+    EUpdateFail:11021,//更新qr失败
+    EF5Fail:11021,//更新qr失败
 };
 
 const ImgType = {
@@ -54,6 +69,9 @@ const WeiBiSource = {
     EVip:4,//会员每天领奖
     EInit:5,//新用户初始
     EPay:6,//充值
+    F5qr:7,
+    uploadqr:8,
+    updateqr:9,
 }
 const WBChinese = {
     '1':'分享',
@@ -62,6 +80,9 @@ const WBChinese = {
     '4':'会员领奖',
     '5':'初始',
     '6':'充值',
+    '7':'刷新',
+    '8':'上传',
+    '9':'更新'
 }
 
 exports = {

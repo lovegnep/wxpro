@@ -171,8 +171,8 @@ word-break:break-all;
     z-index:10;
     position:fixed;
     right:0rpx;
-    top:45rpx;
-    padding:10rpx;
+    top:50rpx;
+    padding:15rpx;
 }
 .abstractwrap{
     z-index:20;

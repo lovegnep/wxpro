@@ -1,11 +1,13 @@
 /**index.wxss**/
 page{
     height: 100%;
+    width:100%;
 }
 .container{
     display: flex;
     flex-direction: column;
     height:100%;
+    width:100%;
 }
 .headqr{
     display: flex;
@@ -26,7 +28,12 @@ page{
 }
 .groupname{
     padding-bottom:10rpx;
-    padding-bottom:10rpx;
+}
+.goindex{
+    align-self:flex-start;
+}
+.goabs{
+    align-self:flex-end;
 }
 .groupqr{
     width:300rpx;
@@ -166,8 +173,15 @@ word-break:break-all;
     z-index:10;
     position:fixed;
     right:0rpx;
-    top:45rpx;
+    top:50rpx;
     padding:10rpx;
+}
+.abstractindex{
+    z-index:10;
+    position:fixed;
+    left:0rpx;
+    top:50rpx;
+    padding:20rpx;
 }
 .abstractwrap{
     z-index:20;

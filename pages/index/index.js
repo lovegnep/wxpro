@@ -314,26 +314,24 @@ Page({
         moveflag=false;
     },
     onShareAppMessage:function(options){
+        let flagg = false;
         if (options.from === 'button') {
             // 来自页面内转发按钮
             console.log(options.target);
         }else if(options.from === 'menu'){
             //来自右上角转发
             console.log('来自右上角转发');
+            flagg = true;
         }
         if(!this.data.qr || !this.data.qr._id){
             return wx.showToast({
                 title:'qr不存在'
             });
         }
-        let path = '/pages/index/index?' + 'qrid='+this.data.qr._id+'&isshare=1';
+
         let index = Uuidv1();
-        let url = Utils.generatePath('/pages/index/index',{index:index,userid:app.globalData.user._id,qrid:this.data.qr._id,isshare:1});
-        console.log('share url:',url);
-        return {
-            title: '测试转发',
-            path: url,
-            success: function(res) {
+        let url = '';
+        let res = {success: function(res) {
                 // 转发成功
                 if(!res.shareTickets || res.shareTickets.length < 1){
                     Api.decodeData({path:url,index:index,type:1}).then(function(res){
@@ -364,8 +362,20 @@ Page({
             fail: function(res) {
                 // 转发失败
                 console.log('转发失败');
-            }
+            }};
+        if(flagg){
+            url = Utils.generatePath('/pages/index/index',{index:index,userid:app.globalData.user._id,isshare:1});
+            res.title='好想计算'
+            res.imageUrl = '/icon/mini.jpg';
+        }else{
+            url = Utils.generatePath('/pages/qr/qr',{index:index,userid:app.globalData.user._id,qrid:this.data.qr._id,isshare:1});
+            res.title = this.data.qr.groupname;
         }
+        res.path = url;
+
+
+        console.log('share url:',url);
+        return res;
     },
     previewQR: function(){//预览二维码
         let self = this;
@@ -831,11 +841,11 @@ Page({
         let arrFuns = [];
         if(options.isshare && parseInt(options.isshare) === 1){
             // 通过分享进入该页面
-            if(!options.qrid){
+            /*if(!options.qrid){
                 return wx.showToast({
                     title:'qrid不存在'
                 });
-            }
+            }*/
             let index = options.index;
             let scene = 0;
             if(options.scene === 1007 ){//单人聊天会话中的小程序消息卡片
@@ -856,7 +866,7 @@ Page({
                     })
                 })
             }
-            arrFuns.push(self.initdatafromserver(options.qrid));
+            arrFuns.push(self.initdatanew);
             if(!app.globalData.user){
                 app.globalData.cb = Utils.combineFuns(arrFuns);
             }else{

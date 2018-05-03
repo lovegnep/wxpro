@@ -2,7 +2,11 @@
 <view class="container" bindtap="handleglobale">
     <view class="qrinfo" bindtap="handletapinfo">
         <view class="groupnq">
-            <view class="groupname">{{qr.groupname}}</view>
+            <view class="groupname">{{qr.groupname}}
+                <!--<view wx:if="{{sharetrue}}" bindtap="goindex" class="goindex">回到主页</view>
+                <view></view>
+                <view wx:if="{{qr.abstract&&qr.abstract.length > 0}}"  catchtap="tapabstract" class="goabs">简介</view>-->
+            </view>
             <view wx:if="{{qr.type===1}}" class="qrgorm">
                 <view data-optm="1" catchtap="changegorm" class="qrgorm_m">群主二维码</view>
                 <view data-optm="0" catchtap="changegorm">群二维码</view>
@@ -57,6 +61,7 @@
         </view>
     </view>
     <view wx:if="{{qr.abstract!==undefined&&qr.abstract!==''}}" class="abstractbut" catchtap="tapabstract">简介</view>
+    <view wx:if="{{sharetrue}}" bindtap="goindex" class="abstractindex">回到主页</view>
     <view wx:if="{{abstractstatus}}" class="abstractwrap">
         <view class="abstract" catchtap="catchtape">
             <image class="close" src="/icon/close.png" bindtap="closeabstract"/>

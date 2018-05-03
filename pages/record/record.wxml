@@ -4,6 +4,7 @@
         <view bindtap="taphead" data-tab="1" class="{{tab===1 ? 'headqr_itemselect' : 'headqr_item'}}">微信群</view>
         <view bindtap="taphead" data-tab="2" class="{{tab===2 ? 'headqr_itemselect' : 'headqr_item'}}">个人微信</view>
         <view bindtap="taphead" data-tab="3" class="{{tab===3 ? 'headqr_itemselect' : 'headqr_item'}}">公众号</view>
+        <image bindtap="taptips" src="/icon/tips.png" />
     </view>
     <view wx:if="{{type===1}}" class="collection">
         <view wx:for="{{tab===1? gcollections : (tab===2 ? percollections : pubcollections)}}" wx:key="_id" class="citem">

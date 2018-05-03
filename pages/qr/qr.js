@@ -10,6 +10,7 @@ const Uuidv1 = require('../../utils/lib/uuid/we-uuidv1');
 
 Page({
     data: {
+        sharetrue:false,
         qr: {},
         replystatus: false,
         replyto: '',
@@ -443,6 +444,11 @@ Page({
             }
         }
     },
+    goindex:function(){
+        let path = '/pages/index/index';
+        this.setData({sharetrue:false});
+        wx.switchTab({url:path});
+    },
     onLoad: function (options) {
         wx.showShareMenu({
             withShareTicket: true
@@ -456,6 +462,7 @@ Page({
                     title: 'qrid不存在'
                 });
             }
+            this.setData({sharetrue:true})
             let index = options.index;
             let scene = 0;
             if(options.scene === 1007 ){//单人聊天会话中的小程序消息卡片

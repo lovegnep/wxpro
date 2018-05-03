@@ -52,4 +52,5 @@ module.exports = {
     CDelQR:Config.apihead+"/api/cdeleteqr",
     QRUp:Config.apihead+"/api/qrup",
     QRDown:Config.apihead+"/api/qrdown",
+    F5QR:Config.apihead+"/api/f5qr",
 };
