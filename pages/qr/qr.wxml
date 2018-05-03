@@ -11,7 +11,7 @@
                 <view data-optm="1" catchtap="changegorm" class="qrgorm_m">群主二维码</view>
                 <view data-optm="0" catchtap="changegorm">群二维码</view>
             </view>
-            <image src="{{poor ? '/icon/lock.png' :( (qr.type===1&&gtab===1)? (qr.masterQR?qr.masterQR:'/icon/fail.png') : qr.groupQR)}}" class="groupqr" mode="widthFix" catchtap="previewQR"></image>
+            <image src="{{poorflag ? '/icon/lock.png' :( (qr.type===1&&gtab===1)? (qr.masterQR?qr.masterQR:'/icon/fail.png') : qr.groupQR)}}" class="groupqr" mode="widthFix" catchtap="previewQR"></image>
         </view>
         <view wx:if="{{qr.type===1&&gtab===1}}" class="groupqrinfo">
             <view wx:if="{{qr.masterwx!==undefined && qr.masterwx!==''}}" class="section">
