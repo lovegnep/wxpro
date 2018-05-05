@@ -24,16 +24,8 @@ let getAllQRListOfUser = function(data){
     return Utils.request(Config.AllQRListOfUser,data,"GET",true);
 };
 
-let getLocation = function(index,first){
-    if(index === 1){
-        return Utils.request(Config.Province,{index:index},"GET");
-    }else if(index === 2){
-        return Utils.request(Config.Province,{index:index,first:first},"GET");
-    }else{
-        console.log('getLocation : err index');
-        return null;
-    }
-
+let getLocation = function(index){
+    return Utils.request(Config.Province,{parent:index},"GET");
 };
 
 let getIndustry = function(){

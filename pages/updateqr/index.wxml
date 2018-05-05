@@ -23,10 +23,13 @@
       </view>
       <view class=" section flex-row" style="display: flex;flex-direction: row;">
         <view class="section__title">位置</view>
-        <picker name="location" mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{location[0]}}">
-          <view class="picker">
-            {{region[0]}}{{region[1]}}{{region[2]}}
-          </view>
+        <picker name="location" mode="multiSelector" bindchange="bindRegionChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}" range-key="item_name">
+            <view class="picker">
+            {{multiIndex[2]!==0?(multiArray[0][multiIndex[0]].item_name+','+multiArray[1][multiIndex[1]].item_name+','+multiArray[2][multiIndex[2]].item_name):
+            (multiIndex[1]!==0?(multiArray[0][multiIndex[0]].item_name+','+multiArray[1][multiIndex[1]].item_name):
+            (multiIndex[0]!==0?multiArray[0][multiIndex[0]].item_name:'请选择'))}}
+
+            </view>
         </picker>
       </view>
       <view class=" section flex-row" style="display: flex;flex-direction: row;">
@@ -41,14 +44,30 @@
         <view class="section__title">{{ tab===1 ?  '群标签' : (tab===2 ? '个人标签' : '公众号标签')}}</view>
         <input data-type="4" bindinput="processInput" name="grouptag" value="{{grouptag}}" placeholder="请输入" />
       </view>
-      <view wx:if="{{tab===2}}" class=" section flex-row" style="display: flex;flex-direction: row;">
+      <!--<view wx:if="{{tab===2}}" class=" section flex-row" style="display: flex;flex-direction: row;">
         <view class="section__title">生日</view>
         <input data-type="5" bindinput="processInput" name="birthday" value="{{birthday}}" placeholder="请输入" />
       </view>
     <view wx:if="{{tab===2}}" class=" section flex-row" style="display: flex;flex-direction: row;">
       <view class="section__title">性别</view>
       <input data-type="6" bindinput="processInput" name="gender" value="{{gender}}" placeholder="请输入" />
-    </view>
+    </view>-->
+      <view wx:if="{{tab===2}}" class=" section flex-row" style="display: flex;flex-direction: row;">
+        <view class="section__title">生日</view>
+        <picker name="birthday" mode="date" start="1960-09-01" end="2018-09-01" bindchange="bindBirthdayChange" value="{{birthday}}">
+          <view class="picker">
+            {{birthday}}
+          </view>
+        </picker>
+      </view>
+      <view wx:if="{{tab===2}}" class=" section flex-row" style="display: flex;flex-direction: row;">
+        <view class="section__title">性别</view>
+        <radio-group name="gender" bindchange="radioChange">
+          <label wx:for="{{genderitems}}">
+            <radio value="{{item.name}}" checked="{{item.name===gender}}"/>{{item.value}}
+          </label>
+        </radio-group>
+      </view>
       <view class=" sectionqr flex-row" style="display: flex;flex-direction: row;">
         <view class="section__qr">{{ tab===1 ?  '请上传群头像' : (tab===2 ? '请上传个人头像' : '请上传公众号头像')}}</view>
         <input hidden="true" name="groupavatar" value="{{groupavatar}}" />
