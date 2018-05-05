@@ -377,7 +377,7 @@ Page({
         if(content.length < 2){
             return wx.showToast({title:'内容太短'});
         }
-        self.doSearch({content:content,tab:this.data.tab});
+        self.doSearch({sort:sortarr[this.data.sorttab],content:content,tab:this.data.tab});
     },
     onLoad: function () {
         let self = this;
