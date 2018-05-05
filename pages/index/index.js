@@ -144,7 +144,7 @@ Page({
             if(tmpindex === -1){//第一次切换到该标签
                 self.getCollectInfo(tmpqrlist[0]);
                 Api.viewQR(tmpqrlist[0]._id).then(function(res){
-                    self.getCollectInfo(self.data.gqrlist[0]);
+                    //self.getCollectInfo(self.data.gqrlist[0]);
                     if(res.status === MsgType.EErrorType.EOK){
                         if((self.data.tab+1)%3 === 0){
                             self.setData({tab:(self.data.tab+1)%3,qr:self.data.gqrlist[0],gindex:0});

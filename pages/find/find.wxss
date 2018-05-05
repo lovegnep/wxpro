@@ -52,6 +52,7 @@ page{
     justify-content:center;
     height:100%;
     width:100%;
+    padding-top:15rpx;
 }
 .rscroll image{
     width:200rpx;
@@ -62,6 +63,8 @@ page{
     flex-direction: row;
     justify-content:center;
     width:80%;
+    border-bottom:1rpx solid;
+    padding-bottom:15rpx;
 }
 .abstract{
     display: flex;
@@ -86,4 +89,64 @@ white-space: nowrap;
     flex-direction: column;
     justify-content:center;
     align-items:center;
+}
+.sidebarwrap{
+    z-index:20;
+    position:fixed;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    background:rgba(0,0,0,0.7);
+    display:flex;
+    flex-direction:row;
+    justify-content:flex-end;
+}
+.filter{
+    position:relative;
+    top:0;
+    right:0;
+    width:50%;
+    height:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-around;
+    background-color:#ffffff
+}
+.closesidebar{
+    align-self:center;
+    width:40rpx;
+    height:40rpx;
+}
+.sidebar{
+    z-index:5;
+    position:fixed;
+    top:50%;
+    right:10rpx;
+}
+.sidebar image{
+    width:40rpx;
+    height:40rpx;
+}
+.section__title{
+padding-right:30rpx;
+}
+.section{
+    padding:10rpx;
+    border-bottom:1rpx solid;
+    margin-bottom:12px;
+}
+.ressort{
+    display: flex;
+    flex-direction: row;
+}
+.ressortvalue{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-around;
+}
+.sortitem_select{
+    color:#999999;
+}
+.sortitem{
 }

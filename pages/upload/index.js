@@ -28,14 +28,14 @@ Page({
         grecord:[],
         perrecord:[],
         pubrecord:[],
-        genderitems:[{value:'男',name:1,checked:false},{value:'女',name:2,checked:false},{value:'保密',name:3,checked:true}],
+        genderitems:[{value:'男',name:1,checked:false},{value:'女',name:2,checked:false},{value:'保密',name:3,checked:false}],
         multiIndex:[0,0,0],
         multiArray:[[{item_name:'请选择'}],[{item_name:'请选择'}],[{item_name:'请选择'}]]
     },
     radioChange:function(e){
         let gender = e.detail.value;
         console.log(gender);
-        this.setData({gender});
+        this.setData({gender:gender});
     },
     bindBirthdayChange:function(e){
         let birthday = e.detail.value;

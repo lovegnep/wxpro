@@ -1,4 +1,5 @@
 <!--home.wxml-->
+<wxs src="../../utils/util.wxs" module="tools" />
 <view class="container" bindtap="handleglobale">
     <view class="qrinfo" bindtap="handletapinfo">
         <view class="groupnq">
@@ -29,7 +30,7 @@
             <view wx:if="{{qr.location!==undefined&&qr.location!==''}}" class="section">
                 <image src="/icon/location.png" class="groupinfoimg"></image>
                 <view class="item_title">位置</view>
-                <view>{{qr.location}}</view>
+                <view>{{tools.getFullLocation(qr.location)}}</view>
             </view>
             <view wx:if="{{qr.grouptag!==undefined&&qr.grouptag!==''}}" class="section">
                 <image src="/icon/tag.png" class="groupinfoimg"></image>
@@ -42,15 +43,15 @@
                 <view>{{qr.masterwx}}</view>
             </view>
             <view wx:if="{{qr.type===2}}" class="groupqq">
-                <view wx:if="{{qr.gender!==undefined}}" class="section">
+                <view wx:if="{{qr.gender!==undefined&&qr.gender!==3}}" class="section">
                     <image src="/icon/industry.png" class="groupinfoimg"></image>
                     <view class="item_title">性别</view>
-                    <view>{{qr.gender}}</view>
+                    <view>{{qr.gender===1?'男':'女'}}</view>
                 </view>
                 <view wx:if="{{qr.birthday!==undefined}}" class="section">
                     <image src="/icon/status.png" class="groupinfoimg"></image>
-                    <view class="item_title">生日</view>
-                    <view>{{qr.birthday}}</view>
+                    <view class="item_title">年龄</view>
+                    <view>{{tools.getAge(qr.birthday)}}</view>
                 </view>
                 <view wx:if="{{qr.masterwx!==undefined}}" class="section">
                     <image src="/icon/status.png" class="groupinfoimg"></image>

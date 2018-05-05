@@ -13,7 +13,7 @@
         <view>历史搜索</view>
         <scroll-view class="searchhistory" class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;" bindscrolltolower="sxlower">
             <view wx:if="{{history.length < 1}}">无搜索记录</view>
-            <view data-name="{{item._id}}" bindtap="taphis" class="hitem" wx:for="{{history}}">
+            <view data-name="{{item._id}}" bindtap="taphis" class="hitem" wx:for="{{history}}" wx:key="_id">
                 {{item._id}}
             </view>
         </scroll-view>
@@ -21,7 +21,7 @@
     <view wx:if="{{showflag===0 && hotHistory.length > 0}}" class="hothistory">
         <view>热门搜索</view>
         <view wx:if="{{hotHistory.length < 1}}">无搜索记录</view>
-        <view data-name="{{item._id}}" bindtap="taphis" class="hitem" wx:for="{{hotHistory}}">
+        <view data-name="{{item._id}}" bindtap="taphis" class="hitem" wx:for="{{hotHistory}}" wx:key="_id">
             {{item._id}}
         </view>
     </view>
@@ -34,8 +34,15 @@
     </view>
     <view wx:if="{{showflag===2}}" class="resscroll">
         <view wx:if="{{res.length < 1}}">暂无搜索结果</view>
+        <view class="ressortvalue">
+            <view data-sorttab="{{0}}" bindtap="tapsortitem" class="{{sorttab===0 ? 'sortitem_select' : 'sortitem'}}">综合</view>
+            <view data-sorttab="{{1}}" bindtap="tapsortitem" class="{{sorttab===1 ? 'sortitem_select' : 'sortitem'}}">浏览量</view>
+            <view data-sorttab="{{2}}" bindtap="tapsortitem" class="{{sorttab===2 ? 'sortitem_select' : 'sortitem'}}">收藏量</view>
+            <view data-sorttab="{{3}}" bindtap="tapsortitem" class="{{sorttab===3 ? 'sortitem_select' : 'sortitem'}}">评论数</view>
+            <view data-sorttab="{{4}}" bindtap="tapsortitem" class="{{sorttab===4 ? 'sortitem_select' : 'sortitem'}}">更新时间</view>
+        </view>
         <scroll-view scroll-y bindscrolltoupper="upper" bindscrolltolower="lower" class="rscroll">
-            <view wx:for="{{res}}" class="resitem">
+            <view wx:for="{{res}}" class="resitem" wx:key="_id">
                 <image data-_id="{{item._id}}" bindtap="gotoqr" src="{{(item.groupavatar===''||item.groupavatar===undefined)?'/icon/image.png':item.groupavatar}}" />
                 <view class="abstract">
                     <view>{{item.groupname}}</view>
@@ -43,6 +50,49 @@
                 </view>
             </view>
         </scroll-view>
+    </view>
+    <view wx:if="{{showflag===2&&res.length>0}}" class="sidebar">
+        <image src="/icon/sidebar.png" bindtap="tapsidebar" />
+    </view>
+    <view wx:if="{{sidebarstatus}}" class="sidebarwrap" catchtap="tapinwrap">
+        <view class="filter" catchtap="tapinside">
+            <image src="/icon/close.png" bindtap="tapclosesidebar" class="closesidebar" />
+            <view>{{count+'条结果'}}</view>
+            <view class=" section flex-row" style="display: flex;flex-direction: row;">
+                <view class="section__title">行业</view>
+                <picker bindchange="bindPickerChange" value="{{index}}" range="{{industry}}">
+                  <view class="picker">
+                    {{industry[index]}}<!--行业-->
+                  </view>
+                </picker>
+            </view>
+            <view wx:if="{{tab===2}}" class=" section flex-row" style="display: flex;flex-direction: row;">
+                <view class="section__title">性别</view>
+                <picker bindchange="bindGenderPickerChange" value="{{genderindex}}" range="{{genders}}">
+                  <view class="picker">
+                    {{genders[genderindex]}}<!--性别-->
+                  </view>
+                </picker>
+            </view>
+            <view wx:if="{{tab===2}}" class=" section flex-row" style="display: flex;flex-direction: row;">
+                <view class="section__title">年龄</view>
+                <picker mode="multiSelector" bindchange="bindAgePickerChange" value="{{ageindex}}" range="{{ages}}">
+                  <view class="picker">
+                    {{ages[0][ageindex[0]]}}-{{ages[1][ageindex[1]]}}<!--年龄-->
+                  </view>
+                </picker>
+            </view>
+            <view class=" section flex-row" style="display: flex;flex-direction: row;">
+                <view class="section__title">位置</view>
+                <picker name="location" mode="multiSelector" bindchange="bindRegionChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}" range-key="item_name">
+                    <view class="picker">
+                        {{multiIndex[2]!==0?(multiArray[0][multiIndex[0]].item_name+','+multiArray[1][multiIndex[1]].item_name+','+multiArray[2][multiIndex[2]].item_name):
+                        (multiIndex[1]!==0?(multiArray[0][multiIndex[0]].item_name+','+multiArray[1][multiIndex[1]].item_name):
+                        (multiIndex[0]!==0?multiArray[0][multiIndex[0]].item_name:'不限'))}}
+                    </view>
+                </picker>
+            </view>
+        </view>
     </view>
 </view>
 
