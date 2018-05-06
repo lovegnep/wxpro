@@ -275,6 +275,7 @@ Page({
         Api.collectQR({_id: qrid}).then(function (res) {
             if (res.status === 1) {
                 console.log('collectQR success.');
+                app.globalData.user.collections.push(qrid);
                 self.setData({iscollect: true});
             } else {
                 console.log('collectQR failed.');
@@ -289,6 +290,10 @@ Page({
         Api.cCollectQR({_id: qrid}).then(function (res) {
             if (res.status === 1) {
                 console.log('cCollectQR success.');
+                let indd = app.globalData.user.collections.indexOf(qrid);
+                if(indd !== -1){
+                    app.globalData.user.collections.splice(indd,1);
+                }
                 self.setData({iscollect: false});
             } else {
                 console.log('cCollectQR failed.');
