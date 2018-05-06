@@ -2,7 +2,12 @@
 <view class="container">
     <view wx:if="{{tab === -1}}" class="abstractwrap">
         <view class="abstract">
-            <view id="1" bindtap="selecttab">微信群</view><view id="2" bindtap="selecttab">个人微信</view><view id="3" bindtap="selecttab">公众号</view>
+            <view>请选择发布类别</view>
+            <view class="abstractitem">
+                <view id="1" bindtap="selecttab">微信群</view>
+                <view id="2" bindtap="selecttab">个人微信</view>
+                <view id="3" bindtap="selecttab">公众号</view>
+            </view>
         </view>
     </view>
     <view wx:if="{{tab!==-1}}" class="opthead">
