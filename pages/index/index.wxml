@@ -3,9 +3,9 @@
 
 <view class="container" bindtap="handleglobale" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
     <view class="headqr">
-        <view class="{{tab===0 ? 'headqr_itemselect' : 'headqr_item'}}">微信群</view>
-        <view class="{{tab===1 ? 'headqr_itemselect' : 'headqr_item'}}">个人微信</view>
-        <view class="{{tab===2 ? 'headqr_itemselect' : 'headqr_item'}}">公众号</view>
+        <view data-tab="{{0}}" bindtap="gototab" class="{{tab===0 ? 'headqr_itemselect' : 'headqr_item'}}">微信群</view>
+        <view data-tab="{{1}}" bindtap="gototab" class="{{tab===1 ? 'headqr_itemselect' : 'headqr_item'}}">个人微信</view>
+        <view data-tab="{{2}}" bindtap="gototab" class="{{tab===2 ? 'headqr_itemselect' : 'headqr_item'}}">公众号</view>
         <view bindtap="gotorank">排行榜</view>
         <image bindtap="gotofind" src="/icon/find.png" />
     </view>

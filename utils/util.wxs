@@ -3246,11 +3246,6 @@ var cityJson = [
     {"item_code":"659004","item_name":"五家渠市"}
 ];
 var getAge = function(str) {
-console.log(Date.parse(str));
-console.log(str);
-console.log(Date.now());
-console.log(Date.now()- Date.parse(str));
-
   return parseInt((Date.now()- Date.parse(str))/(365*24*3600*1000));
 }
 var getLocation = function(locationid){

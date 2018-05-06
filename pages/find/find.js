@@ -15,7 +15,7 @@ Page({
         industry:['不限'],
         index:0,
         genders:['不限','男','女'],
-        genderindex:0,
+        genderindex:0,//0不限，1男，2女
         ages:[['不限',...Utils.nums],['不限',...Utils.nums]],
         ageindex:[0,0],
         tab:0,//0全部，1微信群，2个人微信，3公众号
@@ -72,8 +72,12 @@ Page({
         this.setData({sidebarstatus:true});
     },
     bindGenderPickerChange:function(e){
+        let gindex = parseInt(e.detail.value);
+        if(gindex === this.data.genderindex){
+            return ;
+        }
         this.setData({
-            genderindex: e.detail.value
+            genderindex: gindex
         });
         let data = {content:this.data.value,tab:this.data.tab};
         if(this.data.index !==0){
@@ -82,8 +86,8 @@ Page({
         if(this.data.location!==''){
             data.location = this.data.location;
         }
-        if(this.data.genderindex!==0){
-            data.gender = this.data.genders[this.data.genderindex];
+        if(gindex!==0){
+            data.gender = gindex;
         }
         let agestart = this.data.ageindex[0];
         let ageend = this.data.ageindex[1];
@@ -93,6 +97,7 @@ Page({
         if(ageend){
             data.ageend = ageend;
         }
+        data.sort =sortarr[this.data.sorttab];
         this.doSearch(data);
     },
     bindAgePickerChange:function(e){
@@ -105,7 +110,7 @@ Page({
             data.location = this.data.location;
         }
         if(this.data.genderindex!==0){
-            data.gender = this.data.genders[this.data.genderindex];
+            data.gender = this.data.genderindex;
         }
         let agestart = parseInt(e.detail.value[0]);
         let ageend = parseInt(e.detail.value[1]);
@@ -133,7 +138,7 @@ Page({
             data.location = this.data.location;
         }
         if(this.data.genderindex!==0){
-            data.gender = this.data.genders[this.data.genderindex];
+            data.gender = this.data.genderindex;
         }
         let agestart = this.data.ageindex[0];
         let ageend = this.data.ageindex[1];
@@ -170,6 +175,8 @@ Page({
                     self.setData({tags:['不限',...tags]});
                 }
                 self.setData({res:res.data,showflag:2});
+            }else{
+                wx.showToast({title:'错误码'+res.status});
             }
         })
     },
@@ -192,6 +199,17 @@ Page({
             this.setData({
                 location: ''
             });
+        }
+        if(this.data.genderindex!==0){
+            data.gender = this.data.genderindex;
+        }
+        let agestart = this.data.ageindex[0];
+        let ageend = this.data.ageindex[1];
+        if(agestart){
+            data.agestart = agestart;
+        }
+        if(ageend){
+            data.ageend = ageend;
         }
         data.sort =sortarr[this.data.sorttab];
         this.doSearch(data);
@@ -321,7 +339,7 @@ Page({
             data.location = this.data.location;
         }
         if(this.data.genderindex!==0){
-            data.gender = this.data.genders[this.data.genderindex];
+            data.gender = this.data.genderindex;
         }
         let agestart = this.data.ageindex[0];
         let ageend = this.data.ageindex[1];
@@ -344,6 +362,7 @@ Page({
 
             }else{
                 console.log('lower:err:',res);
+                wx.showToast({title:'错误码'+res.status});
             }
         })
     },
@@ -377,7 +396,26 @@ Page({
         if(content.length < 2){
             return wx.showToast({title:'内容太短'});
         }
-        self.doSearch({sort:sortarr[this.data.sorttab],content:content,tab:this.data.tab});
+        let data = {content:content,tab:this.data.tab};
+        if(this.data.index !== 0){
+            data.industry = this.data.industry[this.data.index];
+        }
+        if(this.data.location!==''){
+            data.location = this.data.location;
+        }
+        if(this.data.genderindex!==0){
+            data.gender = this.data.genderindex;
+        }
+        let agestart = this.data.ageindex[0];
+        let ageend = this.data.ageindex[1];
+        if(agestart){
+            data.agestart = agestart;
+        }
+        if(ageend){
+            data.ageend = ageend;
+        }
+        data.sort =sortarr[this.data.sorttab];
+        self.doSearch(data);
     },
     onLoad: function () {
         let self = this;

@@ -27,7 +27,7 @@
     </view>
     <view wx:if="{{showflag===1}}" class="searchgroupname">
         <view wx:if="{{groupname.length < 1}}">无匹配字段</view>
-        <view wx:for="{{groupname}}" class="gnitem">
+        <view wx:for="{{groupname}}" class="gnitem" wx:key="_id">
             <view>{{item.groupname}}</view>
             <image data-name="{{item.groupname}}" bindtap="tapgroupname" src="/icon/uparrow.png" />
         </view>
