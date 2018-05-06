@@ -12,7 +12,7 @@
     <view class="qrinfo" bindtap="handletapinfo">
         <view class="groupnq">
             <view class="groupname">{{qr.groupname}}</view>
-            <view wx:if="{{tab===0}}" class="qrgorm">
+            <view wx:if="{{tab===0&&qr._id}}" class="qrgorm">
                 <view data-optm="1" catchtap="changegorm" class="qrgorm_m">群主二维码</view>
                 <view data-optm="0" catchtap="changegorm">群二维码</view>
             </view>

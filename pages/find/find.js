@@ -168,7 +168,7 @@ Page({
                 }
                 let industrys = res.industrys;//行业数组
                 if(industrys&&industrys.length > 0){
-                    self.setData({industry:['不限',...industrys]});
+                    self.setData({industry:['不限',...industrys],index:0});
                 }
                 let tags = res.tags;//标签数组;
                 if(tags&&tags.length > 0){

@@ -14,9 +14,16 @@ Page({
         percollections:[],
         pubcollections:[],
         tab:1,//1群2个人微信3公众号
+        tipsstatus:false
+    },
+    tapinside:function(e){
+
+    },
+    tapinwrap:function(e){
+        this.setData({tipsstatus:false});
     },
     taptips:function(){
-
+        this.setData({tipsstatus:true});
     },
     qroperate:function(e){
         let self = this;
@@ -45,6 +52,8 @@ Page({
                     return wx.showToast({title:'刷新成功'});
                 }else if(res.status === MsgType.EErrorType.ENoWeibi){
                     return wx.showToast({title:'微币不足'});
+                }else if(res.status === MsgType.EErrorType.EHasF5){
+                    return wx.showToast({title:'之前已经刷新过'});
                 }
             })
         }else if(opttype === 2){

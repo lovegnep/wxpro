@@ -4,7 +4,15 @@
         <view bindtap="taphead" data-tab="1" class="{{tab===1 ? 'headqr_itemselect' : 'headqr_item'}}">微信群</view>
         <view bindtap="taphead" data-tab="2" class="{{tab===2 ? 'headqr_itemselect' : 'headqr_item'}}">个人微信</view>
         <view bindtap="taphead" data-tab="3" class="{{tab===3 ? 'headqr_itemselect' : 'headqr_item'}}">公众号</view>
-        <image bindtap="taptips" src="/icon/tips.png" />
+        <image wx:if="{{type===3}}" bindtap="taptips" src="/icon/tips.png" />
+    </view>
+    <view wx:if="{{tipsstatus}}" class="sidebarwrap" catchtap="tapinwrap">
+        <view class="filter" catchtap="tapinside">
+            <view>刷新：使得当前二维码在首页优先显示2小时</view>
+            <view>更新：修改当前二维码</view>
+            <view>下/上架：当前二维码是否能被别人看到</view>
+            <view>删除：永久删除当前二维码</view>
+        </view>
     </view>
     <view wx:if="{{type===1}}" class="collection">
         <view wx:for="{{tab===1? gcollections : (tab===2 ? percollections : pubcollections)}}" wx:key="_id" class="citem">
