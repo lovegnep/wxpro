@@ -33,7 +33,7 @@ Page({
         multiArray:[[{item_name:'请选择'}],[{item_name:'请选择'}],[{item_name:'请选择'}]]
     },
     radioChange:function(e){
-        let gender = e.detail.value;
+        let gender = parseInt(e.detail.value);
         console.log(gender);
         this.setData({gender:gender});
     },
