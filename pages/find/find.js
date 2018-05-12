@@ -359,7 +359,12 @@ Page({
         data.sort =sortarr[this.data.sorttab];
         data.skip = this.data.res.length;
         //this.doSearch(data);
+        wx.showLoading({
+            title: '加载中',
+            mask: true
+        });
         Api.search(data).then(function(res){
+            wx.hideLoading();
             if(res.status === MsgType.EErrorType.EOK){
                 if(res.data.length > 0){
                     self.setData({res:[...self.data.res,...res.data],showflag:2});
@@ -371,6 +376,9 @@ Page({
                 console.log('lower:err:',res);
                 wx.showToast({title:'错误码'+res.status});
             }
+        }).catch(function(err){
+            wx.hideLoading();
+            wx.showToast({title:'发生错误'});
         })
     },
     handlesearchchange:function(e){//input框内容变化触发
