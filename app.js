@@ -72,7 +72,7 @@ App({
                                         self.globalData.cb();
                                     }
                                 }).catch(function (err) {
-                                console.log('req ', ApiConfig.Login, "error:", err);
+                                console.log('req ', Apiconfig.Login, "error:", err);
                             });
                         }
                     })

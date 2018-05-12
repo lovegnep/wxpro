@@ -213,8 +213,18 @@ word-break:break-all;
     flex-direction: row;
     justify-content:center;
 }
+.qrgorm_m_select{
+    margin-right:15rpx;
+    border-bottom:1rpx solid;
+}
 .qrgorm_m{
-    padding-right:15rpx;
+    margin-right:15rpx;
+}
+.qrgorg_select{
+    border-bottom:1rpx solid;
+}
+.qrgorg{
+
 }
 .trans_v{
     position:relative;

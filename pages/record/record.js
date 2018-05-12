@@ -61,6 +61,7 @@ Page({
             wx.navigateTo({url:path});
         }else if(opttype === 3){
             let qrfun = tmpqr.secret ? Api.qrUp : Api.qrDown;
+            console.log('qr.secret:',tmpqr.secret);
             qrfun({_id:qrid}).then(function(res){
                 if(res.status === MsgType.EErrorType.EOK){
                     wx.showToast({title:'操作成功'});

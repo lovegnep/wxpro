@@ -154,7 +154,12 @@ Page({
     doSearch:function(data){
         let self = this;
         console.log('doSearch:',data);
+        wx.showLoading({
+            title: '搜索中',
+            mask: true
+        });
         Api.search(data).then(function(res){
+            wx.hideLoading();
             if(res.status === MsgType.EErrorType.EOK){
                 console.log("search res:",res);
                 let count = res.count;
@@ -178,6 +183,8 @@ Page({
             }else{
                 wx.showToast({title:'错误码'+res.status});
             }
+        }).catch(function(){
+            wx.hideLoading();
         })
     },
     bindRegionChange: function (e) {

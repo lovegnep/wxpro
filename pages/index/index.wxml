@@ -13,8 +13,8 @@
         <view class="groupnq">
             <view class="groupname">{{qr.groupname}}</view>
             <view wx:if="{{tab===0&&qr._id}}" class="qrgorm">
-                <view data-optm="1" catchtap="changegorm" class="qrgorm_m">群主二维码</view>
-                <view data-optm="0" catchtap="changegorm">群二维码</view>
+                <view data-optm="1" catchtap="changegorm" class="{{gtab===1 ?  'qrgorm_m_select' : 'qrgorm_m'}}">群主二维码</view>
+                <view data-optm="0" catchtap="changegorm" class="{{gtab===0 ? 'qrgorg_select' : 'qrgorg'}}">群二维码</view>
             </view>
             <image src="{{poor ? '/icon/lock.png' :( (tab===0&&gtab===1)? (qr.masterQR?qr.masterQR:'/icon/fail.png') : qr.groupQR)}}" class="groupqr" mode="widthFix" catchtap="previewQR"></image>
         </view>
