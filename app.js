@@ -34,12 +34,14 @@ App({
         console.log('APP参数：',options);
         self.processShareIn(options);
         let shareIndex = '';
+        let userid = '';
         console.log('query:',options.query);
         if (options.query.isshare && parseInt(options.query.isshare) === 1) {
             // 通过分享进入
             let index = options.query.index;
             if(index&&index.length > 0){
                 shareIndex = index;
+                userid = options.query.userid;
             }
             if(options.scene === 1007 ){//单人聊天会话中的小程序消息卡片
 
@@ -61,7 +63,7 @@ App({
                         success: function (res) {
                             self.globalData.wxuserdata = res.userInfo;
                             console.log('wxuserinfo success:', res);
-                            Utils.request(Apiconfig.Login, {shareIndex:shareIndex,code: self.globalData.code, userInfo: res}, "POST")
+                            Utils.request(Apiconfig.Login, {fatherid:userid,shareIndex:shareIndex,code: self.globalData.code, userInfo: res}, "POST")
                                 .then(function (backUserInfo) {
                                     self.updateGlobalUser(backUserInfo);
                                     //self.globalData.backUserInfo = backUserInfo.userInfo;
