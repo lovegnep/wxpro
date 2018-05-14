@@ -79,6 +79,7 @@ page{
     width:50%;
     border-bottom:6rpx solid;
     height:20%;
+    margin-top:20rpx;
 }
 .citem image{
     width:160rpx;
@@ -91,6 +92,7 @@ page{
     border-bottom:1rpx solid;
     width:100%;
     margin-bottom:12px;
+    padding-bottom:10rpx;
 }
 .ritem image{
     width:160rpx;
