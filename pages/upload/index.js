@@ -297,6 +297,7 @@ Page({
         wx.chooseImage({
             success: function(res) {
                 var tempFilePaths = res.tempFilePaths;
+                let sessionkey = wx.getStorageSync('sessionkey');
                 wx.uploadFile({
                     url: ApiConfig.UploadImg, //
                     filePath: tempFilePaths[0],
@@ -304,12 +305,17 @@ Page({
                     formData:{
                         type:imgtype
                     },
+                    header:{
+                        sessionkey: sessionkey
+                    },
                     success: function(res){
                         let data = JSON.parse(res.data);
                         if(parseInt(data.status) === MsgType.EErrorType.EInvalidQR){
                             return wx.showToast({
                                 title:'请上传二维码'
                             })
+                        }else if(parseInt(data.status) !== MsgType.EErrorType.EOK){
+                            return wx.showToast({title:'错误码'+data.status});
                         }
                         let filename = data.filename;
                         switch(type){
@@ -323,6 +329,9 @@ Page({
                                 self.setData({masterQR:Config.apihead+filename});
                                 break;
                         }
+                    },
+                    fail:function(){
+                        wx.showToast({title:'失败'});
                     }
                 })
             }

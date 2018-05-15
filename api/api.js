@@ -6,7 +6,7 @@ const Utils = require('../utils/util');
 
 let getAllQRList = function(skip,sorttype,limit){
     limit = limit || 0;
-    return Utils.request(Config.AllQRList,{skip:skip,sorttype:sorttype,limit:limit},"GET");
+    return Utils.request(Config.AllQRList,{skip:skip,sorttype:sorttype,limit:limit},"GET",true);
 };
 let getQRListNew = function(type,limit){
     limit = limit || 0;
@@ -18,18 +18,18 @@ let viewQR = function(qrid){
 }
 
 let getQR = function(_id){
-    return Utils.request(Config.TheQR,{_id:_id},"GET");
+    return Utils.request(Config.TheQR,{_id:_id},"GET", true);
 }
 let getAllQRListOfUser = function(data){
     return Utils.request(Config.AllQRListOfUser,data,"GET",true);
 };
 
 let getLocation = function(index){
-    return Utils.request(Config.Province,{parent:index},"GET");
+    return Utils.request(Config.Province,{parent:index},"GET",true);
 };
 
 let getIndustry = function(){
-    return Utils.request(Config.Types,{},"GET");
+    return Utils.request(Config.Types,{},"GET", true);
 };
 
 let uploadGroup = function(data){
