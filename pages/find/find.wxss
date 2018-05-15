@@ -3,8 +3,7 @@ page{
     height:100%;
 }
 .sinput{
-
-
+width:90%;
 }
 .fill{
     width:100%;

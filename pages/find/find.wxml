@@ -12,8 +12,8 @@
             <view data-id="3" bindtap="taptab" class="{{ tab===3? 'finditem_select' : 'finditem'}}">公众号</view>
         </view>
     </view>
-    <view class="fill"></view>
-    <view wx:if="{{showflag===0 && history.length > 0}}" class="scrollbox">
+    <view wx:if="{{showflag===0}}" class="fill"></view>
+    <view wx:if="{{showflag===0}}" class="scrollbox">
         <view style="color:#165793;">历史搜索</view>
         <scroll-view class="searchhistory" class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;" bindscrolltolower="sxlower">
             <view wx:if="{{history.length < 1}}">无搜索记录</view>
@@ -22,8 +22,8 @@
             </view>
         </scroll-view>
     </view>
-    <view class="fill"></view>
-    <view wx:if="{{showflag===0 && hotHistory.length > 0}}" class="hothistory">
+    <view wx:if="{{showflag===0}}" class="fill"></view>
+    <view wx:if="{{showflag===0}}" class="hothistory">
         <view style="color:#ec7474;">热门搜索</view>
         <view wx:if="{{hotHistory.length < 1}}">无搜索记录</view>
         <view data-name="{{item._id}}" bindtap="taphis" class="hitem" wx:for="{{hotHistory}}" wx:key="_id">
