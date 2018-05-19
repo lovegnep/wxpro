@@ -225,12 +225,19 @@ word-break:break-all;
     min-width:50%;
     min-height:30%;
 }
+.abstract_info{
+    display:flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items: center;
+    margin:10rpx;
+}
 .close{
-    width:50rpx;
-    height:50rpx;
+    width:60rpx;
+    height:60rpx;
     position:absolute;
-    top:-38rpx;
-    right:8rpx;
+    top:0rpx;
+    right:0rpx;
 }
 .qrgorm{
     display: flex;

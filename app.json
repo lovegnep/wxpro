@@ -26,11 +26,6 @@
       "pagePath": "pages/index/index",
       "text": "首页"
     },{
-      "selectedIconPath": "icon/home_select.png",
-      "iconPath": "icon/home.png",
-      "pagePath": "pages/logs/logs",
-      "text": "测试"
-    },{
       "selectedIconPath": "icon/add_select.png",
       "iconPath": "icon/add.png",
       "pagePath": "pages/upload/index",

@@ -69,7 +69,10 @@
     <view wx:if="{{abstractstatus}}" class="abstractwrap">
         <view class="abstract" catchtap="catchtape">
             <image class="close" src="/icon/close.png" bindtap="closeabstract"/>
-            {{qr.abstract}}
+            <view class="abstract_info">
+                <view>{{tab===0 ? '微信群简介' : ( tab === 1 ? '个人微信简介' : '公众号简介')}}</view>
+                <view>{{qr.abstract}}</view>
+            </view>
         </view>
     </view>
     <view wx:if="{{qr._id !== undefined}}" class="underbar" catchtap="tapunderbar">
