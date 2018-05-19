@@ -1,6 +1,11 @@
 <!--logs.wxml-->
-<view class="container log-list">
-  <block wx:for="{{logs}}" wx:for-item="log">
-    <text class="log-item">{{index + 1}}. {{log}}</text>
-  </block>
+<view class="container">
+    <view class="section">
+        <view class="item_title">哈哈</view>
+        <view class="item_content">蝇吕中中册同同民民民 届同 同吕中 同册同同同同同</view>
+    </view>
+    <view class="section">
+        <view class="item_title">哈哈</view>
+        <view class="item_content">蝇吕中</view>
+    </view>
 </view>

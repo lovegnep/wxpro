@@ -18,13 +18,15 @@ page{
     flex-direction: row;
     justify-content:space-around;
     align-items:center;
+    background-color:#3285ff;
+    height:34px;
 }
 .headqr image{
     width: 40rpx;
     height:40rpx;
 }
 .headqr_itemselect{
-    border-bottom:1rpx solid;
+    border-bottom:10rpx solid #0ef481
 }
 .headqr_item{
 
@@ -53,11 +55,16 @@ page{
 }
 .item_title{
     padding-right:20rpx;
+    width:24%;
+}
+.item_content{
+    width:76%;
 }
 .section{
     display: flex;
     flex-direction: row;
-    align-items: center
+    align-items: center;
+    width:100%;
 }
 .qruserinfo{
     display: flex;
@@ -163,6 +170,7 @@ word-break:break-all;
     flex-direction: column;
     padding-top:40rpx;
     align-items: flex-start;
+    width:100%;
 }
 .groupinfoimg{
     width:40rpx;

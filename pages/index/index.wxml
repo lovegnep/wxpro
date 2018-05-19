@@ -20,45 +20,45 @@
         </view>
         <view wx:if="{{tab===0&&gtab===1}}" class="groupqrinfo">
             <view wx:if="{{qr.masterwx!==undefined && qr.masterwx!==''}}" class="section">
-                <image src="/icon/location.png" class="groupinfoimg"></image>
+                <!--<image src="/icon/location.png" class="groupinfoimg"></image>-->
                 <view class="item_title">微信号</view>
                 <view>{{qr.masterwx}}</view>
             </view>
         </view>
         <view wx:else class="groupqrinfo">
             <view wx:if="{{qr.industry!==undefined}}" class="section">
-                <image src="/icon/industry.png" class="groupinfoimg"></image>
+                <!--<image src="/icon/industry.png" class="groupinfoimg"></image>-->
                 <view class="item_title">行业</view>
-                <view>{{qr.industry}}</view>
+                <view class="item_content">{{qr.industry}}</view>
             </view>
             <view wx:if="{{qr.location!==undefined}}" class="section">
-                <image src="/icon/location.png" class="groupinfoimg"></image>
+                <!--<image src="/icon/location.png" class="groupinfoimg"></image>-->
                 <view class="item_title">位置</view>
                 <view>{{tools.getFullLocation(qr.location)}}</view>
             </view>
             <view wx:if="{{qr.grouptag!==undefined}}" class="section">
-                <image src="/icon/tag.png" class="groupinfoimg"></image>
+                <!--<image src="/icon/tag.png" class="groupinfoimg"></image>-->
                 <view class="item_title">标签</view>
                 <view>{{qr.grouptag}}</view>
             </view>
             <view wx:if="{{tab===2 && qr.masterwx!==undefined}}" class="section">
-                <image src="/icon/tag.png" class="groupinfoimg"></image>
+                <!--<image src="/icon/tag.png" class="groupinfoimg"></image>-->
                 <view class="item_title">公众号ID</view>
                 <view>{{qr.masterwx}}</view>
             </view>
             <view wx:if="{{tab===1}}" class="groupqq">
                 <view wx:if="{{qr.gender!==undefined&&qr.gender!==3}}" class="section">
-                    <image src="/icon/industry.png" class="groupinfoimg"></image>
+                    <!--<image src="/icon/industry.png" class="groupinfoimg"></image>-->
                     <view class="item_title">性别</view>
                     <view>{{qr.gender===1?'男':'女'}}</view>
                 </view>
                 <view wx:if="{{qr.birthday!==undefined}}" class="section">
-                    <image src="/icon/status.png" class="groupinfoimg"></image>
+                    <!--<image src="/icon/status.png" class="groupinfoimg"></image>-->
                     <view class="item_title">年龄</view>
                     <view>{{tools.getAge(qr.birthday)}}</view>
                 </view>
                 <view wx:if="{{qr.masterwx!==undefined}}" class="section">
-                    <image src="/icon/status.png" class="groupinfoimg"></image>
+                    <!--<image src="/icon/status.png" class="groupinfoimg"></image>-->
                     <view class="item_title">微信号</view>
                     <view>{{qr.masterwx}}</view>
                 </view>

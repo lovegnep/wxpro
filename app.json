@@ -1,6 +1,7 @@
 {
   "pages":[
     "pages/index/index",
+    "pages/logs/logs",
     "pages/find/find",
     "pages/rank/rank",
     "pages/person/index",
@@ -24,6 +25,11 @@
       "iconPath": "icon/home.png",
       "pagePath": "pages/index/index",
       "text": "首页"
+    },{
+      "selectedIconPath": "icon/home_select.png",
+      "iconPath": "icon/home.png",
+      "pagePath": "pages/logs/logs",
+      "text": "测试"
     },{
       "selectedIconPath": "icon/add_select.png",
       "iconPath": "icon/add.png",
