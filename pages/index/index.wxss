@@ -39,7 +39,7 @@ page{
 }
 .groupname{
     padding-bottom:10rpx;
-    padding-bottom:10rpx;
+    padding-top:10rpx;
 }
 .groupqr{
     width:300rpx;
@@ -49,9 +49,8 @@ page{
     flex-direction: column;
     align-items:center;
     width:100%;
-    height:60%;
+    margin-top:120rpx;
     justify-content:center;
-    margin-top:30rpx;
 }
 .item_title{
     padding-right:20rpx;
@@ -64,7 +63,15 @@ page{
     display: flex;
     flex-direction: row;
     align-items: center;
-    width:100%;
+    width:88%;
+    margin-left:15rpx;
+    margin-right:15rpx;
+    border-bottom:1rpx solid #f3f3f3;
+    padding-bottom:5rpx;
+    padding-top:5rpx;
+}
+.section:last-child{
+    border-bottom:none;
 }
 .qruserinfo{
     display: flex;
@@ -115,12 +122,25 @@ page{
     border-top-left-radius:20rpx;
     border-top-right-radius:20rpx;
 }
+.replyarea{
+    display:flex;
+    flex-direction: row;
+    width:100%;
+}
+.inputarea{
+    border-bottom:1rpx solid;
+    margin:15rpx;
+    width:85%;
+}
 .replyinput{
     border: 1rpx solid;
 }
 .sendreply{
-    width:40rpx;
-    height:40rpx;
+    width:60rpx;
+    height:60rpx;
+    position:fixed;
+    bottom:0;
+    right:5%;
 }
 .sendreplybar{
     display: flex;
@@ -180,14 +200,10 @@ word-break:break-all;
 .groupqq{
     display: flex;
     flex-direction: column;
-    justify-content:space-around;
+    width:100%;
 }
 .abstractbut{
-    z-index:10;
-    position:fixed;
-    right:0rpx;
-    top:50rpx;
-    padding:15rpx;
+    padding-bottom:20rpx;
 }
 .abstractwrap{
     z-index:20;
@@ -220,16 +236,28 @@ word-break:break-all;
     display: flex;
     flex-direction: row;
     justify-content:center;
+    border-bottom:1rpx solid #eee;
+    margin-bottom:15rpx;
+    height:50rpx;
+    padding:15rpx;
 }
 .qrgorm_m_select{
     margin-right:15rpx;
-    border-bottom:1rpx solid;
+    height:65rpx;
+    background-color:#fff;
+    border-left:1rpx solid #eee;
+    border-top:1rpx solid #eee;
+    border-right:1rpx solid #eee;
 }
 .qrgorm_m{
     margin-right:15rpx;
 }
 .qrgorg_select{
-    border-bottom:1rpx solid;
+    height:65rpx;
+    background-color:#fff;
+    border-left:1rpx solid #eee;
+    border-top:1rpx solid #eee;
+    border-right:1rpx solid #eee;
 }
 .qrgorg{
 

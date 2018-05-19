@@ -11,18 +11,19 @@
     </view>
     <view class="qrinfo" bindtap="handletapinfo">
         <view class="groupnq">
-            <view class="groupname">{{qr.groupname}}</view>
+            <!--<view class="groupname">{{qr.groupname}}</view>-->
             <view wx:if="{{tab===0&&qr._id}}" class="qrgorm">
                 <view data-optm="1" catchtap="changegorm" class="{{gtab===1 ?  'qrgorm_m_select' : 'qrgorm_m'}}">群主二维码</view>
                 <view data-optm="0" catchtap="changegorm" class="{{gtab===0 ? 'qrgorg_select' : 'qrgorg'}}">群二维码</view>
             </view>
             <image src="{{poor ? '/icon/lock.png' :( (tab===0&&gtab===1)? (qr.masterQR?qr.masterQR:'/icon/fail.png') : qr.groupQR)}}" class="groupqr" mode="widthFix" catchtap="previewQR"></image>
+            <view class="groupname">{{qr.groupname}}</view>
         </view>
         <view wx:if="{{tab===0&&gtab===1}}" class="groupqrinfo">
             <view wx:if="{{qr.masterwx!==undefined && qr.masterwx!==''}}" class="section">
                 <!--<image src="/icon/location.png" class="groupinfoimg"></image>-->
                 <view class="item_title">微信号</view>
-                <view>{{qr.masterwx}}</view>
+                <view class="item_content">{{qr.masterwx}}</view>
             </view>
         </view>
         <view wx:else class="groupqrinfo">
@@ -34,38 +35,37 @@
             <view wx:if="{{qr.location!==undefined}}" class="section">
                 <!--<image src="/icon/location.png" class="groupinfoimg"></image>-->
                 <view class="item_title">位置</view>
-                <view>{{tools.getFullLocation(qr.location)}}</view>
+                <view class="item_content">{{tools.getFullLocation(qr.location)}}</view>
             </view>
             <view wx:if="{{qr.grouptag!==undefined}}" class="section">
                 <!--<image src="/icon/tag.png" class="groupinfoimg"></image>-->
                 <view class="item_title">标签</view>
-                <view>{{qr.grouptag}}</view>
+                <view class="item_content">{{qr.grouptag}}</view>
             </view>
             <view wx:if="{{tab===2 && qr.masterwx!==undefined}}" class="section">
                 <!--<image src="/icon/tag.png" class="groupinfoimg"></image>-->
                 <view class="item_title">公众号ID</view>
-                <view>{{qr.masterwx}}</view>
+                <view class="item_content">{{qr.masterwx}}</view>
             </view>
             <view wx:if="{{tab===1}}" class="groupqq">
                 <view wx:if="{{qr.gender!==undefined&&qr.gender!==3}}" class="section">
                     <!--<image src="/icon/industry.png" class="groupinfoimg"></image>-->
                     <view class="item_title">性别</view>
-                    <view>{{qr.gender===1?'男':'女'}}</view>
+                    <view class="item_content">{{qr.gender===1?'男':'女'}}</view>
                 </view>
                 <view wx:if="{{qr.birthday!==undefined}}" class="section">
                     <!--<image src="/icon/status.png" class="groupinfoimg"></image>-->
                     <view class="item_title">年龄</view>
-                    <view>{{tools.getAge(qr.birthday)}}</view>
+                    <view class="item_content">{{tools.getAge(qr.birthday)}}</view>
                 </view>
                 <view wx:if="{{qr.masterwx!==undefined}}" class="section">
                     <!--<image src="/icon/status.png" class="groupinfoimg"></image>-->
                     <view class="item_title">微信号</view>
-                    <view>{{qr.masterwx}}</view>
+                    <view class="item_content">{{qr.masterwx}}</view>
                 </view>
             </view>
         </view>
     </view>
-    <view wx:if="{{qr.abstract!==undefined&&qr.abstract!==''}}" class="abstractbut" catchtap="tapabstract">简介</view>
     <view wx:if="{{abstractstatus}}" class="abstractwrap">
         <view class="abstract" catchtap="catchtape">
             <image class="close" src="/icon/close.png" bindtap="closeabstract"/>
@@ -80,6 +80,7 @@
         <view id="2" class="underbar_item downclass"  catchtap="handletap">
             <image src="{{isdown ? '/icon/qrdown_select.png' : '/icon/qrdown.png'}}"></image>
         </view> -->
+        <view wx:if="{{qr.abstract!==undefined&&qr.abstract!==''}}" class="abstractbut" catchtap="tapabstract">简介</view>
         <view class="underbar_item collect"  catchtap="handletap">
             <image id="3"  src="{{iscollect ? '/icon/qrcollect_select.png' : '/icon/qrcollect.png'}}"></image>
         </view>
@@ -120,8 +121,12 @@
                 </view>
             </view>
         </scroll-view>
-        <view>
-            <view class="sendreplybar">
+        <view class="replyarea">
+            <view class="inputarea">
+                <textarea auto-height value="{{replycontent}}" class="replyinput" placeholder="请输入" bindinput="handleinput"  class="replyarea"/>
+            </view>
+            <image class="sendreply" src="/icon/send_select.png" bindtap="tapsendbutton" />
+            <!--<view class="sendreplybar">
                 <view>填写评论{{replyto}}</view>
                 <view>
                     <image class="sendreply" src="/icon/send_select.png" bindtap="tapsendbutton" />
@@ -129,7 +134,7 @@
             </view>
             <view>
                 <textarea auto-height value="{{replycontent}}" class="replyinput" placeholder="请输入" bindinput="handleinput"  class="replyarea"/>
-            </view>
+            </view>-->
         </view>
     </view>
 </view>

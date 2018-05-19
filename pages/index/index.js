@@ -468,7 +468,7 @@ Page({
             return;
         }
         let tmpcomments = self.data.tab===0 ? self.data.gcomments : (self.data.tab===1 ? self.data.percomments : self.data.pubcomments);
-        if(tmpcomments.length > 0){
+        if(tmpcomments.length > 0 && tmpcomments[0].qrid === this.data.qr._id){
             self.setData({replystatus:true,replyto:'',replytoid:''});
             return;
         }
