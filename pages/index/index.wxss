@@ -180,8 +180,6 @@ page{
 .commentscroll{
     height:500rpx;
 }
-.replyarea{
-}
 .commentcontent{
 word-break:break-all;
 }

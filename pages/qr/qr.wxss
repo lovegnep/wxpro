@@ -20,6 +20,27 @@ page{
 .headqr_item{
 
 }
+.qrgorm_m_select{
+    margin-right:15rpx;
+    height:65rpx;
+    background-color:#fff;
+    border-left:1rpx solid #eee;
+    border-top:1rpx solid #eee;
+    border-right:1rpx solid #eee;
+}
+.qrgorm_m{
+    margin-right:15rpx;
+}
+.qrgorg_select{
+    height:65rpx;
+    background-color:#fff;
+    border-left:1rpx solid #eee;
+    border-top:1rpx solid #eee;
+    border-right:1rpx solid #eee;
+}
+.qrgorg{
+
+}
 .qrinfo{
     display: flex;
     flex-direction: column;
@@ -28,6 +49,7 @@ page{
 }
 .groupname{
     padding-bottom:10rpx;
+    padding-top:10rpx;
 }
 .goindex{
     align-self:flex-start;
@@ -48,11 +70,24 @@ page{
 }
 .item_title{
     padding-right:20rpx;
+    width:24%;
+}
+.item_content{
+    width:76%;
 }
 .section{
     display: flex;
     flex-direction: row;
-    align-items: center
+    align-items: center;
+    width:88%;
+    margin-left:15rpx;
+    margin-right:15rpx;
+    border-bottom:1rpx solid #f3f3f3;
+    padding-bottom:5rpx;
+    padding-top:5rpx;
+}
+.section:last-child{
+    border-bottom:none;
 }
 .qruserinfo{
     display: flex;
@@ -103,12 +138,25 @@ page{
     border-top-left-radius:20rpx;
     border-top-right-radius:20rpx;
 }
+.replyarea{
+    display:flex;
+    flex-direction: row;
+    width:100%;
+}
+.inputarea{
+    border-bottom:1rpx solid;
+    margin:15rpx;
+    width:85%;
+}
 .replyinput{
     border: 1rpx solid;
 }
 .sendreply{
-    width:40rpx;
-    height:40rpx;
+    width:60rpx;
+    height:60rpx;
+    position:fixed;
+    bottom:0;
+    right:5%;
 }
 .sendreplybar{
     display: flex;
@@ -148,8 +196,6 @@ page{
 .commentscroll{
     height:500rpx;
 }
-.replyarea{
-}
 .commentcontent{
 word-break:break-all;
 }
@@ -158,6 +204,7 @@ word-break:break-all;
     flex-direction: column;
     padding-top:40rpx;
     align-items: flex-start;
+    width:100%;
 }
 .groupinfoimg{
     width:40rpx;
@@ -170,11 +217,7 @@ word-break:break-all;
     justify-content:space-around;
 }
 .abstractbut{
-    z-index:10;
-    position:fixed;
-    right:0rpx;
-    top:50rpx;
-    padding:10rpx;
+    padding-bottom:20rpx;
 }
 .abstractindex{
     z-index:10;
@@ -203,6 +246,13 @@ word-break:break-all;
     min-width:50%;
     min-height:30%;
 }
+.abstract_info{
+    display:flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items: center;
+    margin:10rpx;
+}
 .close{
     width:50rpx;
     height:50rpx;
@@ -214,9 +264,10 @@ word-break:break-all;
     display: flex;
     flex-direction: row;
     justify-content:center;
-}
-.qrgorm_m{
-    padding-right:15rpx;
+    border-bottom:1rpx solid #eee;
+    margin-bottom:15rpx;
+    height:50rpx;
+    padding:15rpx;
 }
 .trans_v{
     position:relative;
