@@ -18,15 +18,18 @@ page{
     flex-direction: row;
     justify-content:space-around;
     align-items:center;
-    background-color:#3285ff;
+    background-color:#e9ecef;
     height:34px;
+    overflow:hidden;
 }
 .headqr image{
     width: 40rpx;
     height:40rpx;
 }
 .headqr_itemselect{
-    border-bottom:10rpx solid #0ef481
+    padding:10rpx;
+    background-color:#ccc;
+    border-radius:8rpx;
 }
 .headqr_item{
 
