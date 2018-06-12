@@ -11,11 +11,18 @@ let initflag = false;
 Page({
     data: {
         userinfo:{},
-        uploadCount:0
+        uploadCount:0,
+        connectUsStatus:false
     },
     tapcollection:function(){
         let path = '/pages/record/record?type=1';
         wx.navigateTo({url:path});
+    },
+    tapcontainer:function(){
+        this.setData({connectUsStatus:false});
+    },
+    tapconnectus:function(e){
+        this.setData({connectUsStatus:true});
     },
     tapwb:function(){
         let path = '/pages/weibi/wb';
